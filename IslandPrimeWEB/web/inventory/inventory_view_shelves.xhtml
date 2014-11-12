@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Inventory_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="content">
+		<h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel>
+                <f:facet name="heading"><h3><b>View All Shelf Records</b></h3></f:facet>
+                 <p:contextMenu for="shelfTable">
+                    <p:menuitem value="Delete" update="shelfTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{shelfManagerBean.deleteShelf}"/>
+                </p:contextMenu>
+                    
+                <p:dataTable widgetVar = "shelfTable" editable = "true" id = "shelfTable" var="shelf" value="#{shelfManagerBean.allShelf}"
+                             paginator="true" rows="10" emptyMessage="No Shelf Type Record found with given criteria" rowKey="#{shelf.id}"
+                             selection="#{shelfManagerBean.selectedShelf}" selectionMode="single" filteredValue="#{shelfManagerBean.filteredShelf}" >
+
+
+                    <p:column headerText="Shelf ID" sortBy="#{shelf.id}" filterBy="#{shelf.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{shelf.id}" /> 
+
+                    </p:column>
+
+                    
+                    <p:column headerText="Facility" sortBy="#{shelf.fac.id}" filterBy="#{shelf.fac.id} #{shelf.fac.name}" filterMatchMode="contains" >
+                            <h:outputText id="facilityOutput" value="#{shelf.fac.id}" /><h:outputText value=" | "/><h:outputText value="#{shelf.fac.name}" />
+                    </p:column>
+
+                     
+                    <p:column headerText="Shelf"
+                              sortBy="#{shelf.shelf}" filterBy="#{shelf.shelf}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{shelf.shelf}" />  
+                    </p:column> 
+                    
+                    <p:column headerText="Location"
+                              sortBy="#{shelf.location}" filterBy="#{shelf.location}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{shelf.location.label}" />    
+                    </p:column>
+                    
+                    <p:column headerText="Zone"
+                              sortBy="#{shelf.zone}" filterBy="#{shelf.zone}" filterMatchMode="startsWith" > 
+                                <h:outputText value="#{shelf.zone}" />    
+                    </p:column>    
+                    
+                      <p:column headerText="ShelfType" sortBy="#{shelf.shelfType.id}" filterBy="#{shelf.shelfType.id} #{shelf.shelfType.name}" filterMatchMode="contains" >
+                                        <h:outputText id="shelfTypeOutput" value="#{shelf.shelfType.id}" /><h:outputText value=" | "/><h:outputText value="#{shelf.shelfType.name}" />
+                    </p:column>
+                    
+                    <p:column headerText="Shelf Slot Status">
+                    <ui:repeat value="#{shelfManagerBean.getOccupied(shelf)}" var="item">    
+                        <p:column style="width:3%">
+                            <b><h:outputText value="#{item.position}" /></b><h:outputText value=" : "/><h:outputText value="#{item.occupied}"/> 
+                             <br></br>
+                        </p:column>
+                        
+                    </ui:repeat>
+                    </p:column>
+
+                        <p:column style="width:35px">
+                        </p:column>
+
+                </p:dataTable>
+            </b:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Op_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View Selected Transaction Record</h1>
+            <p:menubar>
+                <p:menuitem value="View Region Transaction Records" url="op_view_region_transaction_records.xhtml"/>
+            </p:menubar>
+            <br/>
+
+            <p:panel header="View Selected Transaction Record">
+                <p:dataTable widgetVar = "transactionRecordTable"  id = "transactionRecordTable" var="transactionRecord" value="#{transactionRecordBean.transactionRecords}"
+                             paginator="true" rows="10" emptyMessage="No Price Record found with given criteria" rowKey="#{transactionRecord.id}"
+                             selection="#{transactionRecordBean.selectedTransactionRecord}" selectionMode="single" filteredValue="#{transactionRecordBean.filteredTransactionRecords}" >
+
+
+                    <p:column headerText="ID" sortBy="#{transactionRecord.id}" filterBy="#{transactionRecord.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{transactionRecord.id}" /> 
+                    </p:column>
+
+
+                    <p:column headerText="Transaction Time"
+                              sortBy="#{transactionRecord.transactTime}" filterBy="#{transactionRecord.transactTime}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.transactTime}" />
+                    </p:column>
+
+                    <p:column headerText="Customer Name"
+                              sortBy="#{transactionRecord.cust.name}" filterBy="#{transactionRecord.cust.name}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.cust.name}" />
+                    </p:column>
+
+                    <p:column headerText="Total"
+                              sortBy="#{transactionRecord.grossTotalAmount}" filterBy="#{transactionRecord.grossTotalAmount}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.grossTotalAmount}" /> 
+                    </p:column>
+                    <p:column headerText="Discount"
+                              sortBy="#{transactionRecord.discountAmount}" filterBy="#{transactionRecord.discountAmount}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.discountAmount}" /> 
+                    </p:column>
+                    <p:column headerText="Tax"
+                              sortBy="#{transactionRecord.taxAmount}" filterBy="#{transactionRecord.taxAmount}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.taxAmount}" /> 
+                    </p:column>
+                    <p:column headerText="Return"
+                              sortBy="#{transactionRecord.returnAmount}" filterBy="#{transactionRecord.returnAmount}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.returnAmount}" /> 
+                    </p:column>
+                    <p:column headerText="Net"
+                              sortBy="#{transactionRecord.netTotalAmount}" filterBy="#{transactionRecord.netTotalAmount}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.netTotalAmount}" /> 
+                    </p:column>
+                    <p:column headerText="Tender Type"
+                              sortBy="#{transactionRecord.tenderType}" filterBy="#{transactionRecord.tenderType}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.tenderType}" /> 
+                    </p:column>
+                    <p:column headerText="Campaign"
+                              sortBy="#{transactionRecord.campaign.name}" filterBy="#{transactionRecord.campaign.name}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.campaign.name}" /> 
+                    </p:column>
+                    <p:column headerText="Store"
+                              sortBy="#{transactionRecord.fac.name}" filterBy="#{transactionRecord.fac.name}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.fac.name}" /> 
+                    </p:column>
+                    <p:column headerText="Collected"
+                              sortBy="#{transactionRecord.collected}" filterBy="#{transactionRecord.collected}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.collected}" /> 
+                    </p:column>
+                    <p:column headerText="Store"
+                              sortBy="#{transactionRecord.redemption}" filterBy="#{transactionRecord.redemption}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionRecord.redemption}" /> 
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel id="panel1" rendered = "#{transactionItemBean.transantionItemsIsNotEmpty}" header="View Transaction Items">
+
+                <p:dataTable widgetVar = "transactionItemTable" editable = "true" id = "transactionItemTable" var="transactionItem" value="#{transactionItemBean.transactionItems}"
+                             paginator="true" rows="10" emptyMessage="No Transaction Record Item found with given criteria" rowKey="#{transactionItem.id}"
+                             selection="#{transactionItemBean.selectedTransactionItem}" selectionMode="single" filteredValue="#{transactionItemBean.filteredTransactionItems}" >
+
+                    <p:ajax event="rowEdit" listener="#{transactionItemBean.onRowEdit}" update=":formMain:msgs, :formMain:transactionRecordTable" />
+                    <p:ajax event="rowEditCancel" listener="#{transactionItemBean.onRowCancel}" update=":formMain:msgs" />
+
+                    <p:column headerText="Item" sortBy="#{transactionItem.item.name}" filterBy="#{transactionItem.item.name}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{transactionItem.item.name}" />
+
+                    </p:column>
+
+
+                    <p:column headerText="Quantity"
+                              sortBy="#{transactionItem.quantity}" filterBy="#{transactionItem.quantity}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionItem.quantity}" /> 
+                    </p:column>
+                    <p:column headerText="Price" sortBy="#{transactionItem.price}" filterBy="#{transactionItem.price}" filterMatchMode="contains" >
+                        <h:outputText value="#{transactionItem.price}" />
+
+                    </p:column>
+                    <p:column headerText="Returned Quantity"
+                              sortBy="#{transactionItem.returnedQty}" filterBy="#{transactionItem.returnedQty}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{transactionItem.returnedQty}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="ReturnedQty" value="#{transactionItem.returnedQty}" style="width:100%" >
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:panel>
+
+            <p:panel id="panel2" rendered = "#{transactionServiceBean.transantionServicesIsNotEmpty}" header="View Transaction Services">
+
+                <p:dataTable widgetVar = "transactionServiceTable" id = "transactionServiceTable" var="transactionService" value="#{transactionServiceBean.transactionServices}"
+                             paginator="true" rows="10" emptyMessage="No Transaction Record Service found" rowKey="#{transactionService.id}"
+                             selection="#{transactionServiceBean.selectedTransactionService}" selectionMode="single" filteredValue="#{transactionServiceBean.filteredTransactionServices}" >
+                    <p:column headerText="Service" sortBy="#{transactionService.service.name}" filterBy="#{transactionService.service.name}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{transactionService.service.name}" />
+
+                    </p:column>
+                    <p:column headerText="Quantity"
+                              sortBy="#{transactionService.quantity}" filterBy="#{transactionService.quantity}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{transactionService.quantity}" /> 
+                    </p:column>
+                    <p:column headerText="Price" sortBy="#{transactionService.price}" filterBy="#{transactionService.price} #{transactionService.price}" filterMatchMode="contains" >
+                        <h:outputText value="#{transactionService.price}" />
+
+                    </p:column>
+
+
+                </p:dataTable>
+
+            </p:panel>
+
+
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

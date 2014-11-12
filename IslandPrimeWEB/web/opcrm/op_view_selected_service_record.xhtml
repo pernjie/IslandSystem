@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Op_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <b:panel>
+                 <f:facet name="heading"><h3><b>View Selected Service Record</b></h3></f:facet>
+
+
+                <p:dataTable widgetVar = "serviceRecordItemTable" id = "serviceRecordTable" var="serviceRecord" value="#{serviceRecordItemBean.selectedServiceRecord}"
+                             emptyMessage="No Service Record found with given criteria" rowKey="#{serviceRecord.id}">
+
+                    <p:column headerText="ID" sortBy="#{serviceRecord.id}"  >
+                        <h:outputText value="#{serviceRecord.id}" /> 
+                    </p:column>
+
+
+                    <p:column headerText="OrderTime"
+                              sortBy="#{serviceRecord.orderTime}"  > 
+                        <h:outputText value="#{serviceRecord.orderTime}" />
+                    </p:column>
+
+                    <p:column headerText="CustName"
+                              sortBy="#{serviceRecord.custName}"  > 
+                        <h:outputText value="#{serviceRecord.custName}" />
+                    </p:column>
+
+                    <p:column headerText="Address"
+                              sortBy="#{serviceRecord.address}"  > 
+                        <h:outputText value="#{serviceRecord.address}" />
+                    </p:column>
+
+                    <p:column headerText="SvcDate"
+                              sortBy="#{serviceRecord.svcDate}"  > 
+                        <h:outputText value="#{serviceRecord.svcDate}" /> 
+                    </p:column>
+
+
+                    <p:column headerText="Status" sortBy="#{serviceRecord.status}"  >
+                        <h:outputText value="#{serviceRecord.status}" />
+                    </p:column>
+
+                    <p:column headerText="Store" sortBy="#{serviceRecord.store.id}"  >
+                        <h:outputText value= "#{serviceRecord.store.id}" /><h:outputText value=" | "/><h:outputText value="#{serviceRecord.store.name}" />
+                    </p:column>
+
+                    <p:column headerText="Transact" sortBy="#{serviceRecord.transact.id}"  >
+                        <h:outputText value="#{serviceRecord.transact.id}" /> 
+                    </p:column>
+
+                </p:dataTable>
+            </b:panel>
+
+            <b:panel id="panel1">
+                <f:facet name="heading"><h3><b>View All Service Record Items</b></h3></f:facet>
+                <p:contextMenu for="serviceRecordItemTable">
+                    <p:menuitem icon="ui-icon-close" update="serviceRecordItemTable, :formMain:msgs"  actionListener="#{serviceRecordItemBean.deleteServiceRecordItem}" value="Delete" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false">
+                    </p:menuitem>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "serviceRecordItemTable" editable = "false" id = "serviceRecordItemTable" var="serviceRecordItem" value="#{serviceRecordItemBean.serviceRecordItems}"
+                             paginator="true" rows="10" emptyMessage="No Service Record Item found with given criteria" rowKey="#{serviceRecordItem.id}"
+                             selection="#{serviceRecordItemBean.selectedServiceRecordItem}" selectionMode="single" filteredValue="#{serviceRecordItemBean.filteredServiceRecordItems}" >
+
+                    <p:column headerText="Material" sortBy="#{serviceRecordItem.mat.id}" filterBy="#{serviceRecordItem.mat.id} #{serviceRecordItem.mat.name}" filterMatchMode="contains" >
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{serviceRecordItem.mat.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="f" value="#{serviceRecordItem.mat}" style="width:100%" converter="materialConverter">
+                                    <f:selectItems id="materialInput" value="#{serviceRecordItemBean.regionMaterials}" var="material" itemLabel="#{material.name}" itemDescription="#{material.name}" itemValue="#{material}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{f.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{f.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+
+                    </p:column>
+                    <p:column headerText="Service" sortBy="#{serviceRecordItem.svc.id}" filterBy="#{serviceRecordItem.svc.id} #{serviceRecordItem.svc.name}" filterMatchMode="contains" >
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{serviceRecordItem.svc.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="p" value="#{serviceRecordItem.svc}" style="width:100%" converter="serviceConverter">
+                                    <f:selectItems id="serviceInput" value="#{serviceRecordItemBean.regionServices}" var="service" itemLabel="#{service.name}" itemValue="#{service}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{p.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{p.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Quantity"
+                              sortBy="#{serviceRecordItem.quantity}" filterBy="#{serviceRecordItem.quantity}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{serviceRecordItem.quantity}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Quantity" requiredMessage="Quantity is required." 
+                                                                  value="#{serviceRecordItem.quantity}" style="width:100%" >
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                </p:dataTable>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="totalMatPrice" style="font-weight:bold" value="Total Material Price:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="totalMatPrice" value="#{serviceRecordItemBean.currentTotalMaterialPrice}" /> 
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="currentDelivery" style="font-weight:bold" value="Current Overall Delivery:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="currentDelivery" value="#{serviceRecordItemBean.overallDeliveryForServiceRecord.name}" /> 
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton id="btn1" value="Add Overall Delivery" update=":formMain:msgs, serviceRecordItemTable" actionListener="#{serviceRecordItemBean.addOverallDelivery}" ajax="true"/><br/> 
+                <p:commandButton id="btn" value="Confirm Service Record and generate PDF" type="button" onclick="window.open('../print_service_record?action=print');" />
+            </b:panel>
+
+
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

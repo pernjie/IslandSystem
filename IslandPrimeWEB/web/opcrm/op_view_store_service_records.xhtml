@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Op_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <b:panel>
+                <f:facet name="heading"><h3><b>View Store Service Records</b></h3></f:facet>
+                <p:contextMenu for="serviceRecordTable">
+                    <p:menuitem value="View" update="serviceRecordTable, :formMain:msgs" icon="ui-icon-search" actionListener="#{serviceRecordBean.viewSelectedServiceRecord}"/>
+                    <p:menuitem value="Delete" update="serviceRecordTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{serviceRecordBean.deleteServiceRecord}"/>
+                </p:contextMenu>
+
+
+                <p:dataTable widgetVar = "serviceRecordTable" editable = "true" id = "serviceRecordTable" var="serviceRecord" value="#{serviceRecordBean.serviceRecords}"
+                             paginator="true" rows="10" emptyMessage="No Service Record found with given criteria" rowKey="#{serviceRecord.id}"
+                             selection="#{serviceRecordBean.selectedServiceRecord}" selectionMode="single" filteredValue="#{serviceRecordBean.filteredServiceRecords}" >
+
+
+                    <p:ajax event="rowEdit" listener="#{serviceRecordBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{serviceRecordBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column headerText="ID" sortBy="#{serviceRecord.id}" filterBy="#{serviceRecord.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{serviceRecord.id}" /> 
+                    </p:column>
+
+
+                    <p:column headerText="OrderTime"
+                              sortBy="#{serviceRecord.orderTime}" filterBy="#{serviceRecord.orderTime}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{serviceRecord.orderTime}" />
+                    </p:column>
+
+                    <p:column headerText="CustName"
+                              sortBy="#{serviceRecord.custName}" filterBy="#{serviceRecord.custName}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{serviceRecord.custName}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="CustName" requiredMessage="CustName is required." 
+                                                                  value="#{serviceRecord.custName}" style="width:100%" >
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Address"
+                              sortBy="#{serviceRecord.address}" filterBy="#{serviceRecord.address}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{serviceRecord.address}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Address" requiredMessage="Address is required." 
+                                                                  value="#{serviceRecord.address}" style="width:100%" >
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="SvcDate"
+                              sortBy="#{serviceRecord.svcDate}" filterBy="#{serviceRecord.svcDate}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{serviceRecord.svcDate}" /> </f:facet>
+                            <f:facet name = "input"> <p:calendar style="width:100%" requiredMessage="Service Date is required." label="SvcDate" required="true" id="svcDate" value="#{serviceRecord.svcDate}" pattern="MM/dd/yyyy HH:mm" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Status" sortBy="#{serviceRecord.status}" filterBy="#{serviceRecord.status}" filterMatchMode="contains" >
+                        <h:outputText value="#{serviceRecord.status}" />
+                    </p:column>
+
+                    <p:column headerText="Store" sortBy="#{serviceRecord.store.id}" filterBy="#{serviceRecord.store.id} #{serviceRecord.store.name}" filterMatchMode="contains" >
+                        <h:outputText value= "#{serviceRecord.store.id}" /><h:outputText value=" | "/><h:outputText value="#{serviceRecord.store.name}" />
+                    </p:column>
+
+                    <p:column headerText="Transact" sortBy="#{serviceRecord.transact.id}" filterBy="#{serviceRecord.transact.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{serviceRecord.transact.id}" /> 
+                    </p:column>
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

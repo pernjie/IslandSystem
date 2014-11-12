@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ServiceRecord" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0d79c1ed-2cc6-47b1-ae4d-b2916a9da8c2">
+	<property name="ireport.zoom" value="1.366026910730141"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ID" class="java.lang.String"/>
+	<parameter name="CustomerName" class="java.lang.String"/>
+	<parameter name="orderTime" class="java.lang.String"/>
+	<parameter name="Address" class="java.lang.String"/>
+	<parameter name="serviceDate" class="java.lang.String"/>
+	<parameter name="Store" class="java.lang.String"/>
+	<parameter name="filterServiceRecordId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="regionId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+
+     item.`NAME` AS Furniture,
+     facility.`NAME` AS Store,
+     service.`NAME` AS Service,
+     service.`ID` AS ServiceId,
+     servicerecorditem.`QUANTITY` AS Quantity,
+     servicerecord.`ADDRESS` AS Address,
+     regionserviceprice.`PRICE` AS Price
+FROM
+     `servicerecord` servicerecord INNER JOIN `servicerecorditem` servicerecorditem ON servicerecord.`ID` = servicerecorditem.`SVC_REC`
+     INNER JOIN `service` service ON servicerecorditem.`SVC` = service.`ID`
+     INNER JOIN `item` item ON servicerecorditem.`MAT` = item.`ID`
+     INNER JOIN `regionserviceprice` regionserviceprice ON service.`ID` = regionserviceprice.`SERVICE`
+     INNER JOIN `facility` facility ON servicerecord.`STORE` = facility.`ID`
+
+WHERE servicerecord.`ID` = $P{filterServiceRecordId} AND regionserviceprice.`REGION` = $P{regionId}]]>
+	</queryString>
+	<field name="Furniture" class="java.lang.String"/>
+	<field name="Store" class="java.lang.String"/>
+	<field name="Service" class="java.lang.String"/>
+	<field name="Quantity" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Price" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ServiceId" class="java.lang.String"/>
+	<variable name="PRICE_X_QTY" class="java.lang.String">
+		<variableExpression><![CDATA[$F{Price}*$F{Quantity}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_PRICE" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#FFFFFF" uuid="b4e827e2-a387-434c-9635-0fcbc8bc8bb7"/>
+				<staticText>
+					<reportElement x="10" y="10" width="273" height="82" forecolor="#000000" uuid="1922167d-38a9-49aa-ae13-9b51ba1a1acf"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Service Record:]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement x="285" y="18" width="204" height="44" uuid="7f645173-ef6a-4ae0-a577-9a350e32fa38"/>
+					<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="2of7" drawText="false" checksumRequired="false">
+						<jr:codeExpression><![CDATA[$P{filterServiceRecordId}]]></jr:codeExpression>
+					</jr:barbecue>
+				</componentElement>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="59">
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="0" width="120" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="02b0f523-da73-4114-8083-5890d69781e6"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Customer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="99" y="0" width="100" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="4c7ea4a0-f0b0-43bb-828f-172fd8a3caa7"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="199" y="0" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="3c191e8a-1ed1-4019-879a-c008149ad80a"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Store]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="394" y="0" width="181" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="4952f441-78db-43d0-a72e-e387e5788f85"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="0" width="115" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="f21581f5-5026-4a11-a8f2-b25444aa71ab"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Service Date]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="-10" y="20" width="117" height="39" uuid="548bdc59-97c0-4742-a70a-faf2885c96d1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CustomerName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="106" y="20" width="100" height="39" uuid="aace9c90-abb7-45b3-a266-4f0099936c90"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orderTime}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="279" y="19" width="115" height="39" uuid="13b9342b-68f7-4852-8818-3dbe62d15a64"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{serviceDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="205" y="20" width="74" height="39" uuid="0fa195f3-aba1-47f8-ab98-a439b0a04206"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Store}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="394" y="20" width="181" height="39" uuid="0acc0b9f-3d27-40d0-b0cb-1148e7477652"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Address}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="c30fd775-de76-4423-9e4c-30f57dfbcd9d"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="0" width="148" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="4f62bd9c-2806-4281-ba0e-a403f1411256"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Furniture]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="128" y="0" width="135" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="8580aff9-d07d-4093-b13c-30ad57f6132d"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="335" y="0" width="88" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="8d2c3d6c-7ace-467f-b289-0c34a9c086a1"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="423" y="0" width="152" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="ddddb1d7-b825-40af-a014-c17a7bc25519"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Barcode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="263" y="0" width="72" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="1211eca1-ee77-438e-b29d-5996a299dd86"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="57">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-20" y="21" width="595" height="1" uuid="dc9bd2e5-e542-438e-87e2-1e017e2ebea3"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement x="-13" y="0" width="141" height="20" uuid="eac8874e-0baf-42dc-a7d6-93c8070a9c0b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Furniture}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="128" y="0" width="137" height="20" uuid="68f0d477-e5d9-4111-a4e4-6e8116d8fc70"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Service}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="264" y="0" width="72" height="20" uuid="c01317f0-5531-4573-a505-7e1ec1b81e11"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Quantity}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="423" y="1" width="152" height="18" uuid="982877b0-4e13-4601-b99b-ea86ee241a26"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="2of7" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$F{ServiceId}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField>
+				<reportElement x="335" y="0" width="88" height="20" uuid="c347de89-d81a-4c69-b2e9-ae5c5a363df1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRICE_X_QTY}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="23">
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="60" height="13" backcolor="#E6E6E6" uuid="8901c3ed-0dde-4b64-ae0d-3739a08ae1b4"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="cd4064a4-07f8-4e93-bee4-d7bce2120700"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="-20" y="4" width="535" height="13" backcolor="#E6E6E6" uuid="964f169f-c20f-49b5-8b80-c70efc4b6621"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <h1>Add New Component</h1>
+            <p:menubar>
+                <p:menuitem value="View All Components" url="ghq_view_all_components.xhtml"/>
+                <p:menuitem value="Add New Component" url="ghq_add_new_component.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New Components">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row>
+
+                        <p:column>
+                            <p:outputLabel for="main" style="font-weight: bold" value="Main: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="main" requiredMessage="Main is required." required="true"  label="main"
+                                             value="#{componentManagerBean.main}" style="width:100%" converter="itemConverter">
+                                <f:selectItem itemValue ="#{null}" itemLabel="-Select Main Item-" noSelectionOption = "true" />
+                                <f:selectItems value="#{componentManagerBean.mains}" var="main" itemLabel="#{main.name}" itemValue="#{main}" />
+                                <p:ajax listener="#{componentManagerBean.onMainChange}" update="consistOfMat" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="main" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="consistOfMat" style="font-weight: bold" value="Consist Of: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="consistOfMat" requiredMessage="Consist Of is required." required="true"  label="consistOf"
+                                             value="#{componentManagerBean.consistOf}" style="width:100%" converter="itemConverter">
+                                <f:selectItem itemValue ="#{null}" itemLabel="-Select Component" noSelectionOption = "true" />
+                                <f:selectItems value="#{componentManagerBean.consistOfs}" var="consistOf" itemLabel="#{consistOf.name}" itemValue="#{consistOf}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:message for="consistOfMat" />
+                        </p:column>
+                    </p:row>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="weight" style="font-weight:bold" value="Weight: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText label="Weight"
+                                         id="weight"
+                                         value="#{componentManagerBean.weight}">
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="weight" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="quantity" style="font-weight:bold" value="Quantity: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText  label="Quantity"
+                                          id="quantity"
+                                          value="#{componentManagerBean.quantity}">
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="quantity" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New Component" update="panel" actionListener="#{componentManagerBean.saveNewComponent}" ajax="true"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

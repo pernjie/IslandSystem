@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/SCM_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+       <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel>
+                <f:facet name="heading"><h3><b>View All Distribution Records</b></h3></f:facet>
+
+
+                <p:dataTable widgetVar = "distributionMFtoStoreTable" editable = "true" id = "distributionMFtoStoreTable" var="distributionMFtoStore" value="#{distributionMFtoStoreManagerBean.distributionMFtoStores}"
+                             paginator="true" rows="10" emptyMessage="No Distribution Record found with given criteria" rowKey="#{distributionMFtoStore.id}"
+                             selection="#{distributionMFtoStoreManagerBean.selectedDistributionMFtoStore}" selectionMode="single" filteredValue="#{distributionMFtoStoreManagerBean.filteredDistributionMFtoStores}" >
+
+
+                    <p:column headerText="ID" sortBy="#{distributionMFtoStore.id}" filterBy="#{distributionMFtoStore.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{distributionMFtoStore.id}" /> 
+                    </p:column>
+
+                    <p:column headerText="Manufacturing" sortBy="#{distributionMFtoStore.mf.id}" filterBy="#{distributionMFtoStore.mf.id} #{distributionMFtoStore.mf.name}" filterMatchMode="contains" >
+                        <h:outputText value= "#{distributionMFtoStore.mf.id}" /><h:outputText value=" | "/><h:outputText value="#{distributionMFtoStore.mf.name}" />
+                    </p:column>
+
+
+                    <p:column headerText="Material" sortBy="#{distributionMFtoStore.mat.id}" filterBy="#{distributionMFtoStore.mat.id} #{distributionMFtoStore.mat.name}" filterMatchMode="contains" >
+                        <h:outputText value=" | "/><h:outputText value="#{distributionMFtoStore.mat.name}" />
+                    </p:column>
+
+                    <p:column headerText="Store" sortBy="#{distributionMFtoStore.store.id}" filterBy="#{distributionMFtoStore.store.id} #{distributionMFtoStore.store.name}" filterMatchMode="contains" >
+                        <h:outputText value= "#{distributionMFtoStore.store.id}" /><h:outputText value=" | "/><h:outputText value="#{distributionMFtoStore.store.name}" />
+                    </p:column>
+
+                </p:dataTable>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

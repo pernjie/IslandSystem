@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Anal_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View Customer Metrics</h1>
+            <br/>
+            <b:panel id="panel">
+                <f:facet name="heading"><h3><b>View Campaign Metrics</b></h3></f:facet>
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:selectOneMenu style = "width:200px;" label="yAxis" requiredMessage="Y-Axis is required." required="true" id="yAxis" value="#{analDisplayCustMetricsBean.axisYSelection}"  >
+                    <f:selectItems value="#{analDisplayCustMetricsBean.axisYSelections}" var="axisY" itemLabel="#{axisY.label}" itemValue="#{axisY}" />
+                    <p:ajax listener="#{analDisplayCustMetricsBean.onYAxisChange}" update=":form" />
+                </p:selectOneMenu>
+
+                <p:selectOneMenu style = "width:200px;" label="custAct" requiredMessage="Customer Status is required." required="true" id="custAct" value="#{analDisplayCustMetricsBean.custActSelection}" >
+                    <f:selectItems value="#{analDisplayCustMetricsBean.custActSelections}" var="custAct" itemLabel="#{custAct.label}" itemValue="#{custAct}" />
+                    <p:ajax listener="#{analDisplayCustMetricsBean.onCustActChange}" update=":form" />
+                </p:selectOneMenu>
+                
+                <h:panelGrid id ="panelG" columns="2" columnClasses="left,right" style="width:100%">
+                    <p:chart type="line" model="#{analDisplayCustMetricsBean.custAgeModel}" style="width:800px;" />
+                    <p:chart type="bar" model="#{analDisplayCustMetricsBean.custGenderModel}" style="width:400px;" />
+                </h:panelGrid>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

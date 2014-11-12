@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Set Items</h1>
+            <p:menubar>
+                <p:menuitem value="View All Set Items" url="ghq_view_all_set_items.xhtml"/>
+                <p:menuitem value="Add New Set Item" url="ghq_add_new_set_item.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All SetItems">
+                <p:contextMenu for="setItemTable">
+                    <p:menuitem value="Delete" update="setItemTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{setItemManagerBean.deleteSetItem}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+
+
+
+
+                <p:dataTable widgetVar = "setItemTable" editable = "true" id = "setItemTable" var="setItem" value="#{setItemManagerBean.setItems}"
+                             paginator="true" rows="10" emptyMessage="No setItems found with given criteria" rowKey="#{setItem.id}"
+                             selection="#{setItemManagerBean.selectedSetItem}" selectionMode="single" filteredValue="#{setItemManagerBean.filteredSetItems}" >
+
+
+
+
+
+                    <p:ajax event="rowEdit" listener="#{setItemManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{setItemManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column width="80" headerText="ID" sortBy="#{setItem.id}" filterBy="#{setItem.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{setItem.id}" /> 
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Name"
+                              sortBy="#{setItem.name}" filterBy="#{setItem.name}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{setItem.name}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Name is required." label="name" value="#{setItem.name}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="Description"
+                              sortBy="#{setItem.shortDesc}" filterBy="#{setItem.shortDesc}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{setItem.shortDesc}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="Description" value="#{setItem.shortDesc}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

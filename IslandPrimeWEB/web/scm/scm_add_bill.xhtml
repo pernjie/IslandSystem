@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/SCM_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form>
+            <b:panel>   
+                <f:facet name="heading"><h3><b>Create New User</b></h3></f:facet>
+                <p:messages id="msgs" />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="supplier" value="Supplier: "  style="font-weight: bold"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="supplier" value="#{billManagementBean.supplier}" required="true" label="supplier"
+                                             requiredMessage="Supplier is required.">
+                                <f:selectItems value="#{billManagementBean.suppliers}" var="s" itemLabel="Record Inventory Stocks from #{s.name}" itemValue="#{s.id}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:message for="supplier" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="po" value="Purchase Order Number: "  style="font-weight: bold"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="bill" value="#{billManagementBean.po}" required="true" label="po"
+                                         requiredMessage="Purchase Order Number is required.">
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="po" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="po" value="Purchase Order Number: "  style="font-weight: bold"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="bill" value="#{billManagementBean.po}" required="true" label="po"
+                                         requiredMessage="Purchase Order Number is required.">
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="po" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:column headerText="PO Id" sortBy="#{unpaidbill.po}">
+                        <h:inputText value="#{unpaidbill.po}" />
+                    </p:column>
+
+                    <p:column headerText="Pay to Supplier Id" sortBy="#{unpaidbill.sup.id}">
+                        <h:inputText value="#{unpaidbill.sup.id}" />
+                    </p:column>
+
+                    <p:column headerText="Amount" sortBy="#{unpaidbill.amount}">
+                        <h:inputText value="#{unpaidbill.amount}" />
+                    </p:column>
+
+                    <p:column headerText="Payment Deadline" sortBy="#{unpaidbill.paymentDate}">
+                        <h:inputText value="#{unpaidbill.paymentDate}" />
+                    </p:column>
+
+                    <p:column headerText="Status" sortBy="#{unpaidbill.status}">
+                        <h:inputText value="#{unpaidbill.status}" />
+                    </p:column>
+
+                    </p:dataTable>          
+
+                    <br>
+                        <p:commandButton value="Save" actionListener="saveBill()" />
+                    </br>
+                    </h:form>
+                    </ui:define>
+
+                    </ui:composition>

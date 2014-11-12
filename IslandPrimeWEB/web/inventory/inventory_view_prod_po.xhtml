@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="./../template/DefaultTemplate.xhtml">
+
+        <ui:define name="content">
+            <h:form id="form">
+
+                <b:panel>   
+                    <f:facet name="heading"><h1>Purchase Order for Supplier #{viewPoMatBean.poRecord.sup.name}</h1></f:facet>
+
+                    <p:dataTable id="list" var="pb" value="#{viewPoMatBean.piList}">  
+
+                        <p:column headerText="Item ID">  
+                            <h:outputText value="#{pb.item.id}" />  
+                        </p:column>  
+
+                        <p:column headerText="Item Name">
+                            <h:outputText value="#{pb.item.name}" />
+                        </p:column>
+
+                        <p:column headerText="Quantity"> 
+                            <h:outputText value="#{pb.quantity}" />  
+                        </p:column>  
+
+                        <p:column headerText="Price">
+                            <h:outputText value="#{pb.totalPrice}" />
+                            <f:convertNumber type="currency" />
+                        </p:column>
+
+                        <p:column headerText="Delivery Date">
+                            <h:outputText value="#{viewPoMatBean.dateString(pb.deliveryDate)}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <f:facet name="total price">
+                        Total Price: #{viewPoMatBean.poRecord.totalPrice}
+                    </f:facet>
+                    <p:commandButton value="Send PO" action="inventory_home" actionListener="#{viewPoMatBean.sendPo()}"/>  
+                </b:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

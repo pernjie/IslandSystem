@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Product Prices</h1>
+            <p:menubar>
+                <p:menuitem value="View All Product Prices" url="viewAllProductPrices.xhtml"/>
+                <p:menuitem value="Add New Product Price" url="addNewProductPrice.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Product Prices">
+                <p:contextMenu for="productPriceTable">
+                    <p:menuitem value="Delete" update="productPriceTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{productPriceManagerBean.deleteProductPrice}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "productPriceTable" editable = "true" id = "productPriceTable" var="productPrice" value="#{productPriceManagerBean.productPrices}"
+                             paginator="true" rows="10" emptyMessage="No Product Price found with given criteria" rowKey="#{productPrice.id}"
+                             selection="#{productPriceManagerBean.selectedProductPrice}" selectionMode="single" filteredValue="#{productPriceManagerBean.filteredProductPrices}" >
+
+
+                    <p:ajax event="rowEdit" listener="#{productPriceManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{productPriceManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+                    <p:column width="80" headerText="ID" sortBy="#{productPrice.id}" filterBy="#{productPrice.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{productPrice.id}" /> 
+                    </p:column>
+
+                    <p:column headerText="Store" sortBy="#{productPrice.store.id}" filterBy="#{productPrice.store.id} #{productPrice.store.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="storeOutput" value="#{productPrice.store.id}" /><h:outputText value=" | "/><h:outputText value="#{productPrice.store.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="s" value="#{productPrice.store}" style="width:100%" converter="facilityConverter">
+                                    <f:selectItems id="storeInput" value="#{productPriceManagerBean.facilities}" var="store" itemLabel="#{store.id}" itemDescription="#{store.name}" itemValue="#{store}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{s.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{s.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    
+                    <p:column headerText="Product" sortBy="#{productPrice.prod.id}" filterBy="#{productPrice.prod.id} #{productPrice.prod.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="productOutput" value="#{productPrice.prod.id}" /> <h:outputText value=" | "/><h:outputText value="#{productPrice.prod.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="p" value="#{productPrice.prod}" style="width:100%" converter="productConverter">
+                                    <f:selectItems id="productInput" value="#{productPriceManagerBean.products}" var="product" itemLabel="#{product.id}" itemValue="#{product}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{p.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{p.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    
+                    
+                    <p:column headerText="Price"
+                              sortBy="#{productPrice.price}" filterBy="#{productPrice.price}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{productPrice.price}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Price" requiredMessage="Price is required." value="#{productPrice.price}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

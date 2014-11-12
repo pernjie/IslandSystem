@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Components</h1>
+            <p:menubar>
+                <p:menuitem value="View All Component" url="ghq_view_all_components.xhtml"/>
+                <p:menuitem value="Add New Component" url="ghq_add_new_component.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Component">
+                <p:contextMenu for="componentTable">
+                    <p:menuitem value="Delete" update="componentTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{componentManagerBean.deleteComponent}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "componentTable" editable = "true" id = "componentTable" var="comp" value="#{componentManagerBean.components}"
+                             paginator="true" rows="10" emptyMessage="No Component found" rowKey="#{comp.id}"
+                             selection="#{componentManagerBean.selectedComponent}" selectionMode="single" filteredValue="#{componentManagerBean.filteredComponents}" >
+
+
+                    <p:ajax event="rowEdit" listener="#{componentManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{componentManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+                    <p:column width="80" headerText="ID" sortBy="#{comp.id}" filterBy="#{comp.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{comp.id}" /> 
+                    </p:column>
+
+                    <p:column headerText="Main" sortBy="#{comp.main.id}" filterBy="#{comp.main.id} #{comp.main.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="mainOutput" value="#{comp.main.id}" /><h:outputText value=" | "/><h:outputText value="#{comp.main.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="s" value="#{comp.main}" style="width:100%" converter="itemConverter">
+                                    
+                                    <f:selectItems id="mainInput" value="#{componentManagerBean.mains}" var="main" itemLabel="#{main.name}" itemValue="#{main}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{s.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{s.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Consist Of" sortBy="#{comp.consistOf}" filterBy="#{comp.consistOf.id} #{comp.consistOf.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="consistOfOutput" value="#{comp.consistOf.id}" /> <h:outputText value=" | "/><h:outputText value="#{comp.consistOf.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="p" value="#{comp.consistOf}" style="width:100%" converter="itemConverter">
+                                    
+                                    <f:selectItems id="consistOfInput" value="#{componentManagerBean.consistOfs}" var="consistOf" itemLabel="#{consistOf.name}" itemValue="#{consistOf}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{p.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{p.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Quantity"
+                              sortBy="#{comp.quantity}" filterBy="#{comp.quantity}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{comp.quantity}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText  label="Quantity"  value="#{comp.quantity}" style="width:100%" >
+                                </p:inputText>    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Weight"
+                              sortBy="#{comp.weight}" filterBy="#{comp.weight}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{comp.weight}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText  label="Weight"  value="#{comp.weight}" style="width:100%" >
+                                </p:inputText>    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

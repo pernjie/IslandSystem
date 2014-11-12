@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/System_Admin_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form>
+            <b:panel>   
+                <f:facet name="heading"><h3><b>Create New User</b></h3></f:facet>
+                <p:messages id="msgs" />
+                <p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="name" value="Name: " style="font-weight: bold" />
+					</p:column>
+                    <p:column>
+						<p:inputText id="name" value="#{createManagedBean.name}" required="true" label="name"
+						requiredMessage="Name is required.">
+						<f:validateLength minimum="2" />
+						</p:inputText>
+					</p:column>
+					<p:column>
+						<p:message for="name"  />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="email" value="Email: " style="font-weight: bold" />
+					</p:column>
+					<p:column>
+						<p:inputText id="email" value="#{createManagedBean.email}" required="true" label="email"
+						requiredMessage="Email is required.">
+						<f:validateLength minimum="8" />
+						</p:inputText>
+					</p:column>
+					<p:column>
+						<p:message for="email" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="contact" value="Contact Number: " style="font-weight: bold" />
+					</p:column>
+					<p:column>
+						<p:inputText id="contact" value="#{createManagedBean.contact}" required="true" label="contact"
+						requiredMessage="Contact is required.">
+                        <f:validateLength minimum="8" />
+                    </p:inputText>
+					</p:column>
+					<p:column>
+						<p:message for="contact" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="role1" value="Role 1"  style="font-weight: bold"/>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="role1" value="#{createManagedBean.role1}" required="true" label="role1"
+							requiredMessage="Role 1 is required.">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="System Administrator" itemValue="System Admin" />
+							<f:selectItem itemLabel="Global HQ" itemValue="Global HQ" />
+                                                        <f:selectItem itemLabel="Regional HQ" itemValue="Regional HQ" />
+                                                        <f:selectItem itemLabel="MRP Controller" itemValue="MRP Controller" />
+							<f:selectItem itemLabel="MF Manager" itemValue="MF Manager" />
+                                                        <f:selectItem itemLabel="MF Staff" itemValue="MF Staff" />
+                                                        <f:selectItem itemLabel="MF Purchasing Manager" itemValue="MF Purchasing Manager" />
+                                                        <f:selectItem itemLabel="Store Manager" itemValue="Store Manager" />
+                                                        <f:selectItem itemLabel="Store Staff" itemValue="Store Staff" />
+                                                        <f:selectItem itemLabel="MF Manager" itemValue="MF Manager" />
+                                                        <f:selectItem itemLabel="Store Purchasing Manager" itemValue="Store Purchasing Manager" />
+                                                        <f:selectItem itemLabel="Customer Service" itemValue="Customer Service" />    
+                                                        <f:selectItem itemLabel="Kitchen Staff" itemValue="Kitchen Staff" />   
+                                                        <f:selectItem itemLabel="Cashier" itemValue="Cashier" />   
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:message for="role1" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="role2" value="Role 2" style="font-weight: bold"/>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="role2" value="#{createManagedBean.role2}" label="role2">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="System Administrator" itemValue="System Admin" />
+							<f:selectItem itemLabel="Global HQ" itemValue="Global HQ" />
+                                                        <f:selectItem itemLabel="Regional HQ" itemValue="Regional HQ" />
+                                                        <f:selectItem itemLabel="MRP Controller" itemValue="MRP Controller" />
+							<f:selectItem itemLabel="MF Manager" itemValue="MF Manager" />
+                                                        <f:selectItem itemLabel="MF Staff" itemValue="MF Staff" />
+                                                        <f:selectItem itemLabel="MF Purchasing Manager" itemValue="MF Purchasing Manager" />
+                                                        <f:selectItem itemLabel="Store Manager" itemValue="Store Manager" />
+                                                        <f:selectItem itemLabel="Store Staff" itemValue="Store Staff" />
+                                                        <f:selectItem itemLabel="MF Manager" itemValue="MF Manager" />
+                                                        <f:selectItem itemLabel="Store Purchasing Manager" itemValue="Store Purchasing Manager" />
+                                                        <f:selectItem itemLabel="Customer Service" itemValue="Customer Service" />
+                                                        <f:selectItem itemLabel="Kitchen Staff" itemValue="Kitchen Staff" /> 
+                                                        <f:selectItem itemLabel="Cashier" itemValue="Cashier" /> 
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:message for="role2"  />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="role3" value="Role 3" style="font-weight: bold" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="role3" value="#{createManagedBean.role3}" label="role3">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="System Administrator" itemValue="System Admin" />
+							<f:selectItem itemLabel="Global HQ" itemValue="Global HQ" />
+                                                        <f:selectItem itemLabel="Regional HQ" itemValue="Regional HQ" />
+                                                        <f:selectItem itemLabel="MRP Controller" itemValue="MRP Controller" />
+							<f:selectItem itemLabel="MF Manager" itemValue="MF Manager" />
+                                                        <f:selectItem itemLabel="MF Staff" itemValue="MF Staff" />
+                                                        <f:selectItem itemLabel="MF Purchasing Manager" itemValue="MF Purchasing Manager" />
+                                                        <f:selectItem itemLabel="Store Manager" itemValue="Store Manager" />
+                                                        <f:selectItem itemLabel="Store Staff" itemValue="Store Staff" />
+                                                        <f:selectItem itemLabel="MF Manager" itemValue="MF Manager" />
+                                                        <f:selectItem itemLabel="Store Purchasing Manager" itemValue="Store Purchasing Manager" />
+                                                        <f:selectItem itemLabel="Customer Service" itemValue="Customer Service" />
+                                                        <f:selectItem itemLabel="Kitchen Staff" itemValue="Kitchen Staff" /> 
+                                                        <f:selectItem itemLabel="Cashier" itemValue="Cashier" /> 
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:message for="role3"  />
+					</p:column>
+				</p:row>     
+                </p:panelGrid>
+                 <p:commandButton value="Submit" actionListener="#{createManagedBean.create}" icon="ui-icon-check" update="@form" />
+            </b:panel>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

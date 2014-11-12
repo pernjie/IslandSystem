@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Op_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+    <ui:define name="content">
+        <h:form id="formMain">
+            <b:panel id="panel">
+                <f:facet name="heading"><h3><b>Add New Service Record</b></h3></f:facet>
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="custName" style="font-weight: bold" value="Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText label="CustName" id="custName"
+                                         value="#{serviceRecordBean.custName}"> 
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="custName" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="address" style="font-weight: bold" value="Address: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText label="Address" id="address"
+                                         value="#{serviceRecordBean.address}"> 
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="address" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="svcDate" style="font-weight: bold" value="Date: " />
+                        </p:column>
+                        <p:column>
+                            <p:calendar id="svcDate" value="#{serviceRecordBean.svcDate}" pattern="MM/dd/yyyy HH:mm" >
+                                <f:validator validatorId ="laterThanCurrentDateValidator" />    
+                            </p:calendar>
+                        </p:column>
+                        <p:column>
+                            <p:message for="svcDate" />
+                        </p:column>
+                    </p:row>
+
+
+                </p:panelGrid>
+                <br/>
+                <p:commandButton id="btn" value="Save New Service Record" update="panel" actionListener="#{serviceRecordBean.saveNewServiceRecord}" ajax="true" icon="ui-icon-check"/>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

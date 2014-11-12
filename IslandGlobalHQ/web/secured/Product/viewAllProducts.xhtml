@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Products</h1>
+            <p:menubar>
+                <p:menuitem value="View All Products" url="viewAllProducts.xhtml"/>
+                <p:menuitem value="Add New Product" url="addNewProduct.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Products">
+                <p:contextMenu for="productTable">
+                    <p:menuitem value="Delete" update="productTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{productManagerBean.deleteProduct}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "productTable" editable = "true" id = "productTable" var="product" value="#{productManagerBean.products}"
+                             paginator="true" rows="10" emptyMessage="No products found with given criteria" rowKey="#{product.id}"
+                             selection="#{productManagerBean.selectedProduct}" selectionMode="single" filteredValue="#{productManagerBean.filteredProducts}" >
+
+                    <p:ajax event="rowEdit" listener="#{productManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{productManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column width="80" headerText="ID" sortBy="#{product.id}" filterBy="#{product.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{product.id}" /> 
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Name"
+                              sortBy="#{product.name}" filterBy="#{product.name}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{product.name}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Name is required." label="name" value="#{product.name}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Short Description"
+                              sortBy="#{product.shortDesc}" filterBy="#{product.shortDesc}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{product.shortDesc}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="ShortDesc" value="#{product.shortDesc}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Long Description"
+                              sortBy="#{product.longDesc}" filterBy="#{product.longDesc}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{product.longDesc}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="LongDesc" value="#{product.longDesc}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Shelf Life"
+                              sortBy="#{product.shelfLife}" filterBy="#{product.shelfLife}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{product.shelfLife}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Shelf Life is required." label="Shelf Life" value="#{product.shelfLife}" style="width:100%">
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Halal"
+                              filterBy="#{product.halal}" filterMatchMode="equals"  >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('productTable').filter()"  style="font-size:80%">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="All" itemValue="" />
+                                <f:selectItem itemLabel="Yes" itemValue="true" />
+                                <f:selectItem itemLabel="No" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{product.halal}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{product.halal}" style="width:100%">
+                                    <f:selectItem itemLabel="Yes" itemValue="true" />
+                                    <f:selectItem itemLabel="No" itemValue="false" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Category"
+                              sortBy="#{product.category}" filterBy="#{product.category}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{product.category}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{product.category}" style="width:100%">
+                                    <f:selectItems value="#{productManagerBean.categories}" var="categories" itemLabel="#{categories}" itemValue="#{categories}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Qty Per Box"
+                              sortBy="#{product.itemPerBox}" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{product.itemPerBox}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="ItemPerBox" requiredMessage="Qty Per Box is required." 
+                                                                  value="#{product.itemPerBox}" style="width:100%" >
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

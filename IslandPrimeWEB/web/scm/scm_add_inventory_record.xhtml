@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Inventory_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h1>Add New Raw Material Inventory Records</h1>
+
+            <br/>
+ 
+            <p:panel id="panel" header="Add New Raw Material Inventory Record" >
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+               <p:panelGrid>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="rawMat" style="font-weight: bold" value="Raw Material: " />
+                    </p:column>
+                    <p:column>
+                        <p:autoComplete id="rawMat" forceSelection="true" value="#{rawMatInventoryMB.rawMat}" 
+                                        completeMethod="#{rawMatInventoryMB.completeText}" var="rawMat" itemLabel="#{rawMat.name}" itemValue="#{rawMat}"
+                                        converter="rawMatAutoConverter" requiredMessage="Raw Material is required." required="true"  style="width:100%"> 
+                            <p:ajax event="itemSelect" process="@this"  listener="#{rawMatInventoryMB.handleSelect}" /> 
+                        </p:autoComplete>
+                    </p:column>
+                    <p:column>
+                        <p:message for="rawMat" />
+                    </p:column>
+                </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="zoneShelfEntity" style="font-weight: bold" value="Zone: " />
+                        </p:column>
+                        <p:column>
+                               <p:selectOneMenu label="zoneShelfEntity" requiredMessage="Zone is required." required="true" id="zoneShelfEntity" 
+                                             value="#{rawMatInventoryMB.zon}" style="width:100%" >
+
+                                <f:selectItem itemLabel="Select Zone" itemValue="" noSelectionOption="true" />             
+                                <f:selectItems value="#{rawMatInventoryMB.zoneShelfEntities}" var="zoneShelfEntity" itemLabel="#{zoneShelfEntity.zone}" itemValue="#{zoneShelfEntity.zone}" />
+                                 <p:ajax listener="#{rawMatInventoryMB.onZoneChange}" update="shelfEntity" process="zoneShelfEntity" event="change"/> 
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="zoneShelfEntity" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="shelfEntity" style="font-weight: bold" value="Shelf: " />
+                        </p:column>
+                        <p:column>
+                                <p:selectOneMenu label="shelfEntity" requiredMessage="Shelf is required." required="true" id="shelfEntity" 
+                                             value="#{rawMatInventoryMB.shelfValue}"  style="width:100%" >  
+                                    
+                                <f:selectItem itemLabel="Select Shelf" itemValue="" noSelectionOption="true" />             
+                                <f:selectItems value="#{rawMatInventoryMB.shelfEntities}" var="shelfEntity" itemLabel="#{shelfEntity.shelf}" itemValue="#{shelfEntity.id}" /> 
+                                 <p:ajax listener="#{rawMatInventoryMB.onShelfChange}" update="shelfSlot upperThresValue lowerThresValue matLengthRes matBreadthRes matHeightRes" process="shelfEntity" event="change"/>
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="shelfEntity" />
+                        </p:column>
+                    </p:row>
+
+                                  <p:row>
+                                      <p:column>
+                                          <p:outputLabel for="shelfSlot" style="font-weight: bold" value="Slot in Shelf: " />
+                                      </p:column>
+                                      <p:column>
+                                          <p:selectOneMenu label="shelfSlot" requiredMessage="Shelf Slot is required." required="true" id="shelfSlot" 
+                                                           value="#{rawMatInventoryMB.shelfSlotPos}" style="width:100%" >  
+                                              <f:selectItem itemLabel="Select Shelf Slot" itemValue="" noSelectionOption="true" />             
+                                              <f:selectItems value="#{rawMatInventoryMB.shelfSlots}" var="shelfSlot" itemLabel="#{shelfSlot.position}" itemValue="#{shelfSlot.position}" />
+                                          </p:selectOneMenu>     
+                                      </p:column>
+                                      <p:column>
+                                          <p:message for="shelfSlot" />
+                                      </p:column>
+                                  </p:row>                  
+                                  
+                                  <p:row>
+                                       <p:column>
+                                          <p:outputLabel for="upperThresValue" style="font-weight: bold" value="Upper Threshold:  " />
+                                      </p:column>
+                                      <p:column>
+                                          <h:outputText id="upperThresValue" value="#{rawMatInventoryMB.resUpperThres}" />               
+                                      </p:column>
+                                      <p:column>
+                                          <p:message for="upperThresValue" />
+                                      </p:column>
+                                  </p:row>     
+                  
+                   
+                      <p:row>
+                       <p:column>
+                           <p:outputLabel for="lowerThresValue" style="font-weight: bold" value="Lower Threshold:  " />
+                       </p:column>
+                       <p:column>
+                           <h:outputText id="lowerThresValue" value="#{rawMatInventoryMB.resLowerThres}" />               
+                       </p:column>
+                       <p:column>
+                           <p:message for="lowerThresValue" />
+                       </p:column>
+                   </p:row>     
+                   
+                     <p:row>
+                       <p:column>
+                           <p:outputLabel for="matLengthRes" style="font-weight: bold" value="Material Box Length:  " />
+                       </p:column>
+                       <p:column>
+                           <h:outputText id="matLengthRes" value="#{rawMatInventoryMB.matLengthRes}" />               
+                       </p:column>
+                       <p:column>
+                           <p:message for="matLengthRes" />
+                       </p:column>
+                   </p:row>     
+                   
+                      <p:row>
+                       <p:column>
+                           <p:outputLabel for="matBreadthRes" style="font-weight: bold" value="Material Box Breadth:  " />
+                       </p:column>
+                       <p:column>
+                           <h:outputText id="matBreadthRes" value="#{rawMatInventoryMB.matBreadthRes}" />               
+                       </p:column>
+                       <p:column>
+                           <p:message for="matBreadthRes" />
+                       </p:column>
+                   </p:row>    
+        
+                      <p:row>
+                       <p:column>
+                           <p:outputLabel for="matHeightRes" style="font-weight: bold" value="Material Box Height:  " />
+                       </p:column>
+                       <p:column>
+                           <h:outputText id="matHeightRes" value="#{rawMatInventoryMB.matHeightRes}" />               
+                       </p:column>
+                       <p:column>
+                           <p:message for="matHeightRes" />
+                       </p:column>
+                   </p:row>    
+                   
+                   <p:row>
+                       <p:column>
+                           <p:outputLabel for="invenLoc" style="font-weight: bold" value="Location: " />
+                       </p:column>
+                       <p:column>
+                           <p:selectOneMenu label="invenLoc" requiredMessage="Location is required." required="true" id="invenLoc" 
+                                            value="#{rawMatInventoryMB.loc}" style="width:100%" >  
+                               <f:selectItem itemLabel="Select Location" itemValue="" noSelectionOption="true" />             
+                               <f:selectItems value="#{rawMatInventoryMB.rawMatLocValues}" />
+                           </p:selectOneMenu>     
+                       </p:column>
+                       <p:column>
+                           <p:message for="invenLoc" />
+                       </p:column>
+                   </p:row>          
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New Raw Material Inventory Record" update="panel" actionListener="#{rawMatInventoryMB.saveNewInventory}" ajax="true"/>
+  
+            </p:panel>
+        </h:form>
+        
+          <script type="text/javascript">
+            document.getElementById("form:rawMat_input").value = "";
+        </script>
+    </ui:define>
+
+</ui:composition>

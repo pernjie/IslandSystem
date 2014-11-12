@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Inventory_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+        <ui:define name="content">
+            <h:form id="form">
+
+                <b:panel>   
+                <f:facet name="heading"><h1>View Inventory Restock Location</h1></f:facet>
+
+                <p:dataTable id="list" var="rb" value="#{viewRestockLocationBean.restockList}" 
+                             emptyMessage="No Furniture Inventory to Restock" paginator="true" rows="10">  
+
+                    <p:column headerText="Item ID" sortBy="#{rb.item.id}" filterBy="#{rb.item.id}" filterMatchMode="contains" > 
+                        <h:outputText value="#{rb.item.id}" />  
+                    </p:column>  
+
+                    <p:column  headerText="Item" sortBy="#{rb.item.id}" filterBy="#{rb.item.id} #{rb.item.name}" filterMatchMode="contains" >
+                        <h:outputText id="productOutput" value="#{rb.item.id}" /><h:outputText value=" | "/><h:outputText value="#{rb.item.name}" />
+                    </p:column>
+
+                    <p:column headerText="Zone" sortBy="#{rb.zone}" filterBy="#{rb.zone}" filterMatchMode="startsWith" >   
+                        <h:outputText value="#{rb.zone}" />  
+                    </p:column>  
+
+                    <p:column headerText="Shelf" sortBy="#{rb.shelve.shelf}" filterBy="#{rb.shelve.shelf}" filterMatchMode="contains" >  
+                        <h:outputText value="#{rb.shelve.shelf}" />  
+                    </p:column>  
+
+                    <p:column headerText="Position" sortBy="#{rb.shelfSlot.position}" filterBy="#{rb.shelfSlot.position}" filterMatchMode="contains" >  
+                        <h:outputText value="#{rb.shelfSlot.position}" />
+                    </p:column>  
+
+                    <p:column headerText="Quantity"> 
+                        <h:outputText value="#{rb.qty}" />
+                    </p:column>  
+
+                </p:dataTable>
+                <p:commandButton value="Confirm" action="inventory_home" />  
+            </b:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

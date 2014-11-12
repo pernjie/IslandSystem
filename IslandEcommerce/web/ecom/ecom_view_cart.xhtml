@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Default_Template.xhtml"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:dataGrid id="carttable" var="furn" value="#{shoppingCartBean.cart}" columns="1" style="text-align:center" emptyMessage="Your shopping list is empty!">
+                <p:panel>
+                    <img src="../resources/images/furn/#{furn.item.id}.gif" height="171" width="200" /><br/>
+                        <h:outputText value="#{furn.item.name}" /><br/>
+                        <h:outputText value="#{furn.price}" /><br/>
+                        <h:outputText value="Quantity: #{furn.quantity}" />
+                        <br/><br/>
+                        <style>
+                        .blueButton .ui-button-text {
+                           font-size:15px;
+                           color: #043852;
+                           background-color: #9DD7F5;
+                        }
+                        </style>
+                        <p:commandButton action="#{shoppingCartBean.removeItem}" value="Remove Item" styleClass="blueButton">
+                            <f:setPropertyActionListener target="#{shoppingCartBean.itemId}" value="#{furn.item.id}"/>
+                        </p:commandButton>
+                        <p:commandButton action="#{shoppingCartBean.saveItemId(furn.item.id)}" value="Edit Quantity" oncomplete="PF('pChat').show()" update=":form:privateChatContainer" styleClass="blueButton">
+                            <f:setPropertyActionListener value="#{furn.item.id}" target="#{shoppingCartBean.editId}" />
+                        </p:commandButton>
+                </p:panel>
+
+            </p:dataGrid>
+            <p:panel id="costpanel" style="text-align:center" rendered="#{shoppingCartBean.cart.size()>0}">
+                <h:outputText value="Total Cost: #{shoppingCartBean.costString}"></h:outputText>
+            </p:panel>
+            <p:panel id="qrpanel" style="text-align:center" rendered="#{shoppingCartBean.cart.size()>0}">
+                <h:outputText value="Use our Island App to scan this code!"></h:outputText>
+                <img src="http://chart.apis.google.com/chart?cht=qr&amp;chs=100x100&amp;chl=#{shoppingCartBean.qr}&amp;choe=UTF-8"/>
+            </p:panel>
+            <p:dialog widgetVar="pChat" header="Edit Quantity" modal="true" showEffect="fade" hideEffect="fade">
+                <h:panelGrid id="privateChatContainer" columns="2" columnClasses="vtop,vtop">
+                    <p:outputLabel value="Quantity:" for="txt1" />
+                    <h:panelGrid columns="1" style="margin: 10px">
+                        <p:inputText id="txt1" value="#{shoppingCartBean.editQty}" />
+                        <p:slider for="txt1" />
+                    </h:panelGrid>
+
+                    <p:spacer />
+                    <p:commandButton value="Send" actionListener="#{shoppingCartBean.editItem}" oncomplete="PF('pChat').hide()" />
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

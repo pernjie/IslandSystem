@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>Island Furniture Management System</title>
+        <meta name="author" content="The Author"></meta>
+    </h:head>
+    
+<h:body style="padding: 0px 25px;">
+        <b:navBar brand="Island FMS" brandHref="../common/CI_Index_Page.xhtml" inverse="true">
+            <b:navbarLinks>
+                 <b:navLink href="../mrp/mrp_home.xhtml" value="MRP" rendered="#{roleFunctionsBean.checkMRP}"></b:navLink>
+                 <b:navLink href="../scm/scm_home.xhtml" value="SCM" rendered="#{roleFunctionsBean.checkSCM}"></b:navLink>
+                 <b:navLink value="User Accounts" rendered="#{roleFunctionsBean.checkSA}" href="../common/CI_System_Admin_Home.xhtml"></b:navLink>
+                 <b:navLink value="Inventory" href="../inventory/Inventory_Home.xhtml" rendered="#{roleFunctionsBean.checkInventory}"></b:navLink>
+                 <b:navLink value="Op CRM" href="../opcrm/Op_Home.xhtml" rendered="#{roleFunctionsBean.checkOPCRM}"></b:navLink>
+                 <b:navLink value="Anal CRM" href="../anal/anal_home.xhtml" rendered="#{roleFunctionsBean.checkAnal}"></b:navLink>
+                 <b:navLink value="Kitchen" href="../kitchen/Kitchen_Home.xhtml" rendered="#{roleFunctionsBean.checkKitchen}"></b:navLink>
+            </b:navbarLinks>             
+            <b:navbarLinks pull="right">
+                <h:form styleClass="navbar-form navbar-right">
+                    <b:commandButton action="#{indexManagedBean.logout}" value="Logout" look="success"/>
+                </h:form>
+            </b:navbarLinks>
+            <b:navbarLinks pull="right">
+                <b:dropMenu value="Welcome, #{indexManagedBean.loggedInName} ( #{indexManagedBean.facilityName}, #{indexManagedBean.loggedInRole})  ">
+                        <b><b:navLink header="Other Roles"></b:navLink></b>
+                        <b:navLink header="#{indexManagedBean.role2}"></b:navLink>
+                        <b:navLink header="#{indexManagedBean.role3}"></b:navLink>
+                        <b:navLink></b:navLink>
+                        <b:navLink header="Profile"></b:navLink>
+                        <b:navLink value="View Your Profile" href="../common/CI_View_Profile.xhtml"></b:navLink>
+                        <b:navLink value="View Your System Log" href="../common/CI_View_User_Log.xhtml"></b:navLink>
+                        <b:navLink value="View Messages" href="../chat/view_messages.xhtml"></b:navLink>  
+                        <b:navLink></b:navLink>
+                        <b:navLink header="Chat"></b:navLink>
+                        <b:navLink value="Chat" href="../chat/login.xhtml"></b:navLink>  
+                </b:dropMenu>                
+            </b:navbarLinks> 
+
+        </b:navBar>
+        
+        <b:column span="2">
+            <b:panel look="primary">
+                <f:facet name="heading">#{indexManagedBean.loggedInName}, You are currently at <b>Kitchen Home</b>. </f:facet>
+                <!-- how to display links according to roles? -->
+                <b:listLinks>
+                    <b:navLink header="Kitchen"/>
+                    <b:navLink href="../kitchen/kitchen_forecasting.xhtml" value="Forecast Ingredients"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Purchase Orders"/>
+                    <b:navLink href="../kitchen/kitchen_generate_ingr_po.xhtml" value="Generate Ingredients Purchase Order"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Shelf"/>
+                    <b:navLink href="../kitchen/kitchen_view_shelves.xhtml" value="View All Shelf Records"></b:navLink>
+                    <b:navLink href="../kitchen/kitchen_add_shelf.xhtml" value="Add New Shelf"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Shelf Type"/>
+                    <b:navLink href="../kitchen/kitchen_view_shelftypes.xhtml" value="View All Shelf Type"></b:navLink>
+                    <b:navLink href="../kitchen/kitchen_add_shelftype.xhtml" value="Add New Shelf Type"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Inventory Restock"/>
+                    <b:navLink href="../kitchen/kitchen_receive_supplier_inventory.xhtml" value="Receive Supplier Inventory"></b:navLink>
+                    <b:navLink href="../kitchen/kitchen_view_ingr_inventory.xhtml" value="View Ingredient Inventory"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Inventory Record"/>
+                    <b:navLink href="../kitchen/kitchen_add_inventory_record.xhtml" value="View Inventory Record"></b:navLink>
+                    <b:navLink href="../kitchen/kitchen_deduct_inventory_record.xhtml" value="Deduct Inventory Record"></b:navLink>
+                    
+                </b:listLinks>
+            </b:panel>
+        </b:column> 
+       
+        <b:column span="8">
+    <b:container>
+        
+        <ui:insert name="content">
+            
+        </ui:insert>
+        
+    </b:container>
+            </b:column>
+        
+
+    </h:body>
+</html>

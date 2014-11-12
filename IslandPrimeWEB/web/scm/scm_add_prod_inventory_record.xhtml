@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Inventory_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="form"> 
+            <b:panel id="panel">
+                <f:facet name="heading"><h3><b>Add New Retail Inventory Records</b></h3></f:facet>
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+               <p:panelGrid>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="pdt" style="font-weight: bold" value="Retail Product: " />
+                    </p:column>
+                    <p:column>
+                        <p:autoComplete id="pdt" forceSelection="true" value="#{marketPlaceInventoryMB.pdt}" 
+                                        completeMethod="#{marketPlaceInventoryMB.completeText}" var="pdt" itemLabel="#{pdt.name}" itemValue="#{pdt}"
+                                        converter="pdtAutoConverter" requiredMessage="Product is required." required="true"  style="width:100%"> 
+                            <p:ajax event="itemSelect" process="@this"  listener="#{marketPlaceInventoryMB.handleSelect}" /> 
+                        </p:autoComplete>
+                    </p:column>
+                    <p:column>
+                        <p:message for="pdt" />
+                    </p:column>
+                </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="zoneShelfEntity" style="font-weight: bold" value="Zone: " />
+                        </p:column>
+                        <p:column>
+                               <p:selectOneMenu label="zoneShelfEntity" requiredMessage="Zone is required." required="true" id="zoneShelfEntity" 
+                                             value="#{marketPlaceInventoryMB.zon}" style="width:100%" >
+
+                                <f:selectItem itemLabel="Select Zone" itemValue="" noSelectionOption="true" />             
+                                <f:selectItems value="#{marketPlaceInventoryMB.zoneShelfEntities}" var="zoneShelfEntity" itemLabel="#{zoneShelfEntity.zone}" itemValue="#{zoneShelfEntity.zone}" />
+                                 <p:ajax listener="#{marketPlaceInventoryMB.onZoneChange}" update="shelfEntity" process="zoneShelfEntity" event="change"/> 
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="zoneShelfEntity" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="shelfEntity" style="font-weight: bold" value="Shelf: " />
+                        </p:column>
+                        <p:column>
+                                <p:selectOneMenu label="shelfEntity" requiredMessage="Shelf is required." required="true" id="shelfEntity" 
+                                             value="#{marketPlaceInventoryMB.shelfValue}"  style="width:100%" >  
+                                    
+                                <f:selectItem itemLabel="Select Shelf" itemValue="" noSelectionOption="true" />             
+                                <f:selectItems value="#{marketPlaceInventoryMB.shelfEntities}" var="shelfEntity" itemLabel="#{shelfEntity.shelf}" itemValue="#{shelfEntity.id}" /> 
+                                 <p:ajax listener="#{marketPlaceInventoryMB.onShelfChange}" update="shelfSlot upperThresValue lowerThresValue pdtLengthRes pdtBreadthRes pdtHeightRes" process="shelfEntity" event="change"/>
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="shelfEntity" />
+                        </p:column>
+                    </p:row>
+
+                                  <p:row>
+                                      <p:column>
+                                          <p:outputLabel for="shelfSlot" style="font-weight: bold" value="Slot in Shelf: " />
+                                      </p:column>
+                                      <p:column>
+                                          <p:selectOneMenu label="shelfSlot" requiredMessage="Shelf Slot is required." required="true" id="shelfSlot" 
+                                                           value="#{marketPlaceInventoryMB.shelfSlotPos}" style="width:100%" >  
+                                              <f:selectItem itemLabel="Select Shelf Slot" itemValue="" noSelectionOption="true" />             
+                                              <f:selectItems value="#{marketPlaceInventoryMB.shelfSlots}" var="shelfSlot" itemLabel="#{shelfSlot.position}" itemValue="#{shelfSlot.position}" />
+                                          </p:selectOneMenu>     
+                                      </p:column>
+                                      <p:column>
+                                          <p:message for="shelfSlot" />
+                                      </p:column>
+                                  </p:row>                  
+                                  
+                                  <p:row>
+                                       <p:column>
+                                          <p:outputLabel for="upperThresValue" style="font-weight: bold" value="Upper Threshold:  " />
+                                      </p:column>
+                                      <p:column>
+                                          <h:outputText id="upperThresValue" value="#{marketPlaceInventoryMB.resUpperThres}" />               
+                                      </p:column>
+                                      <p:column>
+                                          <p:message for="upperThresValue" />
+                                      </p:column>
+                                  </p:row>     
+                  
+                   
+                      <p:row>
+                       <p:column>
+                           <p:outputLabel for="lowerThresValue" style="font-weight: bold" value="Lower Threshold:  " />
+                       </p:column>
+                       <p:column>
+                           <h:outputText id="lowerThresValue" value="#{marketPlaceInventoryMB.resLowerThres}" />               
+                       </p:column>
+                       <p:column>
+                           <p:message for="lowerThresValue" />
+                       </p:column>
+                   </p:row>     
+                   
+                     <p:row>
+                       <p:column>
+                           <p:outputLabel for="pdtLengthRes" style="font-weight: bold" value="Product Box Length:  " />
+                       </p:column>
+                       <p:column>
+                           <h:outputText id="pdtLengthRes" value="#{marketPlaceInventoryMB.pdtLengthRes}" />               
+                       </p:column>
+                       <p:column>
+                           <p:message for="pdtLengthRes" />
+                       </p:column>
+                   </p:row>     
+                   
+                      <p:row>
+                       <p:column>
+                           <p:outputLabel for="pdtBreadthRes" style="font-weight: bold" value="Product Box Breadth:  " />
+                       </p:column>
+                       <p:column>
+                           <h:outputText id="pdtBreadthRes" value="#{marketPlaceInventoryMB.pdtBreadthRes}" />               
+                       </p:column>
+                       <p:column>
+                           <p:message for="pdtBreadthRes" />
+                       </p:column>
+                   </p:row>    
+        
+                      <p:row>
+                       <p:column>
+                           <p:outputLabel for="pdtHeightRes" style="font-weight: bold" value="Product Box Height:  " />
+                       </p:column>
+                       <p:column>
+                           <h:outputText id="pdtHeightRes" value="#{marketPlaceInventoryMB.pdtHeightRes}" />               
+                       </p:column>
+                       <p:column>
+                           <p:message for="pdtHeightRes" />
+                       </p:column>
+                   </p:row>    
+                   
+                   
+                   <p:row>
+                       <p:column>
+                           <p:outputLabel for="invenLoc" style="font-weight: bold" value="Location: " />
+                       </p:column>
+                       <p:column>
+                           <p:selectOneMenu label="invenLoc" requiredMessage="Location is required." required="true" id="invenLoc" 
+                                            value="#{marketPlaceInventoryMB.loc}" style="width:100%" >  
+                               <f:selectItem itemLabel="Select Location" itemValue="" noSelectionOption="true" />             
+                               <f:selectItems value="#{marketPlaceInventoryMB.pdtLocValues}" />
+                           </p:selectOneMenu>     
+                       </p:column>
+                       <p:column>
+                           <p:message for="invenLoc" />
+                       </p:column>
+                   </p:row>          
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New MarketPlace Inventory Record" update="panel" actionListener="#{marketPlaceInventoryMB.saveNewInventory}" ajax="true"/>
+  
+            </b:panel>
+        </h:form>
+        
+        
+        <script type="text/javascript">
+            document.getElementById("form:pdt_input").value = "";
+        </script>
+    </ui:define>
+
+</ui:composition>

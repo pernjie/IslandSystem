@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Kitchen_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form id="form">
+             <h1>Planning for Year #{salesHistoryBeanKitchen.WH.getYear(5)}: 
+                Period #{salesHistoryBeanKitchen.WH.getPeriod(5)}</h1>
+            <p:panel id="panel">
+                <h4>Forecast</h4>
+                <ui:repeat id="mats-repeat" value="#{salesHistoryBeanKitchen.materials}" var="mat" rendered="#{!salesHistoryBeanKitchen.checkDone()}" varStatus="varStatus">
+                    <ui:repeat id="store-repeat" value="#{mat.stores}" var="store">
+                        <p:panelGrid>
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column colspan="7">#{mat.mat.name}: #{store.store.name}</p:column>
+                                </p:row>
+                            </f:facet>
+
+                            <p:row>
+                                <p:column></p:column>
+                                <p:column>#{salesHistoryBeanKitchen.WH.getPeriodString(0)}</p:column>
+                                <p:column>#{salesHistoryBeanKitchen.WH.getPeriodString(1)}</p:column>
+                                <p:column>#{salesHistoryBeanKitchen.WH.getPeriodString(2)}</p:column>
+                                <p:column>#{salesHistoryBeanKitchen.WH.getPeriodString(3)}</p:column>
+                                <p:column>#{salesHistoryBeanKitchen.WH.getPeriodString(4)}</p:column>
+                                <p:column>#{salesHistoryBeanKitchen.WH.getPeriodString(5)}</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>Forecast</p:column>
+                                <p:column>#{store.month1.fc}</p:column>
+                                <p:column>#{store.month2.fc}</p:column>
+                                <p:column>#{store.month3.fc}</p:column>
+                                <p:column>#{store.month4.fc}</p:column>
+                                <p:column>#{store.month5.fc}</p:column>
+                                <p:column>#{store.month6.fc}</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>Purchased</p:column>
+                                <p:column>#{store.month1.pp}</p:column>
+                                <p:column>#{store.month2.pp}</p:column>
+                                <p:column>#{store.month3.pp}</p:column>
+                                <p:column>#{store.month4.pp}</p:column>
+                                <p:column>#{store.month5.pp}</p:column>
+                                <p:column><p:inputText id="input" required="true" requiredMessage="All values must be entered" value="#{store.month6.pp}" />
+
+                                </p:column>
+
+                            </p:row>
+
+                        </p:panelGrid>
+                    </ui:repeat>
+
+                    <p:panelGrid columns="2" style="margin-bottom:10px">
+                        <p:outputLabel value="Forecast Method:" />
+                        <p:selectOneRadio value="#{mat.forecastType}">
+                            <p:ajax process="@this" event="valueChange" listener="#{salesHistoryBeanKitchen.onValueChange(varStatus.index)}" update=":form"/>
+                            <f:selectItem itemLabel="Holt's Method" itemValue="1"/>
+                            <f:selectItem itemLabel="Winter's Method" itemValue="2"/>
+                        </p:selectOneRadio>
+                    </p:panelGrid>
+                    <br/>
+                    <br/>
+
+                </ui:repeat>
+                <p:messages />
+                <p:commandButton update="panel" value="Confirm" actionListener="#{salesHistoryBeanKitchen.validateInput}" rendered="#{!salesHistoryBeanKitchen.checkDone()}" ajax="true"/>
+                <h:outputText value="Planning done" rendered="#{salesHistoryBeanKitchen.checkDone()}"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

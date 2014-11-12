@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <h1>Add New Material</h1>
+            <p:menubar>
+                <p:menuitem value="View All Material" url="viewAllMaterials.xhtml"/>
+                <p:menuitem value="Add New Material" url="addNewMaterial.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New Material">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="name" style="font-weight: bold" value="Material Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea rows="1" cols="23" required="true" label="Material Name"
+                                             requiredMessage="Material Name is required." id="name"
+                                             value="#{materialManagerBean.name}">
+                            </p:inputTextarea>
+                        </p:column>
+                        <p:column>
+                            <p:message for="name" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="shortDesc" style="font-weight: bold" value="Short Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea rows="3" cols="23" label="Short Description" id="shortDesc"
+                                             value="#{materialManagerBean.shortDesc}"> 
+                            </p:inputTextarea>
+                        </p:column>
+                        <p:column>
+                            <p:message for="shortDesc" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="longDesc" style="font-weight: bold" value="Long Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea rows="6" cols="23" label="Long Description" id="longDesc"
+                                             value="#{materialManagerBean.longDesc}"> 
+                            </p:inputTextarea>
+                        </p:column>
+                        <p:column>
+                            <p:message for="longDesc" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="length" style="font-weight:bold" value="Length: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Length"
+                                         requiredMessage="Length is required." id="length"
+                                         value="#{materialManagerBean.length}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="length" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="breadth" style="font-weight:bold" value="Breadth: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Breadth"
+                                         requiredMessage="Breadth is required." id="breadth"
+                                         value="#{materialManagerBean.breadth}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="breadth" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="height" style="font-weight:bold" value="Height: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Height"
+                                         requiredMessage="Height is required." id="height"
+                                         value="#{materialManagerBean.height}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="height" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="weight" style="font-weight:bold" value="Weight: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Weight"
+                                         requiredMessage="Weight is required." id="weight"
+                                         value="#{materialManagerBean.weight}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="weight" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="genCategory" style="font-weight: bold" value="General Category: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu label="genCategory" requiredMessage="General Category is required." required="true" id="genCategory" value="#{materialManagerBean.genCategory}" style="width:100%" >
+
+                                <f:selectItems value="#{materialManagerBean.genCategories}" var="genCategories" itemLabel="#{genCategories}" itemValue="#{genCategories}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:message for="genCategory" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="matCategory" style="font-weight:bold" value="Material Category: " />
+                        </p:column>
+                        <p:column>
+
+                            <p:selectOneMenu label="matCategory" requiredMessage="Material Category is required." required="true" id="matCategory" value="#{materialManagerBean.matCategory}" style="width:100%" >
+
+                                <f:selectItems value="#{materialManagerBean.matCategories}" var="matCategories" itemLabel="#{matCategories}" itemValue="#{matCategories}" />
+                            </p:selectOneMenu>
+
+                        </p:column>
+                        <p:column>
+                            <p:message for="matCategory" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="itemPerBox" style="font-weight:bold" value="Qty Per Box: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="MatPerBox"
+                                         requiredMessage="Qty Per Box is required." id="itemPerBox"
+                                         value="#{materialManagerBean.itemPerBox}">
+                                <f:validator validatorId ="posIntValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="itemPerBox" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New Material" update="panel" actionListener="#{materialManagerBean.saveNewMaterial}" ajax="true"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

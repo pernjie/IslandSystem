@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Ingredients</h1>
+            <p:menubar>
+                <p:menuitem value="View All Ingredients" url="ghq_view_all_ingredients.xhtml"/>
+                <p:menuitem value="Add New Ingredient" url="ghq_add_new_ingredient.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Ingredients">
+                <p:contextMenu for="ingredientTable">
+                    <p:menuitem value="Delete" update="ingredientTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{ingredientManagerBean.deleteIngredient}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+
+
+
+
+                <p:dataTable widgetVar = "ingredientTable" editable = "true" id = "ingredientTable" var="ingredient" value="#{ingredientManagerBean.ingredients}"
+                             paginator="true" rows="10" emptyMessage="No ingredients found with given criteria" rowKey="#{ingredient.id}"
+                             selection="#{ingredientManagerBean.selectedIngredient}" selectionMode="single" filteredValue="#{ingredientManagerBean.filteredIngredients}" >
+
+
+
+
+
+                    <p:ajax event="rowEdit" listener="#{ingredientManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{ingredientManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column width="80" headerText="ID" sortBy="#{ingredient.id}" filterBy="#{ingredient.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{ingredient.id}" /> 
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Name"
+                              sortBy="#{ingredient.name}" filterBy="#{ingredient.name}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{ingredient.name}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Name is required." label="name" value="#{ingredient.name}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="Description"
+                              sortBy="#{ingredient.shortDesc}" filterBy="#{ingredient.shortDesc}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{ingredient.shortDesc}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="Description" value="#{ingredient.shortDesc}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Shelf Life In Days"
+                              sortBy="#{ingredient.shelfLifeInDays}" filterBy="#{ingredient.shelfLifeInDays}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{ingredient.shelfLifeInDays}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Shelf Life In Days" requiredMessage="Shelf Life In Days is required." value="#{ingredient.shelfLifeInDays}" style="width:100%">
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

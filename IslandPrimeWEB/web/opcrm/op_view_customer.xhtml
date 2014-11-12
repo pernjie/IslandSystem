@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Op_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View Customer Records</h1>
+            <br/>
+            
+            <p:dataTable id="customersTable" resizableColumns="true" var="cust" value="#{customerManagerBean.customers}" editable="true" style="margin-bottom:20px">
+                <f:facet name="header">
+                    All Customers
+                </f:facet>
+
+                <p:ajax event="rowEdit" listener="#{customerManagerBean.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{customerManagerBean.onRowCancel}" update=":form:msgs" />
+
+                <p:column headerText="Name">
+                    <h:outputText value="#{cust.name}" />
+                </p:column>
+                
+                <p:column headerText="Email">
+                    <h:outputText value="#{cust.email}" />
+                </p:column>
+
+                <p:column headerText="Country">
+                    <h:outputText value="#{cust.country.name}" />
+                </p:column>
+
+                <p:column headerText="Mobile">
+                    <h:outputText value="#{cust.mobile}" />
+                </p:column>
+                
+                <p:column headerText="Redeemed">
+                    <h:outputText value="#{cust.redeemedCake}" />
+                </p:column>
+                
+                <p:column headerText="Loyalty Points">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{cust.points}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{cust.points}" style="width:100%" label="Year"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

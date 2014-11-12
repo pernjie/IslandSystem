@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <h1>Add New Region Kitchen Item Price</h1>
+            <p:menubar>
+                <p:menuitem value="View All Region Kitchen Item Prices" url="ghq_view_all_region_kitchen_item_prices.xhtml"/>
+                <p:menuitem value="Add New Region Kitchen Item Price" url="ghq_add_new_region_kitchen_item_price.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New Region Kitchen Item Prices">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row>
+
+                        <p:column>
+                            <p:outputLabel for="region" style="font-weight: bold" value="Region: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="region" requiredMessage="Region is required." required="true"  label="region"
+                                             value="#{regionKitchenItemPriceManagerBean.region}" style="width:100%" converter="regionConverter">
+
+                                <f:selectItems value="#{regionKitchenItemPriceManagerBean.regions}" var="region" itemLabel="#{region.name}" itemValue="#{region}" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="region" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="kitchenItem" style="font-weight: bold" value="Kitchen Item: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="kitchenItem" requiredMessage="Kitchen Item is required." required="true"  label="kitchenItem"
+                                             value="#{regionKitchenItemPriceManagerBean.kitchenItem}" style="width:100%" converter="kitchenItemConverter">
+
+                                <f:selectItems value="#{regionKitchenItemPriceManagerBean.kitchenItems}" var="kitchenItem" itemLabel="#{kitchenItem.name}" itemValue="#{kitchenItem}" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="kitchenItem" />
+                        </p:column>
+                    </p:row>
+
+          
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="price" style="font-weight:bold" value="Price: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Price"
+                                         requiredMessage="Price is required." id="price"
+                                         value="#{regionKitchenItemPriceManagerBean.price}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="price" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New Region Kitchen Item Price" update="panel" actionListener="#{regionKitchenItemPriceManagerBean.saveNewRegionKitchenItemPrice}" ajax="true"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

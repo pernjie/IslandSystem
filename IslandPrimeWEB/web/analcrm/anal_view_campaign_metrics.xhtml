@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Anal_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View Campaign Metrics</h1>
+            <br/>
+            <b:panel id="panel">
+                <f:facet name="heading"><h3><b>View Campaign Metrics</b></h3></f:facet>
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:outputLabel for="campaign" value="Campaign: " />
+                <p:selectOneMenu id="campaign" var="c" value="#{analDisplayCampaignMetricsBean.selectedCampaign}" style="width:200px;" converter="campaignConverter">
+                    <p:ajax listener="#{analDisplayCampaignMetricsBean.onCampaignChange}" update=":form" />
+                    <f:selectItem itemLabel="Select Campaign" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems  value="#{analDisplayCampaignMetricsBean.campaigns}" var="camp" itemLabel="#{camp.name}" itemValue="#{camp}" />
+                    <p:column>
+                        <h:outputText value="#{c.name}" />
+                    </p:column>
+                </p:selectOneMenu>
+
+                <h:panelGrid id ="panelG" rendered="#{analDisplayCampaignMetricsBean.campaignSelected}" columns="3" columnClasses="left,right" style="width:100%">
+                    <p:chart type="pie" model="#{analDisplayCampaignMetricsBean.numCustPie}" style="width:400px;height:300px" />
+                    <p:chart type="pie" model="#{analDisplayCampaignMetricsBean.numPromoCodePie}" style="width:400px;height:300px" />
+                    <p:chart type="pie" model="#{analDisplayCampaignMetricsBean.numHitPie}" style="width:400px;height:300px" />
+                </h:panelGrid>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

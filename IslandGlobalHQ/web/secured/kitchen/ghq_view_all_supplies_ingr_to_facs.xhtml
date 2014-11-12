@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All SIF Records</h1>
+            <p:menubar>
+                <p:menuitem value="View All SIF Records" url="ghq_view_all_supplies_ingr_to_facs.xhtml"/>
+                <p:menuitem value="Add New SIF Record" url="ghq_add_new_supplies_ingr_to_fac.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All SIF Records">
+                <p:contextMenu for="suppliesIngrToFacTable">
+                    <p:menuitem value="Delete" update="suppliesIngrToFacTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{suppliesIngrToFacManagerBean.deleteSuppliesIngrToFac}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "suppliesIngrToFacTable" editable = "true" id = "suppliesIngrToFacTable" var="suppliesIngrToFac" value="#{suppliesIngrToFacManagerBean.suppliesIngrToFacs}"
+                             paginator="true" rows="10" emptyMessage="No Ingredient Price found with given criteria" rowKey="#{suppliesIngrToFac.id}"
+                             selection="#{suppliesIngrToFacManagerBean.selectedSuppliesIngrToFac}" selectionMode="single" filteredValue="#{suppliesIngrToFacManagerBean.filteredSuppliesIngrToFacs}" >
+
+
+                    <p:ajax event="rowEdit" listener="#{suppliesIngrToFacManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{suppliesIngrToFacManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+                    <p:column width="80" headerText="ID" sortBy="#{suppliesIngrToFac.id}" filterBy="#{suppliesIngrToFac.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{suppliesIngrToFac.id}" /> 
+                    </p:column>
+
+                    <p:column headerText="Supplier" sortBy="#{suppliesIngrToFac.sup.id}" filterBy="#{suppliesIngrToFac.sup.id} #{suppliesIngrToFac.sup.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="supOutput" value="#{suppliesIngrToFac.sup.id}" /><h:outputText value=" | "/><h:outputText value="#{suppliesIngrToFac.sup.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="s" value="#{suppliesIngrToFac.sup}" style="width:100%" converter="supplierConverter">
+                                    <f:selectItems id="supInput" value="#{suppliesIngrToFacManagerBean.suppliers}" var="sup" itemLabel="#{sup.name}" itemValue="#{sup}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{s.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{s.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Ingredient" sortBy="#{suppliesIngrToFac.ingredient}" filterBy="#{suppliesIngrToFac.ingredient.id} #{suppliesIngrToFac.ingredient.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="ingredientOutput" value="#{suppliesIngrToFac.ingredient.id}" /> <h:outputText value=" | "/><h:outputText value="#{suppliesIngrToFac.ingredient.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="p" value="#{suppliesIngrToFac.ingredient}" style="width:100%" converter="ingredientConverter">
+                                    <f:selectItems id="ingredientInput" value="#{suppliesIngrToFacManagerBean.ingredients}" var="ingredient" itemLabel="#{ingredient.name}" itemValue="#{ingredient}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{p.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{p.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Facility" sortBy="#{suppliesIngrToFac.fac.id}" filterBy="#{suppliesIngrToFac.fac.id} #{suppliesIngrToFac.fac.name}" filterMatchMode="contains" >
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="facilityOutput" value="#{suppliesIngrToFac.fac.id}" /><h:outputText value=" | "/><h:outputText value="#{suppliesIngrToFac.fac.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="f" value="#{suppliesIngrToFac.fac}" style="width:100%" converter="facilityConverter">
+                                    <f:selectItems id="facilityInput" value="#{suppliesIngrToFacManagerBean.facilities}" var="facility" itemLabel="#{facility.name}" itemDescription="#{facility.name}" itemValue="#{facility}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{f.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{f.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Lot Size"
+                              sortBy="#{suppliesIngrToFac.lotSize}" filterBy="#{suppliesIngrToFac.lotSize}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{suppliesIngrToFac.lotSize}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Lot Size" requiredMessage="Lot Size is required." 
+                                                                  value="#{suppliesIngrToFac.lotSize}" style="width:100%" >
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Lot Weight"
+                              sortBy="#{suppliesIngrToFac.lotWeight}" filterBy="#{suppliesIngrToFac.lotWeight}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{suppliesIngrToFac.lotWeight}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Lot Weight" requiredMessage="Lot Weight is required." value="#{suppliesIngrToFac.unitPrice}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Unit Price"
+                              sortBy="#{suppliesIngrToFac.unitPrice}" filterBy="#{suppliesIngrToFac.unitPrice}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{suppliesIngrToFac.unitPrice}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Unit Price" requiredMessage="Unit Price is required." value="#{suppliesIngrToFac.unitPrice}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Lead Time"
+                              sortBy="#{suppliesIngrToFac.leadTime}" filterBy="#{suppliesIngrToFac.leadTime}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{suppliesIngrToFac.leadTime}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Lead Time" requiredMessage="Lead Time is required." value="#{suppliesIngrToFac.leadTime}" style="width:100%">
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+                <h:commandButton id="button2" value="GENERATE" action="#{suppliesIngrToFacManagerBean.doGenerate}"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

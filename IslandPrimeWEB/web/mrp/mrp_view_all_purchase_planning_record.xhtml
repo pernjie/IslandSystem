@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/MRP_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+       <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel>
+                <f:facet name="heading"><h3><b>View Purchase Planning Records</b></h3></f:facet>
+                <p:dataTable widgetVar = "purchasePlanningRecordTable" id = "purchasePlanningRecordTable" var="purchasePlanningRecord" value="#{purchasePlanningRecordManagerBean.purchasePlanningRecords}"
+                             paginator="true" rows="10" emptyMessage="No Purchase Planning Record found with given criteria" rowKey="#{purchasePlanningRecord.id}"
+                             selection="#{purchasePlanningRecordManagerBean.selectedPurchasePlanningRecord}" selectionMode="single" filteredValue="#{purchasePlanningRecordManagerBean.filteredPurchasePlanningRecords}" >
+
+
+                    <p:column headerText="ID" sortBy="#{purchasePlanningRecord.id}" filterBy="#{purchasePlanningRecord.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{purchasePlanningRecord.id}" /> 
+                    </p:column>
+
+                    <p:column headerText="Store" sortBy="#{purchasePlanningRecord.store.id}" filterBy="#{purchasePlanningRecord.store.id} #{purchasePlanningRecord.store.name}" filterMatchMode="contains" >
+                        <h:outputText value= "#{purchasePlanningRecord.store.id}" /><h:outputText value=" | "/><h:outputText value="#{purchasePlanningRecord.store.name}" />
+                    </p:column>
+
+                    <p:column headerText="Product" sortBy="#{purchasePlanningRecord.prod.id}" filterBy="#{purchasePlanningRecord.prod.id} #{purchasePlanningRecord.prod.name}" filterMatchMode="contains" >
+                        <h:outputText value=" | "/><h:outputText value="#{purchasePlanningRecord.prod.name}" />
+                    </p:column>
+
+                    <p:column headerText="Year"
+                              sortBy="#{purchasePlanningRecord.year}" filterBy="#{purchasePlanningRecord.year}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{purchasePlanningRecord.year}" /> 
+                    </p:column>
+                    
+                    <p:column headerText="Period"
+                              sortBy="#{purchasePlanningRecord.period}" filterBy="#{purchasePlanningRecord.period}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{purchasePlanningRecord.period}" /> 
+                    </p:column>
+                    
+                    <p:column headerText="Week 1"
+                              sortBy="#{purchasePlanningRecord.quantityW1}" filterBy="#{purchasePlanningRecord.quantityW1}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{purchasePlanningRecord.quantityW1}" /> 
+                    </p:column>                    
+                    <p:column headerText="Week 2"
+                              sortBy="#{purchasePlanningRecord.quantityW2}" filterBy="#{purchasePlanningRecord.quantityW2}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{purchasePlanningRecord.quantityW2}" /> 
+                    </p:column>
+                    <p:column headerText="Week 3"
+                              sortBy="#{purchasePlanningRecord.quantityW3}" filterBy="#{purchasePlanningRecord.quantityW3}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{purchasePlanningRecord.quantityW3}" /> 
+                    </p:column>
+                    <p:column headerText="Week 4"
+                              sortBy="#{purchasePlanningRecord.quantityW4}" filterBy="#{purchasePlanningRecord.quantityW4}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{purchasePlanningRecord.quantityW4}" /> 
+                    </p:column>
+
+                </p:dataTable>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

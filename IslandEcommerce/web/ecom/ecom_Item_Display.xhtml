@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Default_Template.xhtml"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <h:form id="form2">
+                        <p:row>
+                            <p:autoComplete id="selecteditem" forceSelection="false" value="#{displayPageBean.selectedItemName}" 
+                                            completeMethod="#{displayPageBean.completeText}" var="selectedItemName" itemLabel="#{selectedItemName}" itemValue="#{selectedItemName}"
+                                            style="width:100%"> 
+                                <p:ajax event="itemSelect" process="@this"  listener="#{displayPageBean.handleSelect}" />
+                            </p:autoComplete>
+                            <style>
+                            .blueButton .ui-button-text {
+                               font-size:15px;
+                               color: #043852;
+                               background-color: #9DD7F5;
+                            }    
+                            </style>
+                            <p:commandButton value="Search" actionListener="#{displayPageBean.search}" ajax="false" styleClass="blueButton"/>
+                        </p:row>
+                    </h:form>
+                    <br/>
+                    
+                    <img src="../resources/images/furn/#{itemDetailsBean.selectedItemId}.gif" height="171" width="200" />
+                    <br/>
+                    <h:outputText value="#{itemDetailsBean.selectedItemRes.name}" />
+                    <br/>
+                    <h:outputText value="#{itemDetailsBean.calcItemPrice()}" />
+                    <br/>
+                    <h:outputText value="#{itemDetailsBean.selectedItemRes.longDesc}" />
+                    <br/>
+                    <h:outputText value="#{itemDetailsBean.selectedItemRes.shortDesc}" />
+                    <br/>
+
+                    <p:panel id="buttonpanel">
+                        <style>
+                        .blueButton .ui-button-text {
+                           font-size:15px;
+                           color: #043852;
+                           background-color: #9DD7F5;
+                        }    
+                        </style>
+                    <p:commandButton immediate="true" process="@this" value="Add" actionListener="#{itemDetailsBean.addCart}" ajax="true" rendered="#{!itemDetailsBean.added}" update=":form:buttonpanel" styleClass="blueButton"/>
+                    <p:commandButton immediate="true" process="@this" value="View List" action="ecom_view_cart.xhtml" ajax="true" rendered="#{itemDetailsBean.added}" styleClass="blueButton"/>
+                    <p:commandButton immediate="true" process="@this" value="Back" action="ecom_Display_Page.xhtml" ajax="true" rendered="#{itemDetailsBean.added}" styleClass="blueButton"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+</ui:composition>

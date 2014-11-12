@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <h1>Add New Product</h1>
+            <p:menubar>
+                <p:menuitem value="View All Product" url="viewAllProducts.xhtml"/>
+                <p:menuitem value="Add New Product" url="addNewProduct.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New Product">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="name" style="font-weight: bold" value="Product Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Product Name"
+                                         requiredMessage="Product Name is required." id="name"
+                                         value="#{productManagerBean.name}">
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="name" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="shortDesc" style="font-weight: bold" value="Short Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea rows="3" cols="23" label="shortDesc" id="shortDesc"
+                                             value="#{productManagerBean.shortDesc}"> 
+                            </p:inputTextarea>
+                        </p:column>
+                        <p:column>
+                            <p:message for="shortDesc" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="longDesc" style="font-weight: bold" value="Long Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea rows="3" cols="23" label="longDesc" id="longDesc"
+                                             value="#{productManagerBean.longDesc}"> 
+                            </p:inputTextarea>
+                        </p:column>
+                        <p:column>
+                            <p:message for="longDesc" />
+                        </p:column>
+                    </p:row>
+
+
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="shelfLife" style="font-weight:bold" value="Shelf Life: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Shelf Life" requiredMessage="Description is required." id="shelfLife"
+                                         value="#{productManagerBean.shelfLife}"> 
+
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="shelfLife" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="halal" style="font-weight:bold" value="Halal: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu label="halal" requiredMessage="Halal is required." required="true" id="halal" value="#{productManagerBean.halal}" style="width:100%" >
+
+                                <f:selectItem itemLabel="Yes" itemValue="true" />
+                                <f:selectItem itemLabel="No" itemValue="false" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:message for="halal" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="category" style="font-weight:bold" value="Category: " />
+                        </p:column>
+                        <p:column>
+
+                            <p:selectOneMenu label="category" requiredMessage="Category is required." required="true" id="category" value="#{productManagerBean.category}" style="width:100%" >
+
+                                <f:selectItems value="#{productManagerBean.categories}" var="categories" itemLabel="#{categories}" itemValue="#{categories}" />
+                            </p:selectOneMenu>
+
+                        </p:column>
+                        <p:column>
+                            <p:message for="category" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="itemPerBox" style="font-weight:bold" value="Qty Per Box: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="ItemPerBox"
+                                         requiredMessage="Qty Per Box is required." id="itemPerBox"
+                                         value="#{productManagerBean.itemPerBox}">
+                                <f:validator validatorId ="posIntValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="itemPerBox" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New Product" update="panel" actionListener="#{productManagerBean.saveNewProduct}" ajax="true"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

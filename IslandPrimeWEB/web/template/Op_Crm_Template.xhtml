@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>Island Furniture Management System</title>
+        <meta name="author" content="The Author"></meta>
+    </h:head>
+    
+<h:body style="padding: 0px 25px;">
+        <b:navBar brand="Island FMS" brandHref="../common/CI_Index_Page.xhtml" inverse="true">
+            <b:navbarLinks> 
+                 <b:navLink href="../mrp/mrp_home.xhtml" value="MRP" rendered="#{roleFunctionsBean.checkMRP}"></b:navLink>
+                 <b:navLink href="../scm/scm_home.xhtml" value="SCM" rendered="#{roleFunctionsBean.checkSCM}"></b:navLink>
+                 <b:navLink value="User Accounts" rendered="#{roleFunctionsBean.checkSA}" href="../common/CI_System_Admin_Home.xhtml"></b:navLink>
+                 <b:navLink value="Inventory" href="../inventory/Inventory_Home.xhtml" rendered="#{roleFunctionsBean.checkInventory}"></b:navLink>
+                 <b:navLink value="Op CRM" href="../opcrm/Op_Home.xhtml" rendered="#{roleFunctionsBean.checkOPCRM}"></b:navLink>
+                 <b:navLink value="Anal CRM" href="../anal/anal_home.xhtml" rendered="#{roleFunctionsBean.checkAnal}"></b:navLink>
+                 <b:navLink value="Kitchen" href="../kitchen/Kitchen_Home.xhtml" rendered="#{roleFunctionsBean.checkKitchen}"></b:navLink>
+            </b:navbarLinks>             
+            <b:navbarLinks pull="right">
+                <h:form styleClass="navbar-form navbar-right">
+                    <b:commandButton action="#{indexManagedBean.logout}" value="Logout" look="success"/>
+                </h:form>
+            </b:navbarLinks>
+            <b:navbarLinks pull="right">
+                <b:dropMenu value="Welcome, #{indexManagedBean.loggedInName} ( #{indexManagedBean.facilityName}, #{indexManagedBean.loggedInRole})  ">
+                        <b><b:navLink header="Other Roles"></b:navLink></b>
+                        <b:navLink header="#{indexManagedBean.role2}"></b:navLink>
+                        <b:navLink header="#{indexManagedBean.role3}"></b:navLink>
+                        <b:navLink></b:navLink>
+                        <b:navLink header="Profile"></b:navLink>
+                        <b:navLink value="View Your Profile" href="../common/CI_View_Profile.xhtml"></b:navLink>
+                        <b:navLink value="View Your System Log" href="../common/CI_View_User_Log.xhtml"></b:navLink>
+                        <b:navLink value="View Messages" href="../chat/view_messages.xhtml"></b:navLink>  
+                        <b:navLink></b:navLink>
+                        <b:navLink header="Chat"></b:navLink>
+                        <b:navLink value="Chat" href="../chat/login.xhtml"></b:navLink>  
+                </b:dropMenu>                
+            </b:navbarLinks> 
+
+        </b:navBar>
+        
+        <b:column span="2">
+            <b:panel look="primary">
+                <f:facet name="heading">#{indexManagedBean.loggedInName}, You are currently at <b>Op CRM Home</b>. </f:facet>
+                <!-- how to display links according to roles? -->
+                <b:listLinks>
+                    <b:navLink header="Service Records" rendered="#{roleFunctionsBean.checkServiceRec}"/>
+                    <b:navLink href="../opcrm/op_view_store_service_records.xhtml" value="View Store Service Records" rendered="#{roleFunctionsBean.checkViewServiceRec}"></b:navLink>
+                    <b:navLink href="../opcrm/op_add_new_store_service_record.xhtml" value="Add New Store Service Record" rendered="#{roleFunctionsBean.checkAddServiceRec}"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Production Orders" rendered="#{roleFunctionsBean.checkPdtnOrders}"/>
+                    <b:navLink href="../opcrm/op_view_production_orders.xhtml" value="View Production Orders" rendered="#{roleFunctionsBean.checkViewPdtnOrders}"></b:navLink>
+                    <b:navLink href="../opcrm/op_add_new_production_order.xhtml" value="Add New Production Order" rendered="#{roleFunctionsBean.checkAddPdtnOrders}"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Region Transaction Records" rendered="#{roleFunctionsBean.checkRegionTransacRec}"/>
+                    <b:navLink href="../opcrm/op_view_region_transaction_records.xhtml" value="View Region Transaction Records" rendered="#{roleFunctionsBean.checkViewRegionTransacRec}"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Campaigns" rendered="#{roleFunctionsBean.checkCampaigns}"/>
+                    <b:navLink href="../opcrm/op_view_campaigns.xhtml" value="View Campaigns" rendered="#{roleFunctionsBean.checkViewCampaigns}"></b:navLink>
+                    <b:navLink href="../opcrm/op_create_campaign.xhtml" value="Add New Campaign" rendered="#{roleFunctionsBean.checkAddCampaigns}"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink header="Customers" rendered="#{roleFunctionsBean.checkCustomers}"/>
+                    <b:navLink href="../opcrm/op_view_customer.xhtml" value="View Customers" rendered="#{roleFunctionsBean.checkViewCustomers}"></b:navLink>
+                    <b:navLink href="../opcrm/op_create_marketing_mail.xhtml" value="Send Marketing Email" rendered="#{roleFunctionsBean.checkSendMktEmail}"></b:navLink>
+                </b:listLinks>
+            </b:panel>
+        </b:column> 
+       
+    <b:column span="8" >
+    <b:container>
+        
+        <ui:insert name="content">
+            
+        </ui:insert>
+        
+    </b:container>
+            </b:column>
+        
+
+    </h:body>
+</html>

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/SCM_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form>
+            <br/>
+            <b:panel id="panel">
+                 <f:facet name="heading"><h3><b>View Delivery Schedule</b></h3></f:facet>
+            <p:dataTable id="table1" var="d" value="#{deliveryScheduleBean.delivs}" style="margin-bottom:40px">
+                <f:facet name="header">
+                    Delivery Schedule for Furniture
+                </f:facet>
+                <p:column headerText="Item Id" sortBy="#{d.matid}">
+                    <h:outputText value="#{d.matid}" />
+                </p:column>
+
+                <p:column headerText="Deliver to Store" sortBy="#{d.storeid}">
+                    <h:outputText value="#{d.storeid}" />
+                </p:column>
+                
+                <p:column headerText="Year" sortBy="#{d.year}">
+                    <h:outputText value="#{d.year}" />
+                </p:column>
+                
+                <p:column headerText="Period" sortBy="#{d.period}">
+                    <h:outputText value="#{d.period}" />
+                </p:column>
+                
+                <p:column headerText="Week" sortBy="#{d.week}">
+                    <h:outputText value="#{d.week}" />
+                </p:column>
+                
+                <p:column headerText="Quantity">
+                    <h:outputText value="#{d.quantity}" />
+                </p:column>
+
+            </p:dataTable>
+            
+            <p:dataTable id="table2" var="d" value="#{deliveryScheduleBean.delivs2}" style="margin-bottom:40px">
+                <f:facet name="header">
+                    Delivery Schedule for Retail Products
+                </f:facet>
+                <p:column headerText="Item Id" sortBy="#{d.matid}">
+                    <h:outputText value="#{d.matid}" />
+                </p:column>
+
+                <p:column headerText="Deliver to Store" sortBy="#{d.storeid}">
+                    <h:outputText value="#{d.storeid}" />
+                </p:column>
+                
+                <p:column headerText="Year" sortBy="#{d.year}">
+                    <h:outputText value="#{d.year}" />
+                </p:column>
+                
+                <p:column headerText="Period" sortBy="#{d.period}">
+                    <h:outputText value="#{d.period}" />
+                </p:column>
+                
+                <p:column headerText="Week" sortBy="#{d.week}">
+                    <h:outputText value="#{d.week}" />
+                </p:column>
+                
+                <p:column headerText="Quantity">
+                    <h:outputText value="#{d.quantity}" />
+                </p:column>
+
+            </p:dataTable> 
+            
+            <br>
+                <h:commandButton value="Back" action="scm_home" />
+            </br>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

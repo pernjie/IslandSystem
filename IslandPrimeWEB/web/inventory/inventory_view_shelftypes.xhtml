@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Inventory_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="content">
+		<h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel>
+            <f:facet name="heading"><h3><b>View All Shelf Type Records</b></h3></f:facet>
+                <p:contextMenu for="shelfTypeTable">
+                    <p:menuitem value="Delete" update="shelfTypeTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{shelfTypeManagerBean.deleteShelfType}"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "shelfTypeTable" editable = "true" id = "shelfTypeTable" var="shelfType" value="#{shelfTypeManagerBean.shelfTypes}"
+                             paginator="true" rows="10" emptyMessage="No Shelf Type Record found with given criteria" rowKey="#{shelfType.id}"
+                             selection="#{shelfTypeManagerBean.selectedShelfType}" selectionMode="single" filteredValue="#{shelfTypeManagerBean.filteredShelfTypes}" >
+
+
+                    <p:column headerText="Shelf Type ID" sortBy="#{shelfType.id}" filterBy="#{shelfType.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{shelfType.id}" /> 
+
+                    </p:column>
+
+                    
+                    <p:column headerText="Name"
+                              sortBy="#{shelfType.name}" filterBy="#{shelfType.name}" filterMatchMode="startsWith" > 
+                             <h:outputText value="#{shelfType.name}" />
+                    </p:column>
+
+
+
+                    <p:column headerText="Weight Limit (in Kg)"
+                              sortBy="#{shelfType.weightLimit}" filterBy="#{shelfType.weightLimit}" filterMatchMode="startsWith" >
+                           <h:outputText value="#{shelfType.weightLimit}" /> 
+                    </p:column>
+                    
+                    <p:column headerText="Number of Slots"
+                              sortBy="#{shelfType.numSlot}" filterBy="#{shelfType.numSlot}" filterMatchMode="startsWith" >
+                             <h:outputText value="#{shelfType.numSlot}" /> 
+                    </p:column>
+                    
+                    <p:column headerText="Length (in m)"
+                              sortBy="#{shelfType.length}" filterBy="#{shelfType.length}" filterMatchMode="startsWith" >
+                            <h:outputText value="#{shelfType.length}" /> 
+                    </p:column>
+                    
+                        <p:column headerText="Breadth (in m)"
+                              sortBy="#{shelfType.breadth}" filterBy="#{shelfType.breadth}" filterMatchMode="startsWith" >
+                            <h:outputText value="#{shelfType.breadth}" /> 
+                    </p:column>
+                    
+                          <p:column headerText="Height (in m)"
+                              sortBy="#{shelfType.height}" filterBy="#{shelfType.height}" filterMatchMode="startsWith" >
+                         <h:outputText value="#{shelfType.height}" /> 
+                    </p:column>
+
+                    <p:column style="width:32px">
+                    </p:column>
+
+                </p:dataTable>
+            </b:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

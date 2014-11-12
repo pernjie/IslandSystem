@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Inventory_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel id="panel">
+                <f:facet name="heading"><h3><b>Replenish Inventory</b></h3></f:facet>
+                <p:contextMenu for="inventoryTable">
+                    <p:menuitem value="Delete" update="inventoryTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{replenishInventoryBean.deleteInvenFurn}"/>
+                </p:contextMenu>
+
+                    <f:facet name="output">  
+                        <h:outputText value="Select a Location" />  
+                    </f:facet>  
+
+                <p:selectOneRadio value="#{replenishInventoryBean.loc}" id="ordersRadio" layout="pageDirection">
+                    <p:ajax process="@this" event="change" listener="#{replenishInventoryBean.updateTable}" update=":formMain:inventoryTable"/>
+                    <f:selectItems value="#{replenishInventoryBean.location}" var="s" itemLabel="#{s} " itemValue="#{s}"/>
+                </p:selectOneRadio>
+                    <p:dataTable widgetVar = "inventoryTable" editable = "true" id = "inventoryTable" var="invenFurn" value="#{replenishInventoryBean.ilList}"
+                                 paginator="true" rows="10" emptyMessage="No Furniture Inventory Record found with given criteria" rowKey="#{invenFurn.item.id}"
+                             selection="#{replenishInventoryBean.selectedInvenFurn}" selectionMode="single"  filteredValue="#{replenishInventoryBean.filteredInvenFurn}" resizableColumns="true">
+
+
+                    <p:ajax event="rowEdit" listener="#{replenishInventoryBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{replenishInventoryBean.onRowCancel}" update=":formMain:msgs" />
+
+                    <p:column  headerText="Item ID" sortBy="#{invenFurn.item.id}" filterBy="#{invenFurn.item.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{invenFurn.item.id}" /> 
+                    </p:column>
+
+                    <p:column  headerText="Furniture" sortBy="#{invenFurn.item.id}" filterBy="#{invenFurn.item.id} #{invenFurn.item.name}" filterMatchMode="contains" >
+                        <h:outputText id="productOutput" value="#{invenFurn.item.id}" /><h:outputText value=" | "/><h:outputText value="#{invenFurn.item.name}" />
+                    </p:column>
+                    
+                    <p:column headerText="Location" sortBy="#{invenFurn.shelfSlot.shelf.location}" filterBy="#{invenFurn.shelfSlot.shelf.location}" filterMatchMode="contains" >
+                        <h:outputText id="locationOutput" value="#{invenFurn.shelfSlot.shelf.location}" />
+                    </p:column>
+                    
+                    <p:column headerText="Zone"
+                              sortBy="#{invenFurn.zone}" filterBy="#{invenFurn.zone}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{invenFurn.zone}" />    
+                    </p:column> 
+
+                    <p:column headerText="Shelf" sortBy="#{invenFurn.shelve.shelf}" filterBy="#{invenFurn.shelve.shelf}" filterMatchMode="contains" >
+                        <h:outputText id="shelfOutput" value="#{invenFurn.shelve.shelf}" />
+                    </p:column>
+
+                    <p:column headerText="Position" sortBy="#{invenFurn.shelfSlot.position}" filterBy="#{invenFurn.shelfSlot.position}" filterMatchMode="contains" >
+                        <h:outputText id="positionOutput" value="#{invenFurn.shelfSlot.position}" />
+                    </p:column>
+
+                    <p:column headerText="Quantity" >
+                        <p:cellEditor>
+                            <f:facet name = "output"><h:outputText id="quantityOutput" value="#{invenFurn.qty}" /></f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Quantity" requiredMessage="Quantity is required." value="#{invenFurn.qty}" style="width:100%">
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                </p:dataTable>
+                <p:commandButton value="Confirm" actionListener="#{replenishInventoryBean.updateInventory()}"/>  
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/MRP_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <f:facet name="heading"><h1>Planning for Year #{salesHistoryBean.WH.getYear(5)}: 
+                Period #{salesHistoryBean.WH.getPeriod(5)}</h1></f:facet>
+            <br/>
+            <p:panel id="panel">
+                <h4>Demand</h4>
+                <ui:repeat id="mats-repeat" value="#{demandRetailBean.weeklyDemand}" var="prod">
+
+                    <ui:repeat id="stores-repeat" value="#{prod.stores}" var="store">
+                        <p:panelGrid>
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column colspan="7">#{prod.mat.name}: #{store.store.name}</p:column>
+                                </p:row>
+                            </f:facet>
+
+                            <p:row>
+                                <p:column>Week 1</p:column>
+                                <p:column>Week 2</p:column>
+                                <p:column>Week 3</p:column>
+                                <p:column>Week 4</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column><p:inputText required="true" requiredMessage="All values must be entered, enter 0 for no purchase." value="#{store.week1}" /></p:column>
+                                <p:column><p:inputText required="true" requiredMessage="All values must be entered, enter 0 for no purchase." value="#{store.week2}" /></p:column>
+                                <p:column><p:inputText required="true" requiredMessage="All values must be entered, enter 0 for no purchase." value="#{store.week3}" /></p:column>
+                                <p:column><p:inputText required="true" requiredMessage="All values must be entered, enter 0 for no purchase." value="#{store.week4}" /></p:column>
+                            </p:row>
+
+                        </p:panelGrid>
+                        <p:outputPanel>
+                            Total Period Amount: #{store.total}
+                        </p:outputPanel>
+                    </ui:repeat>
+                    <br/><br/>
+                </ui:repeat>
+                <p:messages />
+                <p:commandButton update="panel" value="Confirm" actionListener="#{demandRetailBean.validateInput}" ajax="true"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

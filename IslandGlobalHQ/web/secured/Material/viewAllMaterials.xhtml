@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Materials</h1>
+            <p:menubar>
+                <p:menuitem value="View All Materials" url="viewAllMaterials.xhtml"/>
+                <p:menuitem value="Add New Material" url="addNewMaterial.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Materials">
+                <p:contextMenu for="materialTable">
+                    <p:menuitem value="Delete" update="materialTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{materialManagerBean.deleteMaterial}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false" >
+                    </p:menuitem>
+                </p:contextMenu>
+
+
+                <p:dataTable  widgetVar = "materialTable" editable = "true" id = "materialTable" var="material" value="#{materialManagerBean.materials}"
+                              paginator="true" rows="10" emptyMessage="No materials found with given criteria" rowKey="#{material.id}"
+                              selection="#{materialManagerBean.selectedMaterial}" selectionMode="single" filteredValue="#{materialManagerBean.filteredMaterials}" >
+
+
+
+
+
+                    <p:ajax event="rowEdit" listener="#{materialManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{materialManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column width="80" headerText="ID" sortBy="#{material.id}" filterBy="#{material.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{material.id}" /> 
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Name"
+                              sortBy="#{material.name}" filterBy="#{material.name}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{material.name}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Name is required." label="name" value="#{material.name}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="Short Description"
+                              sortBy="#{material.shortDesc}" width="130" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{material.shortDesc}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="ShortDesc" value="#{material.shortDesc}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Long Description"
+                              sortBy="#{material.longDesc}" width="200" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{material.longDesc}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="LongDesc" value="#{material.longDesc}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Length"
+                              sortBy="#{material.length}" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{material.length}cm" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Length" requiredMessage="Length is required." 
+                                                                  value="#{material.length}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Breadth"
+                              sortBy="#{material.breadth}"> 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{material.breadth}cm" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Breadth" requiredMessage="Breadth is required." 
+                                                                  value="#{material.breadth}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Height"
+                              sortBy="#{material.height}" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{material.height}cm" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Height" requiredMessage="Height is required." 
+                                                                  value="#{material.height}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Weight"
+                              sortBy="#{material.weight}" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{material.weight}kg" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Weight" requiredMessage="Weight is required." 
+                                                                  value="#{material.weight}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="General Category"
+                              sortBy="#{material.genCategory}" filterBy="#{material.genCategory}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{material.genCategory}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{material.genCategory}" style="width:100%">
+                                    <f:selectItems value="#{materialManagerBean.genCategories}" var="genCategories" itemLabel="#{genCategories}" itemValue="#{genCategories}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="Material Category"
+                              sortBy="#{material.matCategory}" filterBy="#{material.matCategory}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{material.matCategory}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{material.matCategory}" style="width:100%">
+                                    <f:selectItems value="#{materialManagerBean.matCategories}" var="matCategories" itemLabel="#{matCategories}" itemValue="#{matCategories}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Qty Per Box"
+                              sortBy="#{material.itemPerBox}" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{material.itemPerBox}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="MatPerBox" requiredMessage="Qty Per Box is required." 
+                                                                  value="#{material.itemPerBox}" style="width:100%" >
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

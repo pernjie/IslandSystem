@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Staff</h1>
+
+            <br/>
+
+            <p:panel header="View All Staffs">
+                <p:contextMenu for="staffTable">
+                    <p:menuitem value="Delete" update="staffTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{staffManagerBean.deleteStaff}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+
+
+
+
+                <p:dataTable widgetVar = "staffTable" editable = "true" id = "staffTable" var="staff" value="#{staffManagerBean.staffs}"
+                             paginator="true" rows="10" emptyMessage="No staffs found with given criteria" rowKey="#{staff.id}"
+                             selection="#{staffManagerBean.selectedStaff}" selectionMode="single" filteredValue="#{staffManagerBean.filteredStaffs}" >
+
+
+                    <p:ajax event="rowEdit" listener="#{staffManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{staffManagerBean.onRowCancel}" update=":formMain:msgs" />
+                    
+                    <p:column width="80" headerText="ID" sortBy="#{staff.id}" filterBy="#{staff.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{staff.id}" /> 
+
+                    </p:column>
+
+                    <p:column headerText="Email" width="20%" sortBy="#{staff.email}" filterBy="#{staff.email}" filterMatchMode="contains" >
+                        <h:outputText value="#{staff.email}" /> 
+                    </p:column>
+
+                    <p:column headerText="Name"
+                              sortBy="#{staff.name}" filterBy="#{staff.name}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{staff.name}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Name is required."  label="name" value="#{staff.name}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Contact"
+                              sortBy="#{staff.contact}" filterBy="#{staff.contact}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{staff.contact}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="contact" value="#{staff.contact}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Facility" sortBy="#{staff.fac.id}" filterBy="#{staff.fac.id} #{staff.fac.name}" filterMatchMode="contains" >
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="facilityOutput" value="#{staff.fac.id}" /><h:outputText value=" | "/><h:outputText value="#{staff.fac.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="f" value="#{staff.fac}" style="width:100%" converter="facilityConverter">
+                                    <f:selectItems id="facilityInput" value="#{staffManagerBean.facilities}" var="facility" itemLabel="#{facility.id}" itemDescription="#{facility.name}" itemValue="#{facility}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{f.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{f.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Role 1"
+                              sortBy="#{staff.role1}" filterBy="#{staff.role1}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{staff.role1}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{staff.role1}" style="width:100%">
+                                    <f:selectItems value="#{staffManagerBean.roles}" var="roles" itemLabel="#{roles}" itemValue="#{roles}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Role 2"
+                              sortBy="#{staff.role2}" filterBy="#{staff.role2}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{staff.role2}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{staff.role2}" style="width:100%">
+                                    <f:selectItems value="#{staffManagerBean.roles}" var="roles" itemLabel="#{roles}" itemValue="#{roles}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Role 3"
+                              sortBy="#{staff.role3}" filterBy="#{staff.role3}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{staff.role3}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{staff.role3}" style="width:100%">
+                                    <f:selectItems value="#{staffManagerBean.roles}" var="roles" itemLabel="#{roles}" itemValue="#{roles}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

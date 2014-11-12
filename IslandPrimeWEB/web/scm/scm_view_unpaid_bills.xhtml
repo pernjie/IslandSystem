@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/SCM_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form>
+            <p:dataTable var="unpaidbill" value="#{billManagementBean.unpaidBills}" style="margin-bottom:40px">
+                <f:facet name="header">
+                    Unpaid Bills
+                </f:facet>
+                <p:column headerText="Bill Id" sortBy="#{unpaidbill.id}">
+                    <h:outputText value="#{unpaidbill.id}" />
+                </p:column>
+
+                <p:column headerText="PO Id" sortBy="#{unpaidbill.po}">
+                    <h:outputText value="#{unpaidbill.po}" />
+                </p:column>
+                
+                <p:column headerText="Pay to Supplier Id" sortBy="#{unpaidbill.sup.id}">
+                    <h:outputText value="#{unpaidbill.sup.id}" />
+                </p:column>
+
+                <p:column headerText="Amount" sortBy="#{unpaidbill.amount}">
+                    <h:outputText value="#{unpaidbill.amount}" />
+                </p:column>
+                
+                <p:column headerText="Payment Deadline" sortBy="#{unpaidbill.paymentDate}">
+                    <h:outputText value="#{unpaidbill.paymentDate}" />
+                </p:column>
+                
+                <p:column headerText="Status" sortBy="#{unpaidbill.status}">
+                    <h:outputText value="#{unpaidbill.status}" />
+                </p:column>
+
+            </p:dataTable>          
+            
+            <br>
+                <p:commandButton value="Back" action="scm_home" />
+            </br>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

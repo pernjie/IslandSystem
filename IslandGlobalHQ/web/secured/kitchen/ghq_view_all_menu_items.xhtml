@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Menu Items</h1>
+            <p:menubar>
+                <p:menuitem value="View All MenuItems" url="ghq_view_all_menu_items.xhtml"/>
+                <p:menuitem value="Add New MenuItem" url="ghq_add_new_menu_item.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Menu Items">
+                <p:contextMenu for="menuItemTable">
+                    <p:menuitem value="Delete" update="menuItemTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{menuItemManagerBean.deleteMenuItem}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+
+
+
+
+                <p:dataTable widgetVar = "menuItemTable" editable = "true" id = "menuItemTable" var="menuItem" value="#{menuItemManagerBean.menuItems}"
+                             paginator="true" rows="10" emptyMessage="No menuItems found with given criteria" rowKey="#{menuItem.id}"
+                             selection="#{menuItemManagerBean.selectedMenuItem}" selectionMode="single" filteredValue="#{menuItemManagerBean.filteredMenuItems}" >
+
+
+
+
+
+                    <p:ajax event="rowEdit" listener="#{menuItemManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{menuItemManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column width="80" headerText="ID" sortBy="#{menuItem.id}" filterBy="#{menuItem.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{menuItem.id}" /> 
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Name"
+                              sortBy="#{menuItem.name}" filterBy="#{menuItem.name}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{menuItem.name}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Name is required." label="name" value="#{menuItem.name}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="Description"
+                              sortBy="#{menuItem.shortDesc}" filterBy="#{menuItem.shortDesc}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{menuItem.shortDesc}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="Description" value="#{menuItem.shortDesc}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Meal Course"
+                              sortBy="#{menuItem.mealCourse}" filterBy="#{menuItem.mealCourse}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{menuItem.mealCourse}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{menuItem.mealCourse}" style="width:100%">
+                                    <f:selectItems value="#{menuItemManagerBean.mealCourses}" var="mealCourses" itemLabel="#{mealCourses}" itemValue="#{mealCourses}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Recipe"
+                              sortBy="#{menuItem.recipe}" filterBy="#{menuItem.recipe}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{menuItem.recipe}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="Recipe" value="#{menuItem.recipe}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

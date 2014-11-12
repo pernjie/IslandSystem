@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Island Furniture Management System: Global HQ</title>
+        <meta name="author" content="The Author"></meta>
+
+    </h:head>
+
+    <h:body style="padding: 60px;" >
+
+        <b:navBar brand="Island Furniture Management System" brandHref="index.xhtml" fixed="top" inverse="true">
+            <b:navbarLinks>
+
+            </b:navbarLinks>
+            <b:navbarLinks pull="right">
+                <!-- insert welcome user here -->
+                <h:form styleClass="navbar-form navbar-right">
+                    <b:commandButton action="#{loginBean.doLogout()}" value="Logout" look="success"/>
+                </h:form>
+            </b:navbarLinks>
+        </b:navBar>
+
+        <b:column span="2">
+            <b:panel look="primary">
+                <f:facet name="heading">Sidebar</f:facet>
+                <b:listLinks>
+                    <b:navLink href="/secured/Facility/viewAllFacilities.xhtml" value="Facilities"></b:navLink>
+                    <b:navLink href="/secured/Material/viewAllMaterials.xhtml" value="Material"></b:navLink>
+                    <b:navLink href="/secured/Product/viewAllProducts.xhtml" value="Product"></b:navLink>
+                    <b:navLink href="/secured/kitchen/ghq_view_all_set_items.xhtml" value="Set Item"></b:navLink>
+                    <b:navLink href="/secured/kitchen/ghq_view_all_menu_items.xhtml" value="Menu Item"></b:navLink>
+                    <b:navLink href="/secured/kitchen/ghq_view_all_ingredients.xhtml" value="Ingredient"></b:navLink>
+                    <b:navLink href="/secured/component/ghq_view_all_components.xhtml" value="Component"></b:navLink>
+                    <b:navLink href="/secured/Service/viewAllServices.xhtml" value="Service"></b:navLink>
+                    <b:navLink href="/secured/Supplier/viewAllSuppliers.xhtml" value="Supplier"></b:navLink>
+                    <b:navLink href="/secured/Staff/viewAllStaffs.xhtml" value="Staff"></b:navLink>
+                    <b:navLink href="/secured/SMF/viewAllSMFRecords.xhtml" value="SMF Records"></b:navLink>
+                    <b:navLink href="/secured/SPF/viewAllSPFRecords.xhtml" value="SPF Records"></b:navLink>
+                    <b:navLink href="/secured/kitchen/ghq_view_all_supplies_ingr_to_facs.xhtml" value="SIF Records"></b:navLink>
+                    <b:navLink href="/secured/Distribution/viewAllDistributions.xhtml" value="Material Distribution"></b:navLink>
+                    <b:navLink href="/secured/DistributionProd/viewAllDistributions.xhtml" value="Product Distribution"></b:navLink>
+                    <b:navLink href="/secured/Price/Item/viewAllRegionItemPrices.xhtml" value="Region Item Price"></b:navLink>
+                    <b:navLink href="/secured/Price/Service/viewAllRegionServicePrices.xhtml" value="Region Service Price"></b:navLink>
+
+                </b:listLinks>
+            </b:panel>
+        </b:column> 
+
+        <b:column span="10">
+            <b:container>
+
+                <ui:insert name="content">
+
+                </ui:insert>
+
+            </b:container>
+        </b:column>
+
+
+    </h:body>
+</html>

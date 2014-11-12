@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/System_Admin_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="content">
+            <h:form id="form">
+                
+
+                <p:dataTable id="staff" var="staff" value="#{viewAllStaffManagedBean.staff}" rowKey="#{staff.email}" 
+                             selection="#{viewAllStaffManagedBean.selectedStaff}" selectionMode="single">
+                        <f:facet name="header">
+                                All Accounts
+                        </f:facet>
+                        <p:column headerText="Name">
+                                <h:outputText value="#{staff.name}" />
+                        </p:column>
+                        <p:column headerText="Email">
+                                <h:outputText value="#{staff.email}" />
+                        </p:column>
+                        <p:column headerText="Contact Number">
+                                <h:outputText value="#{staff.contact}" />
+                        </p:column>
+                        <p:column headerText="Role 1">
+                                <h:outputText value="#{staff.role1}" />
+                        </p:column>
+                        <p:column headerText="Role 2">
+                                <h:outputText value="#{staff.role2}" />
+                        </p:column>
+                        <p:column headerText="Role 3">
+                                <h:outputText value="#{staff.role3}" />
+                        </p:column>
+                </p:dataTable> 
+
+                <!--<p:dialog header="Staff Info" widgetVar="staffDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="staffDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" rendered="#{not empty viewAllStaffManagedBean.selectedStaff}" columnClasses="label,value">
+                                        <h:outputText value="Name:" />
+                                        <h:outputText value="#{viewAllStaffManagedBean.selectedStaff.name}" />
+
+                                        <h:outputText value="Email: " />
+                                        <h:outputText value="$#{viewAllStaffManagedBean.selectedStaff.email}" />
+
+                                        <h:outputText value="Contact No: " />   
+                                        <h:outputText value="$#{viewAllStaffManagedBean.selectedStaff.contact}" />
+
+                                        <h:outputText value="Roles: " />
+                                        <h:outputText value="$#{viewAllStaffManagedBean.selectedStaff.roles}" />
+                                </p:panelGrid>
+                        </p:outputPanel>
+                </p:dialog>!-->
+            </h:form>
+	</ui:define>
+
+</ui:composition>

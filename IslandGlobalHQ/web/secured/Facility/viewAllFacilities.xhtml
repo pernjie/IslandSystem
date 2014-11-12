@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Facilities</h1>
+            <p:menubar>
+                <p:menuitem value="View All Facility" url="viewAllFacilities.xhtml"/>
+                <p:menuitem value="Add New Facility" url="addNewFacility.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Facility">
+                <p:contextMenu for="facilityTable">
+                    <p:menuitem icon="ui-icon-close" update="facilityTable, :formMain:msgs"  actionListener="#{facilityManagerBean.deleteFacility}" value="Delete" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false">
+                    </p:menuitem>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "facilityTable" editable = "true" id = "facilityTable" var="facility" value="#{facilityManagerBean.facilities}"
+                             paginator="true" rows="10" emptyMessage="No facilities found with given criteria" rowKey="#{facility.id}"
+                             selection="#{facilityManagerBean.selectedFacility}" selectionMode="single" filteredValue="#{facilityManagerBean.filteredFacilities}" >
+
+
+
+
+
+                    <p:ajax event="rowEdit" listener="#{facilityManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{facilityManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column headerText="ID" width="80" sortBy="#{facility.id}" filterBy="#{facility.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{facility.id}" /> 
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Name"
+                              sortBy="#{facility.name}" filterBy="#{facility.name}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{facility.name}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Name is required." label="name" value="#{facility.name}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Address"
+                              sortBy="#{facility.postalCode}" filterBy="#{facility.address}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{facility.address}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="Address" value="#{facility.address}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Postal Code"
+                              sortBy="#{facility.postalCode}" filterBy="#{facility.postalCode}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{facility.postalCode}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="Postal Code" value="#{facility.postalCode}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+
+                    <p:column headerText="City"
+                              sortBy="#{facility.city}" filterBy="#{facility.city}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{facility.city}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="City" value="#{facility.city}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="Country"
+                              filterBy="#{facility.country}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{facility.country.name}" /> </f:facet>
+                            <f:facet name = "input">                                 
+                                <p:selectOneMenu value="#{facility.country}" style="width:100%" converter="countryConverter">
+                                    <f:selectItems value="#{facilityManagerBean.countries}" var="countries" itemLabel="#{countries.name}" itemValue="#{countries}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Region" sortBy="#{facility.region.code}" filterBy="#{facility.region.code} #{facility.region.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="regionOutput" value="#{facility.region.code}" /><h:outputText value=" | "/><h:outputText value="#{facility.region.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="s" value="#{facility.region}" style="width:100%" converter="regionConverter">
+                                    <f:selectItems id="regionInput" value="#{facilityManagerBean.regions}" var="region" itemLabel="#{region.code}" itemValue="#{region}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{s.code}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{s.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="Type"
+                              filterBy="#{facility.type}" filterMatchMode="equals"  >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('facilityTable').filter()"  style="font-size:40%">
+                                <f:selectItem itemLabel="All" itemValue="" />
+                                <f:selectItem itemLabel="RHQ" itemValue="Regional HQ" />
+                                <f:selectItem itemLabel="MF" itemValue="Manufacturing" />
+                                <f:selectItem itemLabel="STR" itemValue="Store" />
+                                <f:selectItem itemLabel="ONL" itemValue="Online" />
+                            </p:selectOneButton>
+                        </f:facet>
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{facility.type}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{facility.type}" style="width:100%">
+                                    <f:selectItems value="#{facilityManagerBean.types}" var="types" itemLabel="#{types}" itemValue="#{types}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

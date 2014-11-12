@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Default_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <h1>View Your Island Furniture Points!</h1>
+
+            <p:panel id="panel">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row rendered="#{customerAccountBean.plus}">
+                        <p:column colspan = "2">
+                            <p:outputLabel style="font-weight:bold" value="Congratulations, you are an Island PLUS member!" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row rendered="#{customerAccountBean.notPlus}">
+                        <p:column>
+                            <p:outputLabel for="pointsToPlus" style="font-weight:bold" value="Points to plus: " />
+                        </p:column>
+                        <p:column>                           
+                            <p:outputLabel id="pointsToPlus" value="#{customerAccountBean.pointsToPlus}" style="width:100%" />
+
+                        </p:column>
+
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="points" style="font-weight:bold" value="Your current points: " />
+                        </p:column>
+                        <p:column>                           
+                            <p:outputLabel id="points" value="#{customerAccountBean.points}" style="width:100%" />
+
+                        </p:column>
+
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="cakeRedeemable" style="font-weight:bold" value="Cake redeemable: " />
+                        </p:column>
+                        <p:column>                           
+                            <p:outputLabel id="cakeRedeemable" value="#{customerAccountBean.cakeRedeemable}" style="width:100%" />
+
+                        </p:column>
+
+                    </p:row>
+
+                </p:panelGrid>
+                <br/>
+                <style>
+                    .blueButton .ui-button-text {
+                        font-size:15px;
+                        color: #043852;
+                        background-color: #9DD7F5;
+                    }    
+                </style>
+                <h:panelGrid id="unsubPanel" border="0">
+                    <p:commandButton id="btn1" styleClass="blueButton" value="Change password" update="panel" action="ecom_change_password.xhtml" ajax="true"/>
+                    <p:commandButton id="btn2" styleClass="blueButton" value="Unsubcribe from mailing list" update="panel" actionListener="#{customerAccountBean.unsubscribe}" ajax="true" rendered="#{!customerAccountBean.customer.unsubscribed}"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

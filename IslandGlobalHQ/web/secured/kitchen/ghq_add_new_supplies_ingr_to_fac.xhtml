@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <h1>Add New SIF Record</h1>
+            <p:menubar>
+                <p:menuitem value="View All SIF Records" url="ghq_view_all_supplies_ingr_to_facs.xhtml"/>
+                <p:menuitem value="Add New SIF Record" url="ghq_add_new_supplies_ingr_to_fac.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New SIF Records">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row>
+
+                        <p:column>
+                            <p:outputLabel for="supplier" style="font-weight: bold" value="Supplier: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="supplier" requiredMessage="Supplier is required." required="true"  label="supplier"
+                                             value="#{suppliesIngrToFacManagerBean.supplier}" style="width:100%" converter="supplierConverter">
+
+                                <f:selectItems value="#{suppliesIngrToFacManagerBean.suppliers}" var="supplier" itemLabel="#{supplier.name}" itemValue="#{supplier}" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="supplier" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="facility" style="font-weight: bold" value="Facility: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="facility" requiredMessage="Facility is required." required="true"  label="facility"
+                                             value="#{suppliesIngrToFacManagerBean.fac}" style="width:100%" converter="facilityConverter" >
+
+                                <f:selectItems value="#{suppliesIngrToFacManagerBean.facilities}" var="facility" itemLabel="#{facility.name}" itemValue="#{facility}" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="facility" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="ingredient" style="font-weight: bold" value="Ingredient: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="ingredient" requiredMessage="Ingredient is required." required="true"  label="ingredient"
+                                             value="#{suppliesIngrToFacManagerBean.ingredient}" style="width:100%" converter="ingredientConverter">
+
+                                <f:selectItems value="#{suppliesIngrToFacManagerBean.ingredients}" var="ingredient" itemLabel="#{ingredient.name}" itemValue="#{ingredient}" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="ingredient" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="lotSize" style="font-weight:bold" value="Lot Size: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Lot Size"
+                                         requiredMessage="Lot Size is required." id="lotSize"
+                                         value="#{suppliesIngrToFacManagerBean.lotSize}">
+                                <f:validator validatorId ="posIntValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="lotSize" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="lotWeight" style="font-weight:bold" value="Lot Weight " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Lot Weight"
+                                         requiredMessage="Lot Weight is required." id="lotWeight"
+                                         value="#{suppliesIngrToFacManagerBean.lotWeight}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="lotWeight" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="unitPrice" style="font-weight:bold" value="Unit Price: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Unit Price"
+                                         requiredMessage="Unit Price is required." id="unitPrice"
+                                         value="#{suppliesIngrToFacManagerBean.unitPrice}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="unitPrice" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="leadTime" style="font-weight:bold" value="Lead Time: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="leadTime" required="true" label="Lead Time"
+                                         requiredMessage="Lead Time is required."
+                                         value="#{suppliesIngrToFacManagerBean.leadTime}">
+                                <f:validator validatorId ="posIntValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="leadTime" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New SIF Record" update="panel" actionListener="#{suppliesIngrToFacManagerBean.saveNewSuppliesIngrToFac}" ajax="true"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

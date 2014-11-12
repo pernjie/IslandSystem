@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/SCM_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel>
+            <f:facet name="heading"><h3><b>View All Market Place Inventory Records</b></h3></f:facet>
+                <p:contextMenu for="inventoryTable">
+                    <p:menuitem value="Delete" update="inventoryTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{marketPlaceInventoryMB.deleteRetail}"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "inventoryTable" editable = "true" id = "inventoryTable" var="retail" value="#{marketPlaceInventoryMB.retails}"
+                             paginator="true" rows="10" emptyMessage="No Retail Inventory Record found with given criteria" rowKey="#{retail.id}"
+                             selection="#{marketPlaceInventoryMB.selectedRetail}" selectionMode="single"  filteredValue="#{marketPlaceInventoryMB.filteredRetail}" resizableColumns="true">
+
+
+
+                    <p:ajax event="rowEdit" listener="#{marketPlaceInventoryMB.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{marketPlaceInventoryMB.onRowCancel}" update=":formMain:msgs" />
+
+                    <p:column style="width:30px">
+                        <p:rowToggler />
+                    </p:column>
+
+                    <p:column  headerText="Retail Inventory ID" sortBy="#{retail.id}" filterBy="#{retail.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{retail.id}" /> 
+                    </p:column>
+
+                    <p:column  headerText="Product" sortBy="#{retail.prod.id}" filterBy="#{retail.prod.id} #{retail.prod.name}" filterMatchMode="contains" >
+                        <h:outputText id="productOutput" value="#{retail.prod.id}" /><h:outputText value=" | "/><h:outputText value="#{retail.prod.name}" />
+                    </p:column>
+
+                    <p:column headerText="Quantity" >
+                        <p:cellEditor>
+                            <f:facet name = "output"><h:outputText id="quantityOutput" value="#{retail.quantity}" /></f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Quantity" requiredMessage="Quantity is required." value="#{retail.quantity}" style="width:100%">
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Zone"
+                              sortBy="#{retail.zone}" filterBy="#{retail.zone}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{retail.zone}" />    
+                    </p:column> 
+
+                    <p:column headerText="Shelf" sortBy="#{retail.shelf.shelf}" filterBy="#{retail.shelf.shelf}" filterMatchMode="contains" >
+                        <h:outputText id="shelfOutput" value="#{retail.shelf.shelf}" />
+                    </p:column>
+                    
+                         <p:column headerText="Expiry Date" >
+                        <p:cellEditor>
+                            <f:facet name = "output"><h:outputText id="expiryDateOutput" value="#{marketPlaceInventoryMB.formatDate(retail.expiryDate)}" /></f:facet>
+                            <f:facet name = "input"><p:outputLabel for="popup" value="Popup:" />
+                                <p:calendar id="popup" value="#{retail.expiryDate}" />
+                            </f:facet>
+<!--                            <f:facet name = "input"> <p:inputText required="true" label="ExpiryDate" requiredMessage="Expiry Date is required." value="" style="width:100%">-->
+<!--                                </p:inputText>-->
+<!--                            </f:facet>-->
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:rowExpansion>
+                        <p:panelGrid columns="2" columnClasses="label,value" style="width:300px">
+                            <h:outputText value="Product: "/>
+                            <h:outputText value="#{retail.prod.name}" />        
+                            
+                             <h:outputText value="Quantity: "/>
+                            <h:outputText value="#{retail.quantity}" />   
+                            
+                            <h:outputText value="Shelf: "/>
+                            <h:outputText  value="#{retail.shelf.shelf}" />
+
+                            <h:outputText value="Shelf Slot: "/>
+                            <h:outputText value="#{retail.shelfSlot.position}" />                   
+
+                            <h:outputText value="Upper Threshold: "/>
+                            <h:outputText value="#{retail.uppThreshold}" />
+
+                            <h:outputText value="Lower Threshold: "/>
+                            <h:outputText  value="#{retail.lowThreshold}" />
+
+                            <h:outputText value="Expiry Date: "/>
+                            <h:outputText  value="#{retail.expiryDate}" />
+
+                            <h:outputText value="Zone: "/>
+                            <h:outputText value="#{retail.zone}" />    
+
+                            <h:outputText value="Location: "/>
+                            <h:outputText  value="#{retail.location.label}" />
+
+                            <h:outputText value="Product Length: "/>
+                            <h:outputText  value="#{retail.pdtLength}" />
+
+                            <h:outputText value="Product Breadth "/>
+                            <h:outputText  value="#{retail.pdtBreadth}" />
+
+                            <h:outputText value="Product Height: "/>
+                            <h:outputText  value="#{retail.pdtHeight}" />
+                        </p:panelGrid>
+                    </p:rowExpansion>
+
+                   <p:column style="width:50px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </b:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

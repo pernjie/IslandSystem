@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Inventory_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel id="panel">
+                 <f:facet name="heading"><h3><b>View Restock Furniture Inventory Records</b></h3></f:facet>
+                <p:contextMenu for="inventoryTable">
+                    <p:menuitem value="Delete" update="inventoryTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{confirmRestockBean.deleteInvenFurn}"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "inventoryTable" editable = "true" id = "inventoryTable" var="invenFurn" value="#{confirmRestockBean.ilList}"
+                             paginator="true" rows="10" emptyMessage="No Furniture Inventory to Restock" resizableColumns="true">
+                    
+                    
+                    <p:ajax event="rowEdit" listener="#{confirmRestockBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{confirmRestockBean.onRowCancel}" update=":formMain:msgs" />
+
+
+                    <p:column style="width:30px">
+                        <p:rowToggler />
+                    </p:column>
+
+                    <p:column  headerText="Furniture Inventory ID" sortBy="#{invenFurn.invMat.id}" filterBy="#{invenFurn.invMat.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{invenFurn.invMat.id}" /> 
+                    </p:column>
+
+                    <p:column  headerText="Furniture" sortBy="#{invenFurn.invMat.mat.id}" filterBy="#{invenFurn.invMat.mat.id} #{invenFurn.invMat.mat.name}" filterMatchMode="contains" >
+                        <h:outputText id="productOutput" value="#{invenFurn.invMat.mat.id}" /><h:outputText value=" | "/><h:outputText value="#{invenFurn.invMat.mat.name}" />
+                    </p:column>
+
+                    <p:column headerText="Quantity" >
+                        <h:outputText value="#{invenFurn.qty}" />
+                    </p:column>
+
+                    <p:column headerText="Zone"
+                              sortBy="#{invenFurn.invMat.zone}" filterBy="#{invenFurn.invMat.zone}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{invenFurn.invMat.zone}" />    
+                    </p:column> 
+
+                    <p:column headerText="Shelf" sortBy="#{invenFurn.invMat.shelf.shelf}" filterBy="#{invenFurn.invMat.shelf.shelf}" filterMatchMode="contains" >
+                        <h:outputText id="shelfOutput" value="#{invenFurn.invMat.shelf.shelf}" />
+                    </p:column>
+
+                    <p:rowExpansion>
+                        <p:panelGrid columns="2" columnClasses="label,value" style="width:300px">
+                            <h:outputText value="Furniture: "/>
+                            <h:outputText value="#{invenFurn.invMat.mat.name}" />        
+                            
+                             <h:outputText value="Quantity: "/>
+                            <h:outputText value="#{invenFurn.qty}" />   
+                            
+                            <h:outputText value="Shelf: "/>
+                            <h:outputText  value="#{invenFurn.invMat.shelf.shelf}" />
+
+                            <h:outputText value="Shelf Slot: "/>
+                            <h:outputText value="#{invenFurn.invMat.shelfSlot.position}" />                   
+
+                            <h:outputText value="Upper Threshold: "/>
+                            <h:outputText value="#{invenFurn.invMat.uppThreshold}" />
+
+                            <h:outputText value="Lower Threshold: "/>
+                            <h:outputText  value="#{invenFurn.invMat.lowThreshold}" />
+
+                            <h:outputText value="Zone: "/>
+                            <h:outputText value="#{invenFurn.invMat.zone}" />    
+
+                            <h:outputText value="Location: "/>
+                            <h:outputText  value="#{invenFurn.invMat.location.label}" />
+
+                            <h:outputText value="Furniture Length: "/>
+                            <h:outputText  value="#{invenFurn.invMat.matLength}" />
+
+                            <h:outputText value="Furniture Breadth "/>
+                            <h:outputText  value="#{invenFurn.invMat.matBreadth}" />
+
+                            <h:outputText value="Furniture Height: "/>
+                            <h:outputText  value="#{invenFurn.invMat.matHeight}" />
+                        </p:panelGrid>
+                    </p:rowExpansion>
+
+                   <p:column style="width:50px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+                <p:commandButton value="Confirm" action="inventory_home" actionListener="#{confirmRestockBean.updateInventory()}"/>  
+            </b:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

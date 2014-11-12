@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Default_Template.xhtml"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h:form id="form2">
+                <p:row>
+                    <p:autoComplete id="selecteditemName" forceSelection="false" value="#{displayPageBean.selectedItemName}" 
+                                    completeMethod="#{displayPageBean.completeText}" var="selectedItemName" itemLabel="#{selectedItemName}" itemValue="#{selectedItemName}"
+                                    style="width:100%"> 
+                        <p:ajax event="itemSelect" process="@this"  listener="#{displayPageBean.handleSelect}" />
+                    </p:autoComplete>
+                    <style>
+                            .blueButton .ui-button-text {
+                               font-size:15px;
+                               color: #043852;
+                               background-color: #9DD7F5;
+                            }    
+                    </style>
+                    <p:commandButton value="Search" actionListener="#{displayPageBean.search}" ajax="false" styleClass="blueButton"/>
+                </p:row>
+            </h:form>
+            <br/>
+
+            <ui:repeat var="cat" value="#{displayPageBean.cats}" >
+                <h:commandLink action="#{displayPageBean.categorySelectionChanged}">
+                    <f:setPropertyActionListener target="#{displayPageBean.category}" value="#{cat}"/>
+                    <h:outputText value="#{cat}" />
+                </h:commandLink>&nbsp;&nbsp;
+            </ui:repeat>
+
+            <p:dataGrid var="furn" value="#{displayPageBean.furns}" columns="3" id="furns">
+                <p:panel style="text-align:center">
+                        <h:commandLink action="#{displayPageBean.itemDetails}">
+                            <f:setPropertyActionListener target="#{displayPageBean.itemId}" value="#{furn.item.id}"/>
+                            <h:outputText value="#{furn.item.name}" />
+                        </h:commandLink>
+                        <br/>
+                        <h:outputText value="#{displayPageBean.calcItemPrice(furn.price, furn.region)}" />
+                </p:panel>
+
+            </p:dataGrid>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

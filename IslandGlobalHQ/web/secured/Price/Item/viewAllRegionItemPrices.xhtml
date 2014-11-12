@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Region Item Prices</h1>
+            <p:menubar>
+                <p:menuitem value="View All RegionItem Prices" url="viewAllRegionItemPrices.xhtml"/>
+                <p:menuitem value="Add New RegionItem Price" url="addNewRegionItemPrice.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Region Item Prices">
+                <p:contextMenu for="regionItemPriceTable">
+                    <p:menuitem value="Delete" update="regionItemPriceTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{regionItemPriceManagerBean.deleteRegionItemPrice}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "regionItemPriceTable" editable = "true" id = "regionItemPriceTable" var="regionItemPrice" value="#{regionItemPriceManagerBean.regionItemPrices}"
+                             paginator="true" rows="10" emptyMessage="No Region Item Price found with given criteria" rowKey="#{regionItemPrice.id}"
+                             selection="#{regionItemPriceManagerBean.selectedRegionItemPrice}" selectionMode="single" filteredValue="#{regionItemPriceManagerBean.filteredRegionItemPrices}" >
+
+
+                    <p:ajax event="rowEdit" listener="#{regionItemPriceManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{regionItemPriceManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+                    <p:column width="80" headerText="ID" sortBy="#{regionItemPrice.id}" filterBy="#{regionItemPrice.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{regionItemPrice.id}" /> 
+                    </p:column>
+
+                    <p:column headerText="Region" sortBy="#{regionItemPrice.region.id}" filterBy="#{regionItemPrice.region.id} #{regionItemPrice.region.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="regionOutput" value="#{regionItemPrice.region.id}" /><h:outputText value=" | "/><h:outputText value="#{regionItemPrice.region.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="s" value="#{regionItemPrice.region}" style="width:100%" converter="regionConverter">
+                                    <f:selectItems id="regionInput" value="#{regionItemPriceManagerBean.regions}" var="region" itemLabel="#{region.id}" itemDescription="#{region.name}" itemValue="#{region}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{s.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{s.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    
+                    <p:column headerText="Item" sortBy="#{regionItemPrice.item.id}" filterBy="#{regionItemPrice.item.id} #{regionItemPrice.item.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="regionItemOutput" value="#{regionItemPrice.item.id}" /> <h:outputText value=" | "/><h:outputText value="#{regionItemPrice.item.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="m" value="#{regionItemPrice.item}" style="width:100%" converter="itemConverter">
+                                    <f:selectItems id="regionItemInput" value="#{regionItemPriceManagerBean.items}" var="item" itemLabel="#{item.id}" itemValue="#{item}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{m.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{m.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    
+                    
+                    <p:column headerText="Price"
+                              sortBy="#{regionItemPrice.price}" filterBy="#{regionItemPrice.price}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{regionItemPrice.price}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Price" requiredMessage="Price is required." value="#{regionItemPrice.price}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

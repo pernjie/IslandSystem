@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+				xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="content">
+		<h:form id="formMain">
+            <h1>Add New SMF Records</h1>
+            <p:menubar>
+                <p:menuitem value="View All SMF Records" url="viewAllSMFRecords.xhtml"/>
+                <p:menuitem value="Add New SMF Record" url="addNewSMFRecord.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New SMF Record">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="facility" style="font-weight: bold" value="Facility: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="facility" requiredMessage="Facility is required." required="true"  label="facility"
+                                             value="#{suppliesMatToFacManagerBean.fac}" style="width:100%" >
+
+                                <f:selectItems value="#{suppliesMatToFacManagerBean.facilities}" var="facility" itemLabel="#{facility.name}" itemValue="#{facility.id}" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="facility" />
+                        </p:column>
+                    </p:row>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="material" style="font-weight: bold" value="Material: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu label="material" requiredMessage="Material is required." required="true" id="material" 
+                                             value="#{suppliesMatToFacManagerBean.mat}" style="width:100%" >
+
+                                <f:selectItems value="#{suppliesMatToFacManagerBean.materials}" var="material" itemLabel="#{material.name}" itemValue="#{material.id}" />
+
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="material" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="supplier" style="font-weight: bold" value="Supplier: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu label="supplier" requiredMessage="Supplier is required." required="true" id="supplier" 
+                                             value="#{suppliesMatToFacManagerBean.sup}" style="width:100%" >
+
+                                <f:selectItems value="#{suppliesMatToFacManagerBean.suppliers}" var="supplier" itemLabel="#{supplier.name}" itemValue="#{supplier.id}" />
+
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="supplier" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="lotSize" style="font-weight:bold" value="Lot Size: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Lot Size"
+                                         requiredMessage="Lot Size is required." id="lotSize"
+                                         value="#{suppliesMatToFacManagerBean.lotSize}">
+                                <f:validator validatorId ="posIntValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="lotSize" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="unitPrice" style="font-weight:bold" value="Unit Price: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Unit Price"
+                                         requiredMessage="Unit Price is required." id="unitPrice"
+                                         value="#{suppliesMatToFacManagerBean.unitPrice}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="unitPrice" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="leadTime" style="font-weight:bold" value="Lead Time: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="leadTime" required="true" label="Lead Time"
+                                         requiredMessage="Lead Time is required."
+                                         value="#{suppliesMatToFacManagerBean.leadTime}">
+                                <f:validator validatorId ="posIntValueValidator" />
+
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+
+                            <p:message for="leadTime" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New SuppliesMatToFac" update="panel" actionListener="#{suppliesMatToFacManagerBean.saveNewSuppliesMatToFac}" ajax="true"/>
+            </p:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

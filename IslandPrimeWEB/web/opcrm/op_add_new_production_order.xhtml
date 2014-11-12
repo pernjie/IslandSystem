@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Op_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+
+            <br/>
+            <b:panel id="panel">
+                <f:facet name="heading"><h3><b>Add New Production Order</b></h3></f:facet>
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="period" style="font-weight: bold" value="Period: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText label="Period" id="period"
+                                         value="#{crmProductionOrderBean.period}"> 
+                                <f:validator validatorId ="periodValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="period" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="year" style="font-weight: bold" value="Year: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText label="Year" id="year"
+                                         value="#{crmProductionOrderBean.year}"> 
+                                <f:validator validatorId ="yearValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="year" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="quantity" style="font-weight: bold" value="Quantity: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText label="Quantity" id="quantity"
+                                         value="#{crmProductionOrderBean.quantity}">
+                                <f:validator validatorId ="posIntValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="quantity" />
+                        </p:column>
+                    </p:row>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="material" style="font-weight: bold" value="Material: " />
+                        </p:column>
+                        <p:column>
+                            <h:selectOneMenu label="material" requiredMessage="Material is required." required="true" id="material" 
+                                             value="#{crmProductionOrderBean.matIdS}" style="width:100%" >
+
+                                <f:selectItems value="#{crmProductionOrderBean.materials}" var="material" itemLabel="#{material.name}" itemValue="#{material.id}" />
+
+                            </h:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="material" />
+                        </p:column>
+                    </p:row>
+
+
+                </p:panelGrid><br/>
+                <p:commandButton id="btn" value="Save New Production Order" update="panel" actionListener="#{crmProductionOrderBean.saveNewProductionOrder}" icon="ui-icon-check" ajax="true"/>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

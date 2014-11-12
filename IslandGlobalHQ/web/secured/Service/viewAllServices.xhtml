@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+				xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="content">
+		<h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <h1>View All Services</h1>
+            <p:menubar>
+                <p:menuitem value="View All Services" url="viewAllServices.xhtml"/>
+                <p:menuitem value="Add New Service" url="addNewService.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All Services">
+                <p:contextMenu for="serviceTable">
+                    <p:menuitem value="Delete" update="serviceTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{serviceManagerBean.deleteService}" onclick="if (! confirm('Do you really want to delete the entry?')) return false"/>
+                </p:contextMenu>
+
+
+
+
+
+                <p:dataTable widgetVar = "serviceTable" editable = "true" id = "serviceTable" var="service" value="#{serviceManagerBean.services}"
+                             paginator="true" rows="10" emptyMessage="No services found with given criteria" rowKey="#{service.id}"
+                             selection="#{serviceManagerBean.selectedService}" selectionMode="single" filteredValue="#{serviceManagerBean.filteredServices}" >
+
+
+
+
+
+                    <p:ajax event="rowEdit" listener="#{serviceManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{serviceManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column width="80" headerText="ID" sortBy="#{service.id}" filterBy="#{service.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{service.id}" /> 
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Name"
+                              sortBy="#{service.name}" filterBy="#{service.name}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{service.name}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" requiredMessage="Name is required." label="name" value="#{service.name}" style="width:100%" />    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column headerText="Description"
+                              sortBy="#{service.description}" filterBy="#{service.description}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{service.description}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText label="Description" value="#{service.description}" style="width:100%"/> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+
+                    <p:column headerText="Category"
+                              sortBy="#{service.category}" filterBy="#{service.category}" filterMatchMode="startsWith" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{service.category}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{service.category}" style="width:100%">
+                                    <f:selectItems value="#{serviceManagerBean.categories}" var="categories" itemLabel="#{categories}" itemValue="#{categories}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

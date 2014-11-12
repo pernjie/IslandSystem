@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+				xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="content">
+		<h:form id="formMain">
+            <h1>Add New Region Item Price Records</h1>
+            <p:menubar>
+                <p:menuitem value="View All Region Item Price Records" url="viewAllRegionItemPrices.xhtml"/>
+                <p:menuitem value="Add New Region Item Price Record" url="addNewRegionItemPrice.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New Region Item Price Record">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="region" style="font-weight: bold" value="Region " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="region" requiredMessage="Region is required." required="true"  label="region"
+                                             value="#{regionItemPriceManagerBean.region}" style="width:100%" >
+
+                                <f:selectItems value="#{regionItemPriceManagerBean.regions}" var="region" itemLabel="#{region.name}" itemValue="#{region.id}" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="region" />
+                        </p:column>
+                    </p:row>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="item" style="font-weight: bold" value="Item: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu label="item" requiredMessage="Item is required." required="true" id="item" 
+                                             value="#{regionItemPriceManagerBean.item}" style="width:100%" >
+
+                                <f:selectItems value="#{regionItemPriceManagerBean.items}" var="item" itemLabel="#{item.name}" itemValue="#{item.id}" />
+
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="item" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="price" style="font-weight:bold" value="Price: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Price"
+                                         requiredMessage="Price is required." id="price"
+                                         value="#{regionItemPriceManagerBean.priceS}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="price" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New Region Item Price Record" update="panel" actionListener="#{regionItemPriceManagerBean.saveNewRegionItemPrice}" ajax="true"/>
+            </p:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

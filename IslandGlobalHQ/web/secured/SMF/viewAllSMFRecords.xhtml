@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+				xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="content">
+		<h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:menubar>
+                <p:menuitem value="View All SMF Records" url="viewAllSMFRecords.xhtml"/>
+                <p:menuitem value="Add New SMF Record" url="addNewSMFRecord.xhtml"/>
+            </p:menubar>
+
+            <br/>
+
+            <p:panel header="View All SMF Records">
+                <p:contextMenu for="suppliesMatToFacTable">
+                    <p:menuitem value="Delete" update="suppliesMatToFacTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{suppliesMatToFacManagerBean.deleteSuppliesMatToFac}" onclick="if (! confirm('Do you really want to delete the entry?')) return false"/>
+                </p:contextMenu>
+
+
+
+
+
+                <p:dataTable widgetVar = "suppliesMatToFacTable" editable = "true" id = "suppliesMatToFacTable" var="suppliesMatToFac" value="#{suppliesMatToFacManagerBean.suppliesMatToFacs}"
+                             paginator="true" rows="10" emptyMessage="No SMF Record found with given criteria" rowKey="#{suppliesMatToFac.id}"
+                             selection="#{suppliesMatToFacManagerBean.selectedSuppliesMatToFac}" selectionMode="single" filteredValue="#{suppliesMatToFacManagerBean.filteredSuppliesMatToFacs}" >
+
+
+
+
+
+                    <p:ajax event="rowEdit" listener="#{suppliesMatToFacManagerBean.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{suppliesMatToFacManagerBean.onRowCancel}" update=":formMain:msgs" />
+
+
+
+                    <p:column width="80" headerText="ID" sortBy="#{suppliesMatToFac.id}" filterBy="#{suppliesMatToFac.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{suppliesMatToFac.id}" /> 
+
+                    </p:column>
+
+                    <p:column headerText="Facility" sortBy="#{suppliesMatToFac.fac.id}" filterBy="#{suppliesMatToFac.fac.id} #{suppliesMatToFac.fac.name}" filterMatchMode="contains" >
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="facilityOutput" value="#{suppliesMatToFac.fac.id}" /><h:outputText value=" | "/><h:outputText value="#{suppliesMatToFac.fac.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="f" value="#{suppliesMatToFac.fac}" style="width:100%" converter="facilityConverter">
+                                    <f:selectItems id="facilityInput" value="#{suppliesMatToFacManagerBean.facilities}" var="facility" itemLabel="#{facility.name}" itemDescription="#{facility.name}" itemValue="#{facility}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{f.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{f.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+
+                    </p:column>
+                    <p:column headerText="Material" sortBy="#{suppliesMatToFac.mat.id}" filterBy="#{suppliesMatToFac.mat.id} #{suppliesMatToFac.mat.name}" filterMatchMode="contains" >
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="materialOutput" value="#{suppliesMatToFac.mat.id}" /> <h:outputText value=" | "/><h:outputText value="#{suppliesMatToFac.mat.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="m" value="#{suppliesMatToFac.mat}" style="width:100%" converter="materialConverter">
+                                    <f:selectItems id="materialInput" value="#{suppliesMatToFacManagerBean.materials}" var="material" itemLabel="#{material.name}" itemValue="#{material}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{m.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{m.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Supplier" sortBy="#{suppliesMatToFac.sup.id}" filterBy="#{suppliesMatToFac.sup.id} #{suppliesMatToFac.sup.name}" filterMatchMode="contains" >
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText id="supplierOutput" value="#{suppliesMatToFac.sup.id}" /><h:outputText value=" | "/><h:outputText value="#{suppliesMatToFac.sup.name}" />
+                            </f:facet>
+
+                            <f:facet name="input">
+                                <p:selectOneMenu var="s" value="#{suppliesMatToFac.sup}" style="width:100%" converter="supplierConverter">
+                                    <f:selectItems id="supplierInput" value="#{suppliesMatToFacManagerBean.suppliers}" var="supplier" itemLabel="#{supplier.name}" itemValue="#{supplier}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText value="#{s.id}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputText value="#{s.name}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Lot Size"
+                              sortBy="#{suppliesMatToFac.lotSize}" filterBy="#{suppliesMatToFac.lotSize}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{suppliesMatToFac.lotSize}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Lot Size" requiredMessage="Lot Size is required." 
+                                                                  value="#{suppliesMatToFac.lotSize}" style="width:100%" >
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Unit Price"
+                              sortBy="#{suppliesMatToFac.unitPrice}" filterBy="#{suppliesMatToFac.unitPrice}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{suppliesMatToFac.unitPrice}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Unit Price" requiredMessage="Unit Price is required." value="#{suppliesMatToFac.unitPrice}" style="width:100%" >
+                                    <f:validator validatorId ="posDbleValueValidator" />
+                                </p:inputText>    
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Lead Time"
+                              sortBy="#{suppliesMatToFac.leadTime}" filterBy="#{suppliesMatToFac.leadTime}" filterMatchMode="startsWith" > 
+                        <p:cellEditor>
+                            <f:facet name = "output"> <h:outputText value="#{suppliesMatToFac.leadTime}" /> </f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Lead Time" requiredMessage="Lead Time is required." value="#{suppliesMatToFac.leadTime}" style="width:100%">
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

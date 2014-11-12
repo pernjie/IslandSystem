@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/MRP_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+       <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel>
+                <f:facet name="heading"><h3><b>View All Production Records</b></h3></f:facet>
+                <p:dataTable widgetVar = "productionRecordTable" id = "productionRecordTable" var="productionRecord" value="#{productionRecordManagerBean.productionRecords}"
+                             paginator="true" rows="10" emptyMessage="No Production Record found with given criteria" rowKey="#{productionRecord.id}"
+                             selection="#{productionRecordManagerBean.selectedProductionRecord}" selectionMode="single" filteredValue="#{productionRecordManagerBean.filteredProductionRecords}" >
+
+
+                    <p:column headerText="ID" sortBy="#{productionRecord.id}" filterBy="#{productionRecord.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{productionRecord.id}" /> 
+                    </p:column>
+
+                    <p:column headerText="Store" sortBy="#{productionRecord.store.id}" filterBy="#{productionRecord.store.id} #{productionRecord.store.name}" filterMatchMode="contains" >
+                        <h:outputText value= "#{productionRecord.store.id}" /><h:outputText value=" | "/><h:outputText value="#{productionRecord.store.name}" />
+                    </p:column>
+
+                    <p:column headerText="Material" sortBy="#{productionRecord.mat.id}" filterBy="#{productionRecord.mat.id} #{productionRecord.mat.name}" filterMatchMode="contains" >
+                        <h:outputText value=" | "/><h:outputText value="#{productionRecord.mat.name}" />
+                    </p:column>
+
+                    <p:column headerText="Year"
+                              sortBy="#{productionRecord.year}" filterBy="#{productionRecord.year}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{productionRecord.year}" /> 
+                    </p:column>
+                    
+                    <p:column headerText="Period"
+                              sortBy="#{productionRecord.period}" filterBy="#{productionRecord.period}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{productionRecord.period}" /> 
+                    </p:column>
+                    
+                    <p:column headerText="Week 1"
+                              sortBy="#{productionRecord.quantityW1}" filterBy="#{productionRecord.quantityW1}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{productionRecord.quantityW1}" /> 
+                    </p:column>                    
+                    <p:column headerText="Week 2"
+                              sortBy="#{productionRecord.quantityW2}" filterBy="#{productionRecord.quantityW2}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{productionRecord.quantityW2}" /> 
+                    </p:column>
+                    <p:column headerText="Week 3"
+                              sortBy="#{productionRecord.quantityW3}" filterBy="#{productionRecord.quantityW3}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{productionRecord.quantityW3}" /> 
+                    </p:column>
+                    <p:column headerText="Week 4"
+                              sortBy="#{productionRecord.quantityW4}" filterBy="#{productionRecord.quantityW4}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{productionRecord.quantityW4}" /> 
+                    </p:column>
+
+                </p:dataTable>
+            </b:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Op_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+            <b:panel>
+                <f:facet name="heading"><h3><b>View All Campaigns</b></h3></f:facet>
+                <p:contextMenu for="campaignTable">
+                    <p:menuitem value="Delete" update="campaignTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{campaignBean.deleteCampaign}" onclick="if (!confirm('Do you really want to delete the entry?'))
+                                return false"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "campaignTable" editable = "true" id = "campaignTable" var="campaign" value="#{campaignBean.campaigns}"
+                             paginator="true" rows="5" emptyMessage="No campaigns found" rowKey="#{campaign.id}"
+                             selection="#{campaignBean.selectedCampaign}" selectionMode="single" filteredValue="#{campaignBean.filteredCampaigns}" >
+
+                    <p:column style="width:30px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column style="width:40px" headerText="ID" sortBy="#{campaign.id}" filterBy="#{campaign.id}" filterMatchMode="contains" >
+
+                        <h:outputText value="#{campaign.id}" /> 
+
+                    </p:column>
+
+
+
+                    <p:column headerText="Name"
+                              sortBy="#{campaign.name}" filterBy="#{campaign.name}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{campaign.name}" /> 
+                    </p:column>
+
+
+
+                    <p:column headerText="Start Date"
+                              sortBy="#{campaign.startDate}" filterBy="#{campaign.startDate}" filterMatchMode="contains" >
+                        <h:outputText value="#{campaign.startDate}" />
+                    </p:column>
+
+
+
+
+                    <p:column headerText="End Date"
+                              sortBy="#{campaign.endDate}" filterBy="#{campaign.endDate}" filterMatchMode="startsWith" >
+                        <h:outputText value="#{campaign.endDate}" /> 
+                    </p:column>
+
+
+
+                    <p:column headerText="Promotional Code"
+                              sortBy="#{campaign.promoCode}" filterBy="#{campaign.promoCode}" filterMatchMode="startsWith" >
+                        <h:outputText value="#{campaign.promoCode}" />
+                    </p:column>
+
+
+
+                    <p:column headerText="Business Area"
+                              filterBy="#{campaign.businessArea}" filterMatchMode="equals"  >
+                        <h:outputText value="#{campaign.businessArea}" />
+
+                    </p:column>
+
+                    <p:rowExpansion>
+                        <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
+
+                            <h:outputText value="Description: " />
+                            <h:outputText value="#{campaign.description}" />
+                            
+                            <h:outputText value="Gender: " />
+                            <h:outputText value="#{campaign.targetGender}" />
+
+                            <h:outputText value="Active Customers: " />
+                            <h:outputText value="#{campaign.targetActive}" />
+
+                            <h:outputText value="Inactive Customers: " />
+                            <h:outputText value="#{campaign.targetInactive}"/>
+
+                            <h:outputText value="New Customers" />
+                            <h:outputText value="#{campaign.targetNew}" />
+
+                            <h:outputText value="Age Range: " />
+                            <h:outputText value="#{campaign.lowerAge} - #{campaign.upperAge}" />
+
+                            <h:outputText value="Latest RFM score threshold: " />
+                            <h:outputText value="#{campaign.rfmThreshold}" />
+                            
+                            <h:outputText value="Highest RFM score threshold: " />
+                            <h:outputText value="#{campaign.highestRfmThreshold}" />
+                            
+                        </p:panelGrid>
+                    </p:rowExpansion>
+
+                </p:dataTable>
+            </b:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

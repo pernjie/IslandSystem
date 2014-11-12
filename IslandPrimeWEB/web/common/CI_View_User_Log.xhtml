@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Default_Template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:dataTable id="userLog" var="userLog" value="#{userLogManagedBean.userLog}" resizableColumns="true" style="margin-bottom:20px">
+                <f:facet name="header">
+                    #{userLogManagedBean.loggedInEmail}'s System Log
+                </f:facet>
+                <p:column headerText="Date">
+                    <h:outputText value="#{userLog.logDate}" />
+                </p:column>
+                <p:column headerText="Log Details">
+                    <h:outputText value="#{userLog.logDetails}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

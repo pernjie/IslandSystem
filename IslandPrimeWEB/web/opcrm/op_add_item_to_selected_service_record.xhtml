@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/Op_Crm_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+           
+            <b:panel>
+                <f:facet name="heading"><h3><b>Add Item To Selected Service Record</b></h3></f:facet>
+                <p:dataTable widgetVar = "serviceRecordItemTable" id = "serviceRecordTable" var="serviceRecord" value="#{serviceRecordItemBean.selectedServiceRecord}"
+                             emptyMessage="No Service Record found with given criteria" rowKey="#{serviceRecord.id}">
+
+                    <p:column headerText="ID" sortBy="#{serviceRecord.id}"  >
+                        <h:outputText value="#{serviceRecord.id}" /> 
+                    </p:column>
+
+
+                    <p:column headerText="OrderTime"
+                              sortBy="#{serviceRecord.orderTime}"  > 
+                        <h:outputText value="#{serviceRecord.orderTime}" />
+                    </p:column>
+
+                    <p:column headerText="CustName"
+                              sortBy="#{serviceRecord.custName}"  > 
+                        <h:outputText value="#{serviceRecord.custName}" />
+                    </p:column>
+
+                    <p:column headerText="Address"
+                              sortBy="#{serviceRecord.address}"  > 
+                        <h:outputText value="#{serviceRecord.address}" />
+                    </p:column>
+
+                    <p:column headerText="SvcDate"
+                              sortBy="#{serviceRecord.svcDate}"  > 
+                        <h:outputText value="#{serviceRecord.svcDate}" /> 
+                    </p:column>
+
+
+                    <p:column headerText="Status" sortBy="#{serviceRecord.status}"  >
+                        <h:outputText value="#{serviceRecord.status}" />
+                    </p:column>
+
+                    <p:column headerText="Store" sortBy="#{serviceRecord.store.id}"  >
+                        <h:outputText value= "#{serviceRecord.store.id}" /><h:outputText value=" | "/><h:outputText value="#{serviceRecord.store.name}" />
+                    </p:column>
+
+                    <p:column headerText="Transact" sortBy="#{serviceRecord.transact.id}"  >
+                        <h:outputText value="#{serviceRecord.transact.id}" /> 
+                    </p:column>
+                </p:dataTable>
+            </b:panel>
+            
+            
+            <b:panel id="panel2">
+                <f:facet name="heading"><h3><b>Add New Service Record Item</b></h3></f:facet>
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="category" style="font-weight:bold" value="Category: " />
+                        </p:column>
+                        <p:column>
+
+                            <p:selectOneMenu label="category" requiredMessage="Category is required." required="true" id="category" value="#{serviceRecordItemBean.svcCat}" style="width:100%" >
+                                <f:selectItems value="#{serviceRecordItemBean.categories}" var="categories" itemLabel="#{categories}" itemValue="#{categories}" />
+                                <p:ajax listener="#{serviceRecordItemBean.onCategoryChange}" update=":formMain" />
+                            </p:selectOneMenu>
+
+                        </p:column>
+                        <p:column>
+                            <p:message for="category" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Furniture:" style="font-weight:bold" for="materialInput" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu label="material" requiredMessage="Material is required." required="true" id="materialInput" 
+                                             value="#{serviceRecordItemBean.matId}" style="width:100%" >
+                                <f:selectItems value="#{serviceRecordItemBean.regionMaterials}" var="regionMaterial" itemLabel="#{regionMaterial.name}" itemValue="#{regionMaterial.id}" />
+
+                            </p:selectOneMenu> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="quantity" style="font-weight:bold" value="Quantity: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Quantity"
+                                         requiredMessage="Quantity is required." id="quantity"
+                                         value="#{serviceRecordItemBean.svcRecItemQty}">
+                                <f:validator validatorId ="posIntValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="quantity" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row id="serviceRow" rendered="#{serviceRecordItemBean.notDelivery}">
+                        <p:column>
+                            <p:outputLabel for="service" style="font-weight: bold" value="Service: " />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu label="service" id="service" 
+                                                 value="#{serviceRecordItemBean.svcId}" style="width:100%" >
+                                    <f:selectItems value="#{serviceRecordItemBean.regionServices}" var="regionService" itemLabel="#{regionService.name}" itemValue="#{regionService.id}" />
+                                </p:selectOneMenu>     
+                            </p:column>
+                            <p:column>
+                                <p:message for="service" />
+                        </p:column>
+                    </p:row>
+
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Add Item to Service Record" update=":formMain:msgs" actionListener="#{serviceRecordItemBean.saveNewServiceRecordItem}" ajax="true"/><br/>
+                
+            </b:panel>
+            <p:commandButton action="op_view_selected_service_record"  value="View Selected Service Record"></p:commandButton>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

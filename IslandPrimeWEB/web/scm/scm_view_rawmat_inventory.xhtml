@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/SCM_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <br/>
+
+            <p:panel header="View All Raw Material Inventory Records">
+                <p:contextMenu for="inventoryTable">
+                    <p:menuitem value="Delete" update="inventoryTable, :formMain:msgs" icon="ui-icon-close" actionListener="#{rawMatInventoryMB.deleteRawMat}"/>
+                </p:contextMenu>
+
+                <p:dataTable widgetVar = "inventoryTable" editable = "true" id = "inventoryTable" var="invenMat" value="#{rawMatInventoryMB.invenMats}"
+                             paginator="true" rows="10" emptyMessage="No Raw Material Inventory Record found with given criteria" rowKey="#{invenMat.id}"
+                             selection="#{rawMatInventoryMB.selectedInvenMat}" selectionMode="single"  filteredValue="#{rawMatInventoryMB.filteredInvenMat}" resizableColumns="true">
+
+
+
+                    <p:ajax event="rowEdit" listener="#{rawMatInventoryMB.onRowEdit}" update=":formMain:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{rawMatInventoryMB.onRowCancel}" update=":formMain:msgs" />
+
+                    <p:column style="width:30px">
+                        <p:rowToggler />
+                    </p:column>
+
+                    <p:column  headerText="Material Inventory ID" sortBy="#{invenMat.id}" filterBy="#{invenMat.id}" filterMatchMode="contains" >
+                        <h:outputText value="#{invenMat.id}" /> 
+                    </p:column>
+
+                    <p:column  headerText="Material" sortBy="#{invenMat.mat.id}" filterBy="#{invenMat.mat.id} #{invenMat.mat.name}" filterMatchMode="contains" >
+                        <h:outputText id="rawMatOutput" value="#{invenMat.mat.id}" /><h:outputText value=" | "/><h:outputText value="#{invenMat.mat.name}" />
+                    </p:column>
+
+                    <p:column headerText="Quantity" >
+                        <p:cellEditor>
+                            <f:facet name = "output"><h:outputText id="quantityOutput" value="#{invenMat.quantity}" /></f:facet>
+                            <f:facet name = "input"> <p:inputText required="true" label="Quantity" requiredMessage="Quantity is required." value="#{invenMat.quantity}" style="width:100%">
+                                    <f:validator validatorId ="posIntValueValidator" />
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Zone"
+                              sortBy="#{invenMat.zone}" filterBy="#{invenMat.zone}" filterMatchMode="startsWith" > 
+                        <h:outputText value="#{invenMat.zone}" />    
+                    </p:column> 
+
+                    <p:column headerText="Shelf" sortBy="#{invenMat.shelf.shelf}" filterBy="#{invenMat.shelf.shelf}" filterMatchMode="contains" >
+                        <h:outputText id="shelfOutput" value="#{invenMat.shelf.shelf}" />
+                    </p:column>
+
+                    <p:rowExpansion>
+                        <p:panelGrid columns="2" columnClasses="label,value" style="width:400px">
+                            <h:outputText value="Raw Material: "/>
+                            <h:outputText value="#{invenMat.mat.name}" /> 
+                            
+                             <h:outputText value="Quantity: "/>
+                            <h:outputText value="#{invenMat.quantity}" /> 
+                            
+                              <h:outputText value="Zone: "/>
+                            <h:outputText value="#{invenMat.zone}" /> 
+                            
+                            <h:outputText value="Shelf: "/>
+                            <h:outputText value="#{invenMat.shelf.shelf}" /> 
+                            
+                            <h:outputText value="Shelf Slot: "/>
+                            <h:outputText value="#{invenMat.shelfSlot.position}" /> 
+                            
+                             <h:outputText value="Upper Threshold: "/>
+                            <h:outputText value="#{invenMat.uppThreshold}" /> 
+                            
+                            <h:outputText value="Lower Threshold: "/>
+                            <h:outputText value="#{invenMat.lowThreshold}" /> 
+                            
+                            <h:outputText value="Location: "/>
+                            <h:outputText value="#{invenMat.location.label}" /> 
+                            
+                            <h:outputText value="Material Length: "/>
+                            <h:outputText value="#{invenMat.matLength}" /> 
+                            
+                            <h:outputText value="Material Breadth: "/>
+                            <h:outputText value="#{invenMat.matBreadth}" /> 
+                            
+                            <h:outputText value="Material Height: "/>
+                            <h:outputText value="#{invenMat.matHeight}" /> 
+                            
+                        </p:panelGrid>
+                     </p:rowExpansion>
+                            
+                   <p:column style="width:50px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

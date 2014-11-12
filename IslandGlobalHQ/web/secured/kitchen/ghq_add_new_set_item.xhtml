@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+				xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="content">
+		<h:form id="formMain">
+            <h1>Add New Set Item</h1>
+            <p:menubar>
+                <p:menuitem value="View All SetItem" url="ghq_view_all_set_items.xhtml"/>
+                <p:menuitem value="Add New SetItem" url="ghq_add_new_set_item.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New SetItem">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="name" style="font-weight: bold" value="SetItem Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="SetItem Name"
+                                         requiredMessage="SetItem Name is required." id="name"
+                                         value="#{setItemManagerBean.name}">
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="name" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="description" style="font-weight: bold" value="Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea  rows="3" cols="23" label="Description" id="description" requiredMessage="Description is required." required="true"
+                                         value="#{setItemManagerBean.description}"> 
+                            </p:inputTextarea>
+                        </p:column>
+                        <p:column>
+                            <p:message for="description" />
+                        </p:column>
+                    </p:row>
+
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New Set Item" update="panel" actionListener="#{setItemManagerBean.saveNewSetItem}" ajax="true"/>
+            </p:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

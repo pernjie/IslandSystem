@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template/DefaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+				xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="content">
+		<h:form id="formMain">
+            <h1>Add New Region Service Price Records</h1>
+            <p:menubar>
+                <p:menuitem value="View All Region Service Price Records" url="viewAllRegionServicePrices.xhtml"/>
+                <p:menuitem value="Add New Region Service Price Record" url="addNewRegionServicePrice.xhtml"/>
+            </p:menubar>
+
+            <br/>
+            <p:panel id="panel" header="Add New Region Service Price Record">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="region" style="font-weight: bold" value="Region " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="region" requiredMessage="Region is required." required="true"  label="region"
+                                             value="#{regionServicePriceManagerBean.region}" style="width:100%" >
+
+                                <f:selectItems value="#{regionServicePriceManagerBean.regions}" var="region" itemLabel="#{region.name}" itemValue="#{region.id}" />
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="region" />
+                        </p:column>
+                    </p:row>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="service" style="font-weight: bold" value="Service: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu label="service" requiredMessage="Service is required." required="true" id="service" 
+                                             value="#{regionServicePriceManagerBean.svc}" style="width:100%" >
+
+                                <f:selectItems value="#{regionServicePriceManagerBean.services}" var="service" itemLabel="#{service.name}" itemValue="#{service.id}" />
+
+                            </p:selectOneMenu>     
+                        </p:column>
+                        <p:column>
+                            <p:message for="service" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+
+                            <p:outputLabel for="price" style="font-weight:bold" value="Price: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Price"
+                                         requiredMessage="Price is required." id="price"
+                                         value="#{regionServicePriceManagerBean.priceS}">
+                                <f:validator validatorId ="posDbleValueValidator" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="price" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save New Region Service Price Record" update="panel" actionListener="#{regionServicePriceManagerBean.saveNewRegionServicePrice}" ajax="true"/>
+            </p:panel>
+        </h:form>
+	</ui:define>
+
+</ui:composition>

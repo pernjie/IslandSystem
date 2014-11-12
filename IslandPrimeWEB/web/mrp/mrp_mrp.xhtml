@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/MRP_Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">     
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h1>Planning for Year #{salesHistoryBean.WH.getYear(5)}: 
+                Period #{salesHistoryBean.WH.getPeriod(5)}</h1>
+            <br/>
+            <p:panel id="panel">
+            <ui:repeat id="mats-repeat" value="#{mrpialBean.mrpials}" var="mrpial">
+
+                <p:panelGrid columns="5">
+                    <f:facet name="header">
+                        #{mrpial.mat.name}
+                    </f:facet>
+
+                    <h:outputText value="" />
+                    <h:outputText value="Week 1" />
+                    <h:outputText value="Week 2" />
+                    <h:outputText value="Week 3" />
+                    <h:outputText value="Week 4" />
+                    
+                    <h:outputText value="Requirement" />
+                    <h:outputText value="#{mrpial.week1.req}" />
+                    <h:outputText value="#{mrpial.week2.req}" />
+                    <h:outputText value="#{mrpial.week3.req}" />
+                    <h:outputText value="#{mrpial.week4.req}" />
+                    
+                    <h:outputText value="Receipt" />
+                    <h:outputText value="#{mrpial.week1.rec}" />
+                    <h:outputText value="#{mrpial.week2.rec}" />
+                    <h:outputText value="#{mrpial.week3.rec}" />
+                    <h:outputText value="#{mrpial.week4.rec}" />
+                    
+                    <h:outputText value="On-Hand" />
+                    <h:outputText value="#{mrpial.week1.onh}" />
+                    <h:outputText value="#{mrpial.week2.onh}" />
+                    <h:outputText value="#{mrpial.week3.onh}" />
+                    <h:outputText value="#{mrpial.week4.onh}" />
+                    
+                    <h:outputText value="Planned" />
+                    <h:inputText required="true" requiredMessage="All values must be entered" rendered="#{mrpial.week1.pln != -1}" value="#{mrpial.week1.pln}" />
+                    <h:outputText  rendered="#{mrpial.week1.pln == -1}" value="-" />
+                    <h:inputText required="true" requiredMessage="All values must be entered" rendered="#{mrpial.week2.pln != -1}" value="#{mrpial.week2.pln}" />
+                    <h:outputText rendered="#{mrpial.week2.pln == -1}" value="-" />
+                    <h:inputText required="true" requiredMessage="All values must be entered" rendered="#{mrpial.week3.pln != -1}" value="#{mrpial.week3.pln}" />
+                    <h:outputText rendered="#{mrpial.week3.pln == -1}" value="-" />
+                    <h:inputText required="true" requiredMessage="All values must be entered" rendered="#{mrpial.week4.pln != -1}" value="#{mrpial.week4.pln}" />
+                    <h:outputText rendered="#{mrpial.week4.pln == -1}" value="-" />
+
+                </p:panelGrid>
+            </ui:repeat>
+            <p:messages />  
+            <p:commandButton update="panel" id="button1" value="Create MRP Records" disabled="#{mrpialBean.persisted}" rendered="#{!mrpialBean.persisted}" actionListener="#{mrpialBean.validateInput}" ajax="true" />
+             </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
