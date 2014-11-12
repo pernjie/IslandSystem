@@ -884,6 +884,281 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("Anal");
         }
         
+        if (getRole1().equals("MF Super User")) {
+            rolesSet.add("MRP");
+            rolesSet.add("ForecastFPdt");
+            rolesSet.add("PdtionOrderProcessing");
+            rolesSet.add("ForecatRPdt");
+            rolesSet.add("POProcessing");
+            rolesSet.add("ViewPdtionRecords");
+            rolesSet.add("ViewPurchRecords");
+            
+            rolesSet.add("SCM");
+            rolesSet.add("SCMGeneratePdtPO");
+            rolesSet.add("GenerateRawMatPO");
+            rolesSet.add("GenerateDeliverySchedule");
+            rolesSet.add("SCMViewPdtPO");
+            rolesSet.add("ViewRawMatPO");
+            rolesSet.add("ViewDistributnF");
+            rolesSet.add("ViewDistributnP");
+            rolesSet.add("SCMViewUnpaidBills");
+            rolesSet.add("AddBill");
+            rolesSet.add("ProductionOperation");
+            
+            rolesSet.add("SCMInvenRestock");
+            rolesSet.add("SCMReceiveSInven");
+            rolesSet.add("SCMViewRestockLoc");
+            
+            rolesSet.add("SCMShelf");
+            rolesSet.add("SCMAddShelf");
+            rolesSet.add("SCMViewShelf");
+            
+            rolesSet.add("SCMShelfType");
+            rolesSet.add("SCMAddShelfType");
+            rolesSet.add("SCMViewShelfType");
+            
+            rolesSet.add("SCMAdHocOrdering");
+            rolesSet.add("SCMAdHocPdtnPlan");
+        }
+        if (getRole2() != null && getRole2().equals("MF Super User")) {
+            rolesSet.add("MRP");
+            rolesSet.add("ForecastFPdt");
+            rolesSet.add("PdtionOrderProcessing");
+            rolesSet.add("ForecatRPdt");
+            rolesSet.add("POProcessing");
+            rolesSet.add("ViewPdtionRecords");
+            rolesSet.add("ViewPurchRecords");
+            
+            rolesSet.add("SCM");
+            rolesSet.add("SCMGeneratePdtPO");
+            rolesSet.add("GenerateRawMatPO");
+            rolesSet.add("GenerateDeliverySchedule");
+            rolesSet.add("SCMViewPdtPO");
+            rolesSet.add("ViewRawMatPO");
+            rolesSet.add("ViewDistributnF");
+            rolesSet.add("ViewDistributnP");
+            rolesSet.add("SCMViewUnpaidBills");
+            rolesSet.add("AddBill");
+            rolesSet.add("ProductionOperation");
+            
+            rolesSet.add("SCMInvenRestock");
+            rolesSet.add("SCMReceiveSInven");
+            rolesSet.add("SCMViewRestockLoc");
+            
+            rolesSet.add("SCMShelf");
+            rolesSet.add("SCMAddShelf");
+            rolesSet.add("SCMViewShelf");
+            
+            rolesSet.add("SCMShelfType");
+            rolesSet.add("SCMAddShelfType");
+            rolesSet.add("SCMViewShelfType");
+            
+            rolesSet.add("SCMAdHocOrdering");
+            rolesSet.add("SCMAdHocPdtnPlan");
+        }
+        if (getRole3() != null && getRole3().equals("MF Super User")) {
+            rolesSet.add("MRP");
+            rolesSet.add("ForecastFPdt");
+            rolesSet.add("PdtionOrderProcessing");
+            rolesSet.add("ForecatRPdt");
+            rolesSet.add("POProcessing");
+            rolesSet.add("ViewPdtionRecords");
+            rolesSet.add("ViewPurchRecords");
+            
+            rolesSet.add("SCM");
+            rolesSet.add("SCMGeneratePdtPO");
+            rolesSet.add("GenerateRawMatPO");
+            rolesSet.add("GenerateDeliverySchedule");
+            rolesSet.add("SCMViewPdtPO");
+            rolesSet.add("ViewRawMatPO");
+            rolesSet.add("ViewDistributnF");
+            rolesSet.add("ViewDistributnP");
+            rolesSet.add("SCMViewUnpaidBills");
+            rolesSet.add("AddBill");
+            rolesSet.add("ProductionOperation");
+            
+            rolesSet.add("SCMInvenRestock");
+            rolesSet.add("SCMReceiveSInven");
+            rolesSet.add("SCMViewRestockLoc");
+            
+            rolesSet.add("SCMShelf");
+            rolesSet.add("SCMAddShelf");
+            rolesSet.add("SCMViewShelf");
+            
+            rolesSet.add("SCMShelfType");
+            rolesSet.add("SCMAddShelfType");
+            rolesSet.add("SCMViewShelfType");
+            
+            rolesSet.add("SCMAdHocOrdering");
+            rolesSet.add("SCMAdHocPdtnPlan");
+        }
+        
+        if (getRole1().equals("Store Super User")) {
+            rolesSet.add("SCM");
+            rolesSet.add("ViewDistributnF");
+            rolesSet.add("ViewDistributnP");
+            rolesSet.add("ViewUnpaidBills");
+            
+            rolesSet.add("Inventory");
+            rolesSet.add("InvenRecord");
+            rolesSet.add("AddInvenRec");
+            rolesSet.add("ViewInvenRec");
+            
+            rolesSet.add("InvenRestock");
+            rolesSet.add("ReceiveSInven");
+            rolesSet.add("ViewRestockLoc");
+            rolesSet.add("ReceiveMFInven");
+            rolesSet.add("ReplenishInven");
+            rolesSet.add("ConfirmRestock");
+            
+            rolesSet.add("Shelf");
+            rolesSet.add("AddShelf");
+            rolesSet.add("ViewShelf");
+            
+            rolesSet.add("ShelfType");
+            rolesSet.add("AddShelfType");
+            rolesSet.add("ViewShelfType");
+            
+            rolesSet.add("AdHocOrdering");
+            rolesSet.add("AdHocPdtnPlan");
+            
+            rolesSet.add("Supplier");
+            rolesSet.add("GeneratePdtPO");
+            rolesSet.add("ViewPdtPO");
+            rolesSet.add("ViewDeliverySchedule");
+            
+            rolesSet.add("OpCRM");
+            rolesSet.add("ServiceRec");
+            rolesSet.add("ViewServiceRec");
+            rolesSet.add("AddServiceRec");
+            
+            rolesSet.add("PdtnOrders");
+            rolesSet.add("ViewPdtnOrders");
+            rolesSet.add("AddPdtnOrders");
+            
+            rolesSet.add("Campaigns");
+            rolesSet.add("ViewCampaigns");
+            rolesSet.add("AddCampaigns");
+            
+            rolesSet.add("Customers");
+            rolesSet.add("ViewCustomers");
+            rolesSet.add("SendMktEmail");
+            
+            rolesSet.add("Anal");
+            
+            rolesSet.add("Kitchen");
+        }
+        if (getRole2() != null && getRole2().equals("Store Super User")) {
+            rolesSet.add("SCM");
+            rolesSet.add("ViewDistributnF");
+            rolesSet.add("ViewDistributnP");
+            rolesSet.add("ViewUnpaidBills");
+            
+            rolesSet.add("Inventory");
+            rolesSet.add("InvenRecord");
+            rolesSet.add("AddInvenRec");
+            rolesSet.add("ViewInvenRec");
+            
+            rolesSet.add("InvenRestock");
+            rolesSet.add("ReceiveSInven");
+            rolesSet.add("ViewRestockLoc");
+            rolesSet.add("ReceiveMFInven");
+            rolesSet.add("ReplenishInven");
+            rolesSet.add("ConfirmRestock");
+            
+            rolesSet.add("Shelf");
+            rolesSet.add("AddShelf");
+            rolesSet.add("ViewShelf");
+            
+            rolesSet.add("ShelfType");
+            rolesSet.add("AddShelfType");
+            rolesSet.add("ViewShelfType");
+            
+            rolesSet.add("AdHocOrdering");
+            rolesSet.add("AdHocPdtnPlan");
+            
+            rolesSet.add("Supplier");
+            rolesSet.add("GeneratePdtPO");
+            rolesSet.add("ViewPdtPO");
+            rolesSet.add("ViewDeliverySchedule");
+            
+            rolesSet.add("OpCRM");
+            rolesSet.add("ServiceRec");
+            rolesSet.add("ViewServiceRec");
+            rolesSet.add("AddServiceRec");
+            
+            rolesSet.add("PdtnOrders");
+            rolesSet.add("ViewPdtnOrders");
+            rolesSet.add("AddPdtnOrders");
+            
+            rolesSet.add("Campaigns");
+            rolesSet.add("ViewCampaigns");
+            rolesSet.add("AddCampaigns");
+            
+            rolesSet.add("Customers");
+            rolesSet.add("ViewCustomers");
+            rolesSet.add("SendMktEmail");
+            
+            rolesSet.add("Anal");
+            
+            rolesSet.add("Kitchen");
+        }
+        if (getRole3() != null && getRole3().equals("Store Super User")) {
+            rolesSet.add("SCM");
+            rolesSet.add("ViewDistributnF");
+            rolesSet.add("ViewDistributnP");
+            rolesSet.add("ViewUnpaidBills");
+            
+            rolesSet.add("Inventory");
+            rolesSet.add("InvenRecord");
+            rolesSet.add("AddInvenRec");
+            rolesSet.add("ViewInvenRec");
+            
+            rolesSet.add("InvenRestock");
+            rolesSet.add("ReceiveSInven");
+            rolesSet.add("ViewRestockLoc");
+            rolesSet.add("ReceiveMFInven");
+            rolesSet.add("ReplenishInven");
+            rolesSet.add("ConfirmRestock");
+            
+            rolesSet.add("Shelf");
+            rolesSet.add("AddShelf");
+            rolesSet.add("ViewShelf");
+            
+            rolesSet.add("ShelfType");
+            rolesSet.add("AddShelfType");
+            rolesSet.add("ViewShelfType");
+            
+            rolesSet.add("AdHocOrdering");
+            rolesSet.add("AdHocPdtnPlan");
+            
+            rolesSet.add("Supplier");
+            rolesSet.add("GeneratePdtPO");
+            rolesSet.add("ViewPdtPO");
+            rolesSet.add("ViewDeliverySchedule");
+            
+            rolesSet.add("OpCRM");
+            rolesSet.add("ServiceRec");
+            rolesSet.add("ViewServiceRec");
+            rolesSet.add("AddServiceRec");
+            
+            rolesSet.add("PdtnOrders");
+            rolesSet.add("ViewPdtnOrders");
+            rolesSet.add("AddPdtnOrders");
+            
+            rolesSet.add("Campaigns");
+            rolesSet.add("ViewCampaigns");
+            rolesSet.add("AddCampaigns");
+            
+            rolesSet.add("Customers");
+            rolesSet.add("ViewCustomers");
+            rolesSet.add("SendMktEmail");
+            
+            rolesSet.add("Anal");
+            
+            rolesSet.add("Kitchen");
+        }
+        
         return rolesSet;
     }
 
