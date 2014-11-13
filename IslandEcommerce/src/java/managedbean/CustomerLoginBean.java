@@ -12,7 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import session.stateless.EComBean;
+import session.stateless.OpCrmBean;
 
 /**
  *
@@ -23,7 +23,7 @@ import session.stateless.EComBean;
 public class CustomerLoginBean implements Serializable {
 
     @EJB
-    private EComBean ecb;
+    private OpCrmBean ecb;
     private String email;
     private String password;
     private String forgotPasswordEmail;
@@ -73,11 +73,11 @@ public class CustomerLoginBean implements Serializable {
         isForgotPassword = true;
     }
 
-    public EComBean getEcb() {
+    public OpCrmBean getEcb() {
         return ecb;
     }
 
-    public void setEcb(EComBean ecb) {
+    public void setEcb(OpCrmBean ecb) {
         this.ecb = ecb;
     }
 

@@ -24,7 +24,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
 import org.primefaces.push.annotation.PathParam;
-import session.stateless.ChatBeanRemote;
+import session.stateless.CIBeanLocal;
 
 @LocalBean
 @ManagedBean
@@ -45,7 +45,7 @@ public class ChatView implements Serializable {
     private boolean loggedIn;
     private String privateUser;
     @EJB
-    private ChatBeanRemote chatbean;
+    private CIBeanLocal chatbean;
 
     private List<ChatRecord> chatlog = new ArrayList<ChatRecord>();
     

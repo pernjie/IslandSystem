@@ -105,6 +105,7 @@ public class RoleFunctionsBean implements Serializable {
     private boolean checkServiceRec;
     private boolean checkViewServiceRec;
     private boolean checkAddServiceRec;
+    private boolean checkCfmServiceRP;
     
     private boolean checkPdtnOrders;
     private boolean checkViewPdtnOrders;
@@ -566,6 +567,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -619,6 +621,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -672,6 +675,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -707,6 +711,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("OpCRM");
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -737,6 +742,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("OpCRM");
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -767,6 +773,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("OpCRM");
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -803,6 +810,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -822,6 +830,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -840,6 +849,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -869,6 +879,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -889,6 +900,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -910,6 +922,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -1077,6 +1090,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -1139,6 +1153,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -1201,6 +1216,7 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("ServiceRec");
             rolesSet.add("ViewServiceRec");
             rolesSet.add("AddServiceRec");
+            rolesSet.add("CfmServiceRP");
             
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
@@ -1566,6 +1582,10 @@ public class RoleFunctionsBean implements Serializable {
 
     public boolean isCheckProductionOperation() {
         return getRolesSet().contains("ProductionOperation");
+    }
+
+    public boolean isCheckCfmServiceRP() {
+        return getRolesSet().contains("CfmServiceRP");
     }
 
     

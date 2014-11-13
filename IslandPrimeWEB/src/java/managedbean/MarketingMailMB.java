@@ -217,7 +217,7 @@ public class MarketingMailMB implements Serializable {
                        
                         
                         BodyPart messageBodyPart5 = new MimeBodyPart();
-                        String htmlText6 = "<H1> Hey " + custName + "</H1> <h1>"+ emailBody+" </h1> Status: "+status+"</h2> <p> Current Points: "+points+"</p>"+"<img src=\"cid:image\">" +"<a href=\"../opcrm/Opcrm_unsubscribe_customer.xhtml\"><p>Click to Unsubscribe</p></a>";
+                        String htmlText6 = "<H1> Hey " + custName + "</H1> <h1>"+ emailBody+" </h1> Status: "+status+"</h2> <p> Current Points: "+points+"</p>"+"<img src=\"cid:image\">" +"<a href=\"http://localhost:8080/IslandEcommerce/ecom/ecom_Select_Regions.xhtml\"><p>Click to Unsubscribe</p></a>";
                         messageBodyPart5.setContent(htmlText6, "text/html");
                         // add it
                         mp.addBodyPart(messageBodyPart5);

@@ -1,6 +1,5 @@
 package managedbean;
 
-import classes.CartItem;
 import entity.Item;
 import entity.Material;
 import entity.Region;
@@ -11,20 +10,15 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-import session.stateless.EComBean;
+import session.stateless.OpCrmBean;
 
 @ManagedBean(name = "displayPageBean")
 @ViewScoped
@@ -41,7 +35,7 @@ public class DisplayPageBean implements Serializable {
     private List<String> cats;
 
     @EJB
-    private EComBean eb;
+    private OpCrmBean eb;
     
 
     @PostConstruct
@@ -71,11 +65,11 @@ public class DisplayPageBean implements Serializable {
         return furns;
     }
 
-    public EComBean getEComBean() {
+    public OpCrmBean getOpCrmBean() {
         return eb;
     }
 
-    public void setEComBean(EComBean eb) {
+    public void setOpCrmBean(OpCrmBean eb) {
         this.eb = eb;
     }
     

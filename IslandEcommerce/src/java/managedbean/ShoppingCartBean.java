@@ -20,7 +20,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
-import session.stateless.EComBean;
+import session.stateless.OpCrmBean;
 
 /**
  *
@@ -30,7 +30,7 @@ import session.stateless.EComBean;
 @RequestScoped
 public class ShoppingCartBean {
     @EJB
-    private EComBean eb;
+    private OpCrmBean eb;
     private List<CartItem> cart;
     private long regionId;
     private long itemId;

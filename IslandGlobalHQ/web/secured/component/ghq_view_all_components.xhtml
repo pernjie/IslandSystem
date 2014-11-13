@@ -83,17 +83,7 @@
                               sortBy="#{comp.quantity}" filterBy="#{comp.quantity}" filterMatchMode="startsWith" > 
                         <p:cellEditor>
                             <f:facet name = "output"> <h:outputText value="#{comp.quantity}" /> </f:facet>
-                            <f:facet name = "input"> <p:inputText  label="Quantity"  value="#{comp.quantity}" style="width:100%" >
-                                </p:inputText>    
-                            </f:facet>
-                        </p:cellEditor>
-                    </p:column>
-
-                    <p:column headerText="Weight"
-                              sortBy="#{comp.weight}" filterBy="#{comp.weight}" filterMatchMode="startsWith" > 
-                        <p:cellEditor>
-                            <f:facet name = "output"> <h:outputText value="#{comp.weight}" /> </f:facet>
-                            <f:facet name = "input"> <p:inputText  label="Weight"  value="#{comp.weight}" style="width:100%" >
+                            <f:facet name = "input"> <p:inputText  required="true" label="Quantity"  value="#{comp.quantity}" style="width:100%" >
                                 </p:inputText>    
                             </f:facet>
                         </p:cellEditor>

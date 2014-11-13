@@ -577,8 +577,8 @@ public class RestockBean implements Serializable {
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-                            mat2.setLowThreshold(resUpperThres);
-                            mat2.setUppThreshold(resLowerThres);
+                            mat2.setLowThreshold(resLowerThres);
+                            mat2.setUppThreshold(resUpperThres);
                             mat2.setMatBreadth(furnBreadthRes);
                             mat2.setMatHeight(furnHeightRes);
                             mat2.setMatLength(furnLengthRes);
@@ -676,6 +676,7 @@ public class RestockBean implements Serializable {
                     il.setItem(furn2);
                     il.setZone(prod.getZone());
                     il.setShelve(prod.getShelf());
+                    il.setShelfSlot(prod.getShelfSlot());
                     il.setQty(ds.getQuantity());
                     Integer qty = prod.getQuantity() + ds.getQuantity();
                     if (qty <= prod.getUppThreshold()) {
@@ -688,9 +689,9 @@ public class RestockBean implements Serializable {
                         prod2.setFac(fac);
                         prod2.setProd(prod.getProd());
                         ShelfSlot shelfSlot3 = new ShelfSlot();
-                        shelfSlot3 = ib.getAvailableShelfSlot(prod.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
+                        shelfSlot3 = ib.getAvailableShelfSlotProd(prod.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
                         if (shelfSlot3 == null) {
-                            shelfSlot3 = ib.getOtherShelfSlot(prod.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
+                            shelfSlot3 = ib.getOtherShelfSlotProd(prod.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
                         }
                         if (shelfSlot3 == null) {
                             il.setMove(false);

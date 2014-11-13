@@ -41,7 +41,7 @@ import org.primefaces.event.CellEditEvent;
 import session.stateless.ScmBean;
 import util.SMTPAuthenticator;
 
-@ManagedBean(name = "viewPoMatBean")
+@ManagedBean(name = "viewPoProdBean")
 @ViewScoped
 public class ViewPoProdBean implements Serializable {
 

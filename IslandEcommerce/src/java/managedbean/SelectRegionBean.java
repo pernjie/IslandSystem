@@ -1,8 +1,6 @@
 package managedbean;
 
 import classes.CartItem;
-import entity.Item;
-import entity.Material;
 import entity.Region;
 import java.io.IOException;
 import java.io.Serializable;
@@ -12,9 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import session.stateless.EComBean;
+import session.stateless.OpCrmBean;
 
 @ManagedBean(name = "selectRegionBean")
 @SessionScoped
@@ -27,7 +24,7 @@ public class SelectRegionBean implements Serializable {
     private long regionId;
 
     @EJB
-    private EComBean eComBean;
+    private OpCrmBean eComBean;
 
     public void DisplayInventoryMB() {
 
@@ -52,11 +49,11 @@ public class SelectRegionBean implements Serializable {
         this.selectedRegion = selectedRegion;
     }
 
-    public EComBean getEComBean() {
+    public OpCrmBean getOpCrmBean() {
         return eComBean;
     }
 
-    public void setEComBean(EComBean eComBean) {
+    public void setOpCrmBean(OpCrmBean eComBean) {
         this.eComBean = eComBean;
     }
 

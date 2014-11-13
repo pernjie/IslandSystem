@@ -75,21 +75,9 @@ public class ComponentManagerBean implements Serializable {
     public void saveNewComponent(ActionEvent event) {
 
         try {
-            if (weight != null && quantity != null) {
-                statusMessage = "Do not fill up both weight and quantity.";
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please resolve: "
-                        + statusMessage, ""));
-            } else if ((weight!=null && weight <= 0) || (quantity !=null && quantity <= 0.0)) {
-                statusMessage = "Do not fill in smaller or equals to zero.";
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please resolve: "
-                        + statusMessage, ""));
-            } else {
                 newComponent = new Component();
                 System.out.println("CONSIST OF IS: "+ consistOf.getName());
                 newComponent.setConsistOf(consistOf);
-                if (weight != null) {
-                    newComponent.setWeight(weight);
-                }
                 if (quantity != null) {
                     newComponent.setQuantity(quantity);
                 }
@@ -99,7 +87,6 @@ public class ComponentManagerBean implements Serializable {
                 statusMessage = "New Component Saved Successfully.";
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Add New Component Result: "
                         + statusMessage + " (New Component ID is " + newComponentId + ")", ""));
-            }
         } catch (DetailsConflictException dcx) {
             statusMessage = dcx.getMessage();
             components = globalHqBean.getAllComponents();
@@ -134,22 +121,10 @@ public class ComponentManagerBean implements Serializable {
 
         try {
             Component editedCk = (Component) event.getObject();
-            if (editedCk.getQuantity() != null && editedCk.getWeight() != null) {
-                components = globalHqBean.getAllComponents();
-                statusMessage = "Do not fill up both quantity and weight";
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please resolve: "
-                        + statusMessage, ""));
-            } else if ((editedCk.getWeight()!=null && editedCk.getWeight() <= 0) || (editedCk.getQuantity() !=null && editedCk.getQuantity() <= 0.0)) {
-                components = globalHqBean.getAllComponents();
-                statusMessage = "Do not fill in smaller or equals to zero.";
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please resolve: "
-                        + statusMessage, ""));
-            } else {
                 globalHqBean.updateComponent((Component) event.getObject());
                 components = globalHqBean.getAllComponents();
                 FacesMessage msg = new FacesMessage("Component Edited", ((Component) event.getObject()).getId().toString());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-            }
         } catch (DetailsConflictException dcx) {
             components = globalHqBean.getAllComponents();
             statusMessage = dcx.getMessage();

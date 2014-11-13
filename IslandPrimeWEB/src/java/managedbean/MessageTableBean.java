@@ -15,8 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.RowEditEvent;
-import session.stateless.ChatBean;
-import session.stateless.ChatBeanRemote;
+import session.stateless.CIBeanLocal;
 import session.stateless.MrpBean;
  
 @ManagedBean(name="messageTableBean")
@@ -25,7 +24,7 @@ public class MessageTableBean implements Serializable {
      
     List<ChatRecord> chatlist;
     @EJB
-    private ChatBeanRemote cb;
+    private CIBeanLocal cb;
     private int msgtype;
     private Staff user;
     

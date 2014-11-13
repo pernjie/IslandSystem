@@ -6,6 +6,7 @@
 package managedbean;
 
 import classes.InventoryLocation;
+import entity.ChatRecord;
 import entity.Facility;
 import entity.InventoryMaterial;
 import entity.InventoryProduct;
@@ -15,9 +16,11 @@ import java.util.List;
 import entity.Shelf;
 import entity.ShelfSlot;
 import entity.ShelfType;
+import entity.Staff;
 import enumerator.InvenLoc;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -272,65 +275,76 @@ public class ReplenishInventoryBean implements Serializable {
     }
     
     public void sendAdHocProdOrder(Facility fac, Item mat) {
-        System.err.println("send ad hoc prod order");
         Facility mf = new Facility();
         mf = ib.getMatMf(fac, mat);
-        String toEmailAddress = "islandFurnituremf@gmail.com";
-        System.out.println("send to: " + toEmailAddress);
         
+        Date date = new java.util.Date();
+        SimpleDateFormat dateformatddMMyyyy = new SimpleDateFormat("E dd/MM/yyyy");
+        String date_to_string = dateformatddMMyyyy.format(date);
+        //change date for chat timestamp
+        SimpleDateFormat ft = new SimpleDateFormat("hh:mm:ss.S a zzz");
+
+        ChatRecord cr = new ChatRecord();
+        cr.setChannel("Announcement:" + fac.getId());
+        cr.setMessage("The inventory level for " + mat.getName() + " is currently running low.");
+        cr.setMsgTime(date_to_string + "  " + ft.format(date));
+        ib.persistChatlog(cr);
+
         try {
-            Properties props = new Properties();
-            props.put("mail.transport.protocol", "smtp");
-            props.put("mail.smtp.host", emailServerName);
-            props.put("mail.smtp.port", "25");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.debug", "true");
-            javax.mail.Authenticator auth = new SMTPAuthenticator();
-            Session session = Session.getInstance(props, auth); 
-            session.setDebug(true);
-            Message msg = new MimeMessage(session);
-            if (msg != null) {
-                msg.setFrom(InternetAddress.parse(emailFromAddress, false)[0]);
-                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmailAddress, false));
-                msg.setSubject("Ad Hoc Production Request from " + fac.getName() + "\n\n");
-                
-                //Create and fill first part
-                MimeBodyPart header = new MimeBodyPart();
-                header.setText("Hi " + mf.getName() + ".\n\n");
-                
-                //Create and fill second part
-                MimeBodyPart body = new MimeBodyPart();
-                body.setText("This is a Ad Hoc Production request from " + fac.getName() + ".\n\n");
-                
-                //Create and fill third part
-                MimeBodyPart linkText = new MimeBodyPart();
-                linkText.setText("The inventory level for " + mat.getName() + " is currently running low.");
-                
-                //Create the Multipart
-                Multipart mp = new MimeMultipart();
-                mp.addBodyPart(header);
-                mp.addBodyPart(body);
-                mp.addBodyPart(linkText);
-                
-                //Set Message Content
-                msg.setContent(mp);
-                
+            List<Staff> staffs = ib.getStaffs(fac);
+            for (int i = 0; i < staffs.size(); i++) {
+                Properties props = new Properties();
+                props.put("mail.transport.protocol", "smtp");
+                props.put("mail.smtp.host", emailServerName);
+                props.put("mail.smtp.port", "25");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.debug", "true");
+                javax.mail.Authenticator auth = new SMTPAuthenticator();
+                Session session = Session.getInstance(props, auth);
+                session.setDebug(true);
+                Message msg = new MimeMessage(session);
+                if (msg != null) {
+                    msg.setFrom(InternetAddress.parse(emailFromAddress, false)[0]);
+                    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(staffs.get(0).getEmail(), false));
+                    msg.setSubject("Ad Hoc Production Request from " + fac.getName() + "\n\n");
+
+                    //Create and fill first part
+                    MimeBodyPart header = new MimeBodyPart();
+                    header.setText("Hi " + mf.getName() + ".\n\n");
+
+                    //Create and fill second part
+                    MimeBodyPart body = new MimeBodyPart();
+                    body.setText("This is a Ad Hoc Production request from " + fac.getName() + ".\n\n");
+
+                    //Create and fill third part
+                    MimeBodyPart linkText = new MimeBodyPart();
+                    linkText.setText("The inventory level for " + mat.getName() + " is currently running low.");
+
+                    //Create the Multipart
+                    Multipart mp = new MimeMultipart();
+                    mp.addBodyPart(header);
+                    mp.addBodyPart(body);
+                    mp.addBodyPart(linkText);
+
+                    //Set Message Content
+                    msg.setContent(mp);
+
                 //String messageText = "Welcome to Island Furniture Family, " +name+ ".\n\n Here's the autogenerated password: " + password +"\n\n";
-                //msg.setText(messageText);
-                //msg.setDisposition(Part.INLINE);
-                
-                msg.setHeader("X-Mailer", mailer);
-                Date timeStamp = new Date();
-                msg.setSentDate(timeStamp);
-                Transport.send(msg);
+                    //msg.setText(messageText);
+                    //msg.setDisposition(Part.INLINE);
+                    msg.setHeader("X-Mailer", mailer);
+                    Date timeStamp = new Date();
+                    msg.setSentDate(timeStamp);
+                    Transport.send(msg);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new EJBException(e.getMessage());
         }
     }
-    
+
     public List<Item> completeText(String query) {
         List<Item> allFurns = ib.getFurnitures();
         List<Item> filteredResults = new ArrayList<Item>();

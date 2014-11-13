@@ -236,8 +236,8 @@ public class SupplierRestockBean {
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-                        prod.setLowThreshold(resUpperThres);
-                        prod.setUppThreshold(resLowerThres);
+                        prod.setLowThreshold(resLowerThres);
+                        prod.setUppThreshold(resUpperThres);
                         prod.setPdtBreadth(furnBreadthRes);
                         prod.setPdtHeight(furnHeightRes);
                         prod.setPdtLength(furnLengthRes);
@@ -249,6 +249,7 @@ public class SupplierRestockBean {
                 il.setItem(furn2);
                 il.setZone(prod.getZone());
                 il.setShelve(prod.getShelf());
+                il.setShelfSlot(prod.getShelfSlot());
                 il.setQty(pi.getQuantity());
                 Integer qty = prod.getQuantity() + pi.getQuantity();
                 if (qty <= prod.getUppThreshold()) {
@@ -261,9 +262,9 @@ public class SupplierRestockBean {
                     prod2.setFac(fac);
                     prod2.setProd(prod.getProd());
                     ShelfSlot shelfSlot3 = new ShelfSlot();
-                    shelfSlot3 = ib.getAvailableShelfSlot(prod.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
+                    shelfSlot3 = ib.getAvailableShelfSlotProd(prod.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
                     if (shelfSlot3 == null) {
-                        shelfSlot3 = ib.getOtherShelfSlot(prod.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
+                        shelfSlot3 = ib.getOtherShelfSlotProd(prod.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
                     }
                     if (shelfSlot3 == null) {
                         il.setMove(false);
@@ -305,8 +306,8 @@ public class SupplierRestockBean {
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-                        prod2.setLowThreshold(resUpperThres);
-                        prod2.setUppThreshold(resLowerThres);
+                        prod2.setLowThreshold(resLowerThres);
+                        prod2.setUppThreshold(resUpperThres);
                         prod2.setPdtBreadth(furnBreadthRes);
                         prod2.setPdtHeight(furnHeightRes);
                         prod2.setPdtLength(furnLengthRes);

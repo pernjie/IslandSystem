@@ -11,9 +11,9 @@
             <h:form id="form">
 
                 <b:panel>   
-                    <f:facet name="heading"><h1>Purchase Order for Supplier #{viewPoMatBean.poRecord.sup.name}</h1></f:facet>
+                    <f:facet name="heading"><h1>Purchase Order for Supplier #{viewPoProdBean.poRecord.sup.name}</h1></f:facet>
 
-                    <p:dataTable id="list" var="pb" value="#{viewPoMatBean.piList}">  
+                    <p:dataTable id="list" var="pb" value="#{viewPoProdBean.piList}">  
 
                         <p:column headerText="Item ID">  
                             <h:outputText value="#{pb.item.id}" />  
@@ -34,14 +34,14 @@
                         </p:column>
 
                         <p:column headerText="Delivery Date">
-                            <h:outputText value="#{viewPoMatBean.dateString(pb.deliveryDate)}" />
+                            <h:outputText value="#{viewPoProdBean.dateString(pb.deliveryDate)}" />
                         </p:column>
 
                     </p:dataTable>
                     <f:facet name="total price">
-                        Total Price: #{viewPoMatBean.poRecord.totalPrice}
+                        Total Price: #{viewPoProdBean.poRecord.totalPrice}
                     </f:facet>
-                    <p:commandButton value="Send PO" action="inventory_home" actionListener="#{viewPoMatBean.sendPoInven()}"/>  
+                    <p:commandButton value="Send PO" action="inventory_home" actionListener="#{viewPoProdBean.sendPoInven()}"/>  
                 </b:panel>
             </h:form>
         </ui:define>

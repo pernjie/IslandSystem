@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -26,7 +27,7 @@ import session.stateless.CIBeanLocal;
  *
  * @author nataliegoh
  */
-@Named(value = "loginManagedBean")
+@ManagedBean(name = "loginManagedBean")
 @SessionScoped
 public class DoLoginBean implements Serializable {
 
@@ -150,4 +151,5 @@ public class DoLoginBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Wrong email or Password!"));
         }
     }
+
 }

@@ -61,22 +61,6 @@
                         </p:column>
                     </p:row>
 
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="weight" style="font-weight:bold" value="Weight: " />
-                        </p:column>
-                        <p:column>
-                            <p:inputText label="Weight"
-                                         id="weight"
-                                         value="#{componentManagerBean.weight}">
-                            </p:inputText>
-                        </p:column>
-                        <p:column>
-                            <p:message for="weight" />
-                        </p:column>
-                    </p:row>
-
                     <p:row>
                         <p:column>
                             <p:outputLabel for="quantity" style="font-weight:bold" value="Quantity: " />
@@ -84,7 +68,7 @@
                         <p:column>
                             <p:inputText  label="Quantity"
                                           id="quantity"
-                                          value="#{componentManagerBean.quantity}">
+                                          value="#{componentManagerBean.quantity}" required="true">
                             </p:inputText>
                         </p:column>
                         <p:column>

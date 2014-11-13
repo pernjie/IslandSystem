@@ -23,7 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import org.primefaces.event.SelectEvent;
-import session.stateless.EComBean;
+import session.stateless.OpCrmBean;
 
 /**
  *
@@ -33,10 +33,8 @@ import session.stateless.EComBean;
 @ViewScoped
 public class ItemDetailsBean implements Serializable {
     
-    @Inject
-    private ShoppingCartBean scb;
     @EJB
-    private EComBean eb;
+    private OpCrmBean eb;
     private long regionId;
     private long selectedItemId;
     private Item selectedItemRes;
@@ -165,11 +163,11 @@ public class ItemDetailsBean implements Serializable {
 
     }
 
-    public EComBean getEComBean() {
+    public OpCrmBean getOpCrmBean() {
         return eb;
     }
 
-    public void setEComBean(EComBean eb) {
+    public void setOpCrmBean(OpCrmBean eb) {
         this.eb = eb;
     }
 

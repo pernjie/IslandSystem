@@ -9,7 +9,6 @@ import entity.Country;
 import entity.Customer;
 import entity.Region;
 import enumerator.Gender;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +20,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
-import session.stateless.EComBean;
+import session.stateless.OpCrmBean;
 import util.exception.DetailsConflictException;
 
 /**
@@ -33,7 +32,7 @@ import util.exception.DetailsConflictException;
 public class CustomerBean implements Serializable {
 
     @EJB
-    private EComBean ecb;
+    private OpCrmBean ecb;
     private String unsubscribeEmail;
     private Customer customer;
     private Long custId;
@@ -108,11 +107,11 @@ public class CustomerBean implements Serializable {
         }
     }
 
-    public EComBean getEcb() {
+    public OpCrmBean getEcb() {
         return ecb;
     }
 
-    public void setEcb(EComBean ecb) {
+    public void setEcb(OpCrmBean ecb) {
         this.ecb = ecb;
     }
 
@@ -260,11 +259,11 @@ public class CustomerBean implements Serializable {
         this.countries = countries;
     }
 
-    public void save(ActionEvent event) throws IOException {
-        unsubscribeEmail = getUnsubscribeEmail();
-        custId = getCustId();
-        ecb.unsubscribe(custId);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You've successfully unregistered!"));
-    }
+//    public void save(ActionEvent event) throws IOException {
+//        unsubscribeEmail = getUnsubscribeEmail();
+//        custId = getCustId();
+//        ecb.unsubscribe(custId);
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You've successfully unregistered!"));
+//    }
 
 }

@@ -31,7 +31,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import static session.stateless.ChatBean.PASSWORD_LENGTH;
 import util.exception.DetailsConflictException;
 import util.exception.ReferenceConstraintException;
 
@@ -51,6 +50,8 @@ public class CIBean implements CIBeanLocal {
     private Collection<Log> log;
     private Log logEntity;
     private List<ChatRecord> chatRecord;
+    public static final int PASSWORD_LENGTH = 8;
+    private ChatRecord chatlog;
 
     public CIBean() throws SQLException {
         try {
@@ -211,8 +212,7 @@ public class CIBean implements CIBeanLocal {
     public List<Log> getAllLog(Facility fac, Staff staff) {
         System.out.println("FMSBean: Entered getAllLog method");
         Query q;
-        q = em.createQuery("SELECT l FROM " + Log.class.getName() + " l, " + Staff.class.getName() + " s WHERE l.email = :email AND l.email = s.email AND s.fac = :fac");
-        q.setParameter("email", staff.getEmail());
+        q = em.createQuery("SELECT l FROM " + Log.class.getName() + " l, " + Staff.class.getName() + " s WHERE l.email = s.email AND s.fac = :fac");
         q.setParameter("fac", fac);
         List<Log> logList = new ArrayList();
         for (Object o : q.getResultList()) {
@@ -298,6 +298,46 @@ public class CIBean implements CIBeanLocal {
         q.setParameter("param", staff.getEmail());
         q.executeUpdate();
         em.flush();
+    }
+    
+    @Override
+    public void persistChatlog(ChatRecord chatlog) {
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.merge(chatlog);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    @Override
+    public List<ChatRecord> getChat(int type, Staff user) {
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
+        EntityManager em = emf.createEntityManager();
+        Query query;
+        
+        if (type == 1)
+            query = em.createQuery("SELECT c FROM " + ChatRecord.class.getName() + " c WHERE c.channel = 'announcement'");
+        else {
+            query = em.createQuery("SELECT c FROM " + ChatRecord.class.getName() + " c WHERE "
+                    + "(c.channel = 'PM' AND (c.recipient = :user OR c.sender = :user)) "
+                    + "OR c.channel = '/{IslandPublic}/'");
+            query.setParameter("user", user);
+        }
+        return query.getResultList();
+    }
+    
+    public Staff getUser(String email) {
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createNamedQuery("Staff.findByEmail");
+        query.setParameter("email", email);
+        
+        return (Staff)query.getSingleResult();
     }
 
 }

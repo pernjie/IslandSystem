@@ -437,10 +437,10 @@ public class ScmBean { //implements ScmBeanRemote {
     public InventoryMaterial getInventoryMat(Item mat, Facility fac, InvenLoc location) {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("SELECT im FROM " + InventoryMaterial.class.getName() + " im WHERE im.mat = :mat AND im.fac = :fac AND im.location = :location");
+        Query query = em.createQuery("SELECT im FROM " + InventoryMaterial.class.getName() + " im WHERE im.mat = :mat AND im.fac = :fac");
         query.setParameter("fac", fac);
         query.setParameter("mat", mat);
-        query.setParameter("location", location);
+        //query.setParameter("location", location);
         List<InventoryMaterial> imList = query.getResultList();
         if (imList.isEmpty()) {
             System.err.println("no invmat found");
@@ -461,10 +461,13 @@ public class ScmBean { //implements ScmBeanRemote {
     public InventoryProduct getInventoryProd(Item mat, Facility fac, InvenLoc location) {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("SELECT im FROM " + InventoryProduct.class.getName() + " im WHERE im.mat = :mat AND im.fac = :fac AND im.location = :location");
+        Query query = em.createQuery("SELECT im FROM " + InventoryProduct.class.getName() + " im WHERE im.prod = :mat AND im.fac = :fac");
         query.setParameter("fac", fac);
         query.setParameter("mat", mat);
-        query.setParameter("location", location);
+        System.err.println("SCM BEAN location: " + location);
+        System.err.println("SCM BEAN mat: " + mat);
+        System.err.println("SCM BEAN fac: " + fac);
+        
         List<InventoryProduct> imList = query.getResultList();
         if (imList.isEmpty()) {
             System.err.println("no invmat found");
@@ -627,11 +630,26 @@ public class ScmBean { //implements ScmBeanRemote {
         }
     }
 
+    public ShelfSlot getAvailableShelfSlotProd(Long id, Facility fac) {
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT s FROM " + ShelfSlot.class.getName() + " s, " + InventoryProduct.class.getName() + " im WHERE "
+                + "im.id = :id AND s.shelf.fac = :fac AND s.shelf.zone = im.zone AND s.shelf.location = im.location AND s.occupied = '0'");
+        query.setParameter("fac", fac);
+        query.setParameter("id", id);
+        if (query.getResultList().isEmpty()) {
+            System.err.println("query available shelf slot not found");
+            return null;
+        } else {
+            return (ShelfSlot) query.getResultList().get(0);
+        }
+    }
+        
     public ShelfSlot getOtherShelfSlot(Long id, Facility fac) {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT s FROM " + ShelfSlot.class.getName() + " s, " + InventoryMaterial.class.getName() + " im WHERE "
-                + "im.mat.id = :id AND s.shelf.fac = :fac AND s.shelf.location = im.location AND s.occupied = '0'");
+                + "im.id = :id AND s.shelf.fac = :fac AND s.shelf.location = im.location AND s.occupied = '0'");
         query.setParameter("fac", fac);
         query.setParameter("id", id);
         if (query.getResultList().isEmpty()) {
@@ -642,6 +660,21 @@ public class ScmBean { //implements ScmBeanRemote {
         }
     }
 
+        public ShelfSlot getOtherShelfSlotProd(Long id, Facility fac) {
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT s FROM " + ShelfSlot.class.getName() + " s, " + InventoryProduct.class.getName() + " im WHERE "
+                + "im.id = :id AND s.shelf.fac = :fac AND s.shelf.location = im.location AND s.occupied = '0'");
+        query.setParameter("fac", fac);
+        query.setParameter("id", id);
+        if (query.getResultList().isEmpty()) {
+            System.err.println("query other shelf slot not found");
+            return null;
+        } else {
+            return (ShelfSlot) query.getResultList().get(0);
+        }
+    }
+        
     public boolean persistInventoryMaterial(InventoryMaterial im) {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();

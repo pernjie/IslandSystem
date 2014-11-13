@@ -18,7 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import org.primefaces.context.RequestContext;
-import session.stateless.EComBean;
+import session.stateless.OpCrmBean;
 import util.exception.DetailsConflictException;
 
 /**
@@ -30,7 +30,7 @@ import util.exception.DetailsConflictException;
 public class CustomerAccountBean implements Serializable {
 
     @EJB
-    private EComBean ecb;
+    private OpCrmBean ecb;
     private Integer points;
     private Integer pointsToPlus;
     private Boolean plus;
@@ -84,11 +84,11 @@ public class CustomerAccountBean implements Serializable {
         pointsToPlus = 150 - points;
     }
 
-    public EComBean getEcb() {
+    public OpCrmBean getEcb() {
         return ecb;
     }
 
-    public void setEcb(EComBean ecb) {
+    public void setEcb(OpCrmBean ecb) {
         this.ecb = ecb;
     }
 

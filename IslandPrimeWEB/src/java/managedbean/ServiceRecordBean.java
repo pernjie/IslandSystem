@@ -64,6 +64,8 @@ public class ServiceRecordBean implements Serializable {
     private List<ServiceRecord> serviceRecords;
     private ServiceRecord newServiceRecord = new ServiceRecord();
     private SvcRecService svcRecService;
+    private Long svcRecInput;
+    private Long transRecInput;
 
     @PostConstruct
     public void init() {
@@ -80,6 +82,23 @@ public class ServiceRecordBean implements Serializable {
 //        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeServices", storeServices);
 //        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeMaterials", storeMaterials);
 
+    }
+
+    public void confirmPayment() {
+        switch (ocb.confirmServiceRecordPayment(svcRecInput, transRecInput)) {
+            case 0:
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Service Record: " + svcRecInput + " does not exist.", ""));
+                break;
+            case 1:
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Transaction Record: " + transRecInput + " does not exist.", ""));
+                break;
+            case 2:
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Service Record: " + svcRecInput + " is already confirmed.", ""));
+                break;
+            case 3:
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment confirmed for Service Record ID: " + svcRecInput, ""));
+                break;
+        }
     }
 
     public void saveNewServiceRecord(ActionEvent event) {
@@ -121,7 +140,7 @@ public class ServiceRecordBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             Staff staff = (Staff) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staff");
             cib.addLog(staff, "Deleted Service Record: " + servId);
-            
+
         } catch (ReferenceConstraintException ex) {
             serviceRecords = ocb.getServiceRecords(userFacility);
             statusMessage = ex.getMessage();
@@ -247,7 +266,6 @@ public class ServiceRecordBean implements Serializable {
         this.storeId = storeId;
     }
 
-
     public Long getTransactRecId() {
         return transactRecId;
     }
@@ -350,6 +368,30 @@ public class ServiceRecordBean implements Serializable {
 
     public void setSvcRecService(SvcRecService svcRecService) {
         this.svcRecService = svcRecService;
+    }
+
+    public CIBeanLocal getCib() {
+        return cib;
+    }
+
+    public void setCib(CIBeanLocal cib) {
+        this.cib = cib;
+    }
+
+    public Long getSvcRecInput() {
+        return svcRecInput;
+    }
+
+    public void setSvcRecInput(Long svcRecInput) {
+        this.svcRecInput = svcRecInput;
+    }
+
+    public Long getTransRecInput() {
+        return transRecInput;
+    }
+
+    public void setTransRecInput(Long transRecInput) {
+        this.transRecInput = transRecInput;
     }
 
 }

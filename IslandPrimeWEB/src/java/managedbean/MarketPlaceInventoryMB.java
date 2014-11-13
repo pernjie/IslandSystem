@@ -99,7 +99,7 @@ public class MarketPlaceInventoryMB implements Serializable {
         zoneShelfEntities = inventoryBean.getZoneShelfEntitiesFromFac();
         shelfEntities = new ArrayList<Shelf>();
         shelfSlots = new ArrayList<ShelfSlot>();
-        retails = inventoryBean.getAllRetails();
+        retails = inventoryBean.getAllKit();
 
         resUpperThres = null;
 

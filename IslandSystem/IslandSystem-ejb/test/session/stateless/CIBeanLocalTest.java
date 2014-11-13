@@ -126,9 +126,9 @@ public class CIBeanLocalTest {
     }
     
     @Test
-    public void testGetAllAccounts() {
-        System.out.println("getAllAccounts: normal case");
-        assertTrue(ciBeanRemote.getAllAcounts().size()>0);
+    public void testGetAllAcounts() {
+        System.out.println("getAllAcounts: normal case");
+        assertTrue(ciBeanRemote.getAllAcounts(ciBeanRemote.getAllFacilities().get(0)).size()>0);
     }
     
     @Test
@@ -159,14 +159,15 @@ public class CIBeanLocalTest {
         Staff staff = new Staff();
         try {
             staff.setEmail("test@if.com");
-            staff.setPassword("ilikecakes");
+            staff.setPassword(ciBeanRemote.encryptPassword("test@if.com", "ilikecakes"));
+            System.out.println("Password: " + staff.getPassword());
             staff.setContact("995");
             ciBeanRemote.createStaff(staff);
         } catch (DetailsConflictException e) {
             System.out.println("create error");
         }
         System.out.println("changePassword: normal case");
-        ciBeanRemote.changePassword("ilikecakes","test@if.com", "flowerpower");
+        ciBeanRemote.changePassword("test@if.com","ilikecakes", "flowerpower");
         assertEquals(ciBeanRemote.getStaffDetails("test@if.com").getPassword(),ciBeanRemote.encryptPassword("test@if.com","flowerpower"));
         ciBeanRemote.remove(staff);
     }

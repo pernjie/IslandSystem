@@ -6,22 +6,18 @@
 package managedbean;
 
 import entity.Item;
-import entity.Region;
-import entity.RegionItemPrice;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.SelectEvent;
-import session.stateless.EComBean;
+import session.stateless.OpCrmBean;
 
 /**
  *
@@ -32,7 +28,7 @@ import session.stateless.EComBean;
 public class NoItemBean implements Serializable {
 
     @EJB
-    private EComBean eComBean;
+    private OpCrmBean eComBean;
 
     private long selectedItem;
     private long regionId;

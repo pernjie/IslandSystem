@@ -61,12 +61,12 @@
                                 <h:outputText value="#{rb.status}" />  
                             </f:facet>  
                             <f:facet name="input">  
-                                <h:selectOneMenu value="#{rb.status}" style="width:100%">  
+                                <p:selectOneMenu value="#{rb.status}" style="width:100%">  
                                     <f:selectItems value="#{kitRestockBean.statuses}"  
                                                    var="status"   
                                                    itemLabel="#{status}"  
                                                    itemValue="#{status}" />  
-                                </h:selectOneMenu>  
+                                </p:selectOneMenu>  
                             </f:facet>  
                         </p:cellEditor>  
                     </p:column>  

@@ -188,19 +188,19 @@ public class ScmRestockBean {
             List<PoItem> poItems = new ArrayList<PoItem>();
             poItems = sb.getPoItems(po);
             Boolean check = true;
-            for(PoItem p : poItems) {
-                if(p.getStatus().equals("Ordered")||p.getStatus().equals("Rejected")) {
+            for (PoItem p : poItems) {
+                if (p.getStatus().equals("Ordered") || p.getStatus().equals("Rejected")) {
                     check = false;
                 }
             }
-            if(check == true) {
+            if (check == true) {
                 //po.setStatus("Fulfilled");
                 //sb.persistPo(po);
                 Bill bill = new Bill();
                 bill.setPo(po.getId());
                 bill.setStatus("unpaid");
                 bill.setAmount(po.getTotalPrice());
-                bill.setPaymentDate(wh.getDate(wh.getYear(), wh.getWeek()+2));
+                bill.setPaymentDate(wh.getDate(wh.getYear(), wh.getWeek() + 2));
                 sb.persistBill(bill);
             }
             if (pi.getStatus().equals("Received") || pi.getStatus().equals("Partial")) {
@@ -264,12 +264,13 @@ public class ScmRestockBean {
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-                            mat.setLowThreshold(resUpperThres);
-                            mat.setUppThreshold(resLowerThres);
+                            mat.setLowThreshold(resLowerThres);
+                            mat.setUppThreshold(resUpperThres);
                             mat.setMatBreadth(furnBreadthRes);
                             mat.setMatHeight(furnHeightRes);
                             mat.setMatLength(furnLengthRes);
                         }
+                        sb.persistInventoryMaterial(mat);
                     }
                     il.setInvItem(mat.getId());
                     il.setItemType(1);
@@ -337,14 +338,14 @@ public class ScmRestockBean {
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-                            mat2.setLowThreshold(resUpperThres);
-                            mat2.setUppThreshold(resLowerThres);
+                            mat2.setLowThreshold(resLowerThres);
+                            mat2.setUppThreshold(resUpperThres);
                             mat2.setMatBreadth(furnBreadthRes);
                             mat2.setMatHeight(furnHeightRes);
                             mat2.setMatLength(furnLengthRes);
 
                             il.setQty(mat.getUppThreshold() - mat.getQuantity());
-                            if((mat.getUppThreshold() - mat.getQuantity()) > 0) {
+                            if ((mat.getUppThreshold() - mat.getQuantity()) > 0) {
                                 il.setMove(true);
                             }
                             //ilList.add(il);
@@ -377,6 +378,10 @@ public class ScmRestockBean {
                     }
                     if (prod == null) {
                         System.err.println("new mat:" + prod);
+                        prod = new InventoryProduct();
+                        prod.setProd(furn2);
+                        prod.setFac(fac);
+                        prod.setQuantity(0);
                         ShelfSlot shelfSlot = new ShelfSlot();
                         shelfSlot = sb.getAvailableShelfSlot(fac);
                         if (shelfSlot == null) {
@@ -419,18 +424,20 @@ public class ScmRestockBean {
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-                            prod.setLowThreshold(resUpperThres);
-                            prod.setUppThreshold(resLowerThres);
+                            prod.setLowThreshold(resLowerThres);
+                            prod.setUppThreshold(resUpperThres);
                             prod.setPdtBreadth(furnBreadthRes);
                             prod.setPdtHeight(furnHeightRes);
                             prod.setPdtLength(furnLengthRes);
                         }
+                        sb.persistInventoryProduct(prod);
                     }
                     il.setInvItem(prod.getId());
                     il.setItemType(2);
                     il.setItem(furn2);
                     il.setZone(prod.getZone());
                     il.setShelve(prod.getShelf());
+                    il.setShelfSlot(prod.getShelfSlot());
                     il.setQty(pi.getQuantity());
                     Integer qty = prod.getQuantity() + pi.getQuantity();
                     if (qty <= prod.getUppThreshold()) {
@@ -438,14 +445,14 @@ public class ScmRestockBean {
                         prod.setQuantity(qty);
                         sb.updateInventoryProd(prod);
                         il.setMove(true);
-                    } else if (qty > prod.getUppThreshold()) {
+                    } else {
                         InventoryProduct prod2 = new InventoryProduct();
                         prod2.setFac(fac);
                         prod2.setProd(prod.getProd());
                         ShelfSlot shelfSlot3 = new ShelfSlot();
-                        shelfSlot3 = sb.getAvailableShelfSlot(prod.getId(), fac);
+                        shelfSlot3 = sb.getAvailableShelfSlotProd(prod.getId(), fac);
                         if (shelfSlot3 == null) {
-                            shelfSlot3 = sb.getOtherShelfSlot(prod.getId(), fac);
+                            shelfSlot3 = sb.getOtherShelfSlotProd(prod.getId(), fac);
                         }
                         if (shelfSlot3 == null) {
                             il.setMove(false);
@@ -487,14 +494,14 @@ public class ScmRestockBean {
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-                            prod2.setLowThreshold(resUpperThres);
-                            prod2.setUppThreshold(resLowerThres);
+                            prod2.setLowThreshold(resLowerThres);
+                            prod2.setUppThreshold(resUpperThres);
                             prod2.setPdtBreadth(furnBreadthRes);
                             prod2.setPdtHeight(furnHeightRes);
                             prod2.setPdtLength(furnLengthRes);
 
                             il.setQty(prod.getUppThreshold() - prod.getQuantity());
-                            if((prod.getUppThreshold() - prod.getQuantity()) > 0) {
+                            if ((prod.getUppThreshold() - prod.getQuantity()) > 0) {
                                 il.setMove(true);
                             }
                             //ilList.add(il);
@@ -520,7 +527,7 @@ public class ScmRestockBean {
 
             }
         }
-        if(ilList.isEmpty()) {
+        if (ilList.isEmpty()) {
             FacesContext.getCurrentInstance().getExternalContext().redirect("../scm/scm_receive_supplier_inventory.xhtml");
         }
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ilList", ilList);

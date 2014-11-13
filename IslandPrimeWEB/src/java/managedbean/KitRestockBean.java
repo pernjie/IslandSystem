@@ -236,8 +236,8 @@ public class KitRestockBean {
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
-                            mat.setLowThreshold(resUpperThres);
-                            mat.setUppThreshold(resLowerThres);
+                            mat.setLowThreshold(resLowerThres);
+                            mat.setUppThreshold(resUpperThres);
                             mat.setIngBreadth(furnBreadthRes);
                             mat.setIngHeight(furnHeightRes);
                             mat.setIngLength(furnLengthRes);

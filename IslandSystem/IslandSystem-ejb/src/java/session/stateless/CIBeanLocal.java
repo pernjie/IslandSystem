@@ -6,6 +6,7 @@
 
 package session.stateless;
 
+import entity.ChatRecord;
 import entity.Facility;
 import entity.Log;
 import entity.Staff;
@@ -54,4 +55,10 @@ public interface CIBeanLocal {
     public void remove(Staff staff);
     
     public List<Log> getAllLog(Facility fac, Staff staff);
+    
+    public void persistChatlog(ChatRecord chatlog);
+    
+    public List<ChatRecord> getChat(int type, Staff user);
+    
+    public Staff getUser(String email);
 }
