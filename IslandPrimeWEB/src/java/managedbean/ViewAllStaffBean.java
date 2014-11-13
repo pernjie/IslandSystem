@@ -12,12 +12,14 @@ package managedbean;
 
 
 
+import entity.Facility;
 import session.stateless.CIBeanLocal;
 import entity.Staff;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -40,7 +42,8 @@ public class ViewAllStaffBean implements Serializable {
     private Staff selectedStaff;
 
     public List<Staff> getStaff() {
-        staff = fmsbean.getAllAcounts();
+        Facility fac = (Facility) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("facility");
+        staff = fmsbean.getAllAcounts(fac);
         return staff;
     }
 

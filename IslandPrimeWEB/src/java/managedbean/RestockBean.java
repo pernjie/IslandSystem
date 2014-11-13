@@ -27,7 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -44,7 +44,7 @@ import util.exception.ReferenceConstraintException;
  * @author MY ASUS
  */
 @ManagedBean(name = "restockBean")
-@SessionScoped
+@ViewScoped
 public class RestockBean implements Serializable {
 
     @EJB
@@ -120,7 +120,7 @@ public class RestockBean implements Serializable {
         try {
             suppliers = ib.getMatFacilities(fac);
             suppliers.addAll(ib.getProdFacilities(fac));
-        //matSuppliers = ib.getMatFacilities(fac);
+            //matSuppliers = ib.getMatFacilities(fac);
             //prodSuppliers = ib.getProdFacilities(fac);
         } catch (Exception ex) {
             statusMessage = "No MF distributor found.";
@@ -446,7 +446,7 @@ public class RestockBean implements Serializable {
                 if (ib.getItemType(ds.getMat()) == 1) {
                     System.err.println("searching for inventorymaterial..");
                     InventoryMaterial mat = new InventoryMaterial();
-                    Item furn = ds.getMat();
+                    furn = ds.getMat();
                     System.err.println("mat id:" + furn);
                     try {
                         mat = ib.getInventoryMat(furn, fac, InvenLoc.MF);
@@ -457,16 +457,18 @@ public class RestockBean implements Serializable {
                     if (mat == null) {
                         mat = new InventoryMaterial();
                         mat.setMat(furn);
+                        mat.setFac(fac);
+                        mat.setQuantity(0);
                         System.err.println("new mat:" + furn);
-                    }
-                    else {
                         shelfSlot = ib.getAvailableShelfSlot(fac, InvenLoc.BACKEND_WAREHOUSE);
                         if (shelfSlot == null) {
                             il.setMove(false);
                         } else {
                             mat.setShelfSlot(shelfSlot);
                             shelfSlot.setOccupied(Boolean.TRUE);
+                            ib.persistShelfSlot(shelfSlot);
                             mat.setShelf(shelfSlot.getShelf());
+                            mat.setZone(shelfSlot.getShelf().getZone());
                             mat.setLocation(InvenLoc.BACKEND_WAREHOUSE);
                             ShelfType shelfType = shelfSlot.getShelf().getShelfType();
                             Double slotLength = shelfType.getLength();
@@ -505,9 +507,15 @@ public class RestockBean implements Serializable {
                             mat.setMatHeight(furnHeightRes);
                             mat.setMatLength(furnLengthRes);
                         }
+                        ib.persistInventoryMaterial(mat);
                     }
+
                     il.setInvItem(mat.getId());
                     il.setItemType(1);
+                    il.setItem(furn);
+                    il.setZone(mat.getZone());
+                    il.setShelve(mat.getShelf());
+                    il.setShelfSlot(mat.getShelfSlot());
                     il.setQty(ds.getQuantity());
                     Integer qty = mat.getQuantity() + ds.getQuantity();
                     if (qty <= mat.getUppThreshold()) {
@@ -521,6 +529,7 @@ public class RestockBean implements Serializable {
                         mat2.setFac(fac);
                         mat2.setMat(mat.getMat());
                         ShelfSlot shelfSlot2 = new ShelfSlot();
+                        System.err.println("inventorymat id: " + mat.getId());
                         shelfSlot2 = ib.getAvailableShelfSlot(mat.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
                         if (shelfSlot2 == null) {
                             shelfSlot2 = ib.getOtherShelfSlot(mat.getId(), fac, InvenLoc.BACKEND_WAREHOUSE);
@@ -532,7 +541,9 @@ public class RestockBean implements Serializable {
                             System.err.println("shelfslot position: " + shelfSlot2.getPosition());
                             mat2.setShelfSlot(shelfSlot2);
                             shelfSlot2.setOccupied(Boolean.TRUE);
+                            ib.persistShelfSlot(shelfSlot2);
                             mat2.setShelf(shelfSlot2.getShelf());
+                            mat2.setZone(shelfSlot2.getShelf().getZone());
                             System.err.println("shelf: " + shelfSlot2.getShelf().getShelf());
                             mat2.setLocation(InvenLoc.BACKEND_WAREHOUSE);
                             ShelfType shelfType = shelfSlot2.getShelf().getShelfType();
@@ -584,6 +595,10 @@ public class RestockBean implements Serializable {
                             InventoryLocation il2 = new InventoryLocation();
                             il2.setInvItem(mat2.getId());
                             il2.setItemType(1);
+                            il2.setItem(furn);
+                            il2.setZone(mat2.getZone());
+                            il2.setShelve(mat2.getShelf());
+                            il2.setShelfSlot(mat2.getShelfSlot());
                             il2.setQty(mat2.getQuantity());
                             il2.setMove(true);
                             ilList.add(il2);
@@ -602,14 +617,20 @@ public class RestockBean implements Serializable {
                     }
                     if (prod == null) {
                         System.err.println("new mat:" + prod);
-                        ShelfSlot shelfSlot = new ShelfSlot();
+                        prod = new InventoryProduct();
+                        prod.setProd(furn2);
+                        prod.setFac(fac);
+                        prod.setQuantity(0);
+                        shelfSlot = new ShelfSlot();
                         shelfSlot = ib.getAvailableShelfSlot(fac, InvenLoc.BACKEND_WAREHOUSE);
                         if (shelfSlot == null) {
                             il.setMove(false);
                         } else {
                             prod.setShelfSlot(shelfSlot);
                             shelfSlot.setOccupied(Boolean.TRUE);
+                            ib.persistShelfSlot(shelfSlot);
                             prod.setShelf(shelfSlot.getShelf());
+                            prod.setZone(shelfSlot.getShelf().getZone());
                             prod.setLocation(InvenLoc.BACKEND_WAREHOUSE);
                             ShelfType shelfType = shelfSlot.getShelf().getShelfType();
                             Double slotLength = shelfType.getLength();
@@ -648,9 +669,13 @@ public class RestockBean implements Serializable {
                             prod.setPdtHeight(furnHeightRes);
                             prod.setPdtLength(furnLengthRes);
                         }
+                        ib.persistInventoryProduct(prod);
                     }
                     il.setInvItem(prod.getId());
                     il.setItemType(2);
+                    il.setItem(furn2);
+                    il.setZone(prod.getZone());
+                    il.setShelve(prod.getShelf());
                     il.setQty(ds.getQuantity());
                     Integer qty = prod.getQuantity() + ds.getQuantity();
                     if (qty <= prod.getUppThreshold()) {
@@ -671,7 +696,10 @@ public class RestockBean implements Serializable {
                             il.setMove(false);
                         } else {
                             prod2.setShelfSlot(shelfSlot3);
+                            shelfSlot3.setOccupied(Boolean.TRUE);
+                            ib.persistShelfSlot(shelfSlot3);
                             prod2.setShelf(shelfSlot3.getShelf());
+                            prod2.setZone(shelfSlot3.getShelf().getZone());
                             prod2.setLocation(InvenLoc.BACKEND_WAREHOUSE);
                             ShelfType shelfType = shelfSlot3.getShelf().getShelfType();
                             Double slotLength = shelfType.getLength();
@@ -722,6 +750,10 @@ public class RestockBean implements Serializable {
                             InventoryLocation il2 = new InventoryLocation();
                             il2.setInvItem(prod2.getId());
                             il2.setItemType(2);
+                            il2.setItem(furn2);
+                            il2.setZone(prod2.getZone());
+                            il2.setShelve(prod2.getShelf());
+                            il2.setShelfSlot(prod2.getShelfSlot());
                             il2.setQty(prod2.getQuantity());
                             il2.setMove(true);
                             ilList.add(il2);
@@ -733,8 +765,12 @@ public class RestockBean implements Serializable {
 
             }
         }
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ilList", ilList);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("../inventory/inventory_view_restock_location.xhtml");
+
+        FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().put("ilList", ilList);
+        FacesContext.getCurrentInstance()
+                .getExternalContext().redirect("../inventory/inventory_view_restock_location.xhtml");
+
         return;
     }
 

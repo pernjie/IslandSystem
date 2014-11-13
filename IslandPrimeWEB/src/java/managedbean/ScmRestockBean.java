@@ -217,6 +217,10 @@ public class ScmRestockBean {
                         ex.printStackTrace();
                     }
                     if (mat == null) {
+                        mat = new InventoryMaterial();
+                        mat.setMat(furn);
+                        mat.setFac(fac);
+                        mat.setQuantity(0);
                         System.err.println("new mat:" + furn);
                         ShelfSlot shelfSlot = new ShelfSlot();
                         shelfSlot = sb.getAvailableShelfSlot(fac);

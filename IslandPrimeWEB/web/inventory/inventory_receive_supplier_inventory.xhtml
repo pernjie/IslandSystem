@@ -32,11 +32,11 @@
                         </f:facet>
 
                             <p:column headerText="Item ID">  
-                                <h:outputText value="#{rb.mat}" />  
+                                <h:outputText value="#{rb.item.id}" />  
                             </p:column>  
 
                             <p:column headerText="Item Name">  
-                                <h:outputText value="#{supplierRestockBean.getMatName(rb.mat)}" />  
+                                <h:outputText value="#{rb.item.name}" />  
                             </p:column>  
 
                             <p:column headerText="Expected Delivery">  

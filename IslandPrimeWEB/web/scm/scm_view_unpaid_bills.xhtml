@@ -26,7 +26,9 @@
                 </p:column>
 
                 <p:column headerText="Amount" sortBy="#{unpaidbill.amount}">
-                    <h:outputText value="#{unpaidbill.amount}" />
+                    <h:outputText value="#{unpaidbill.amount}" >
+                        <f:convertNumber currencySymbol="$" type="currency"/>
+                    </h:outputText>
                 </p:column>
                 
                 <p:column headerText="Payment Deadline" sortBy="#{unpaidbill.paymentDate}">

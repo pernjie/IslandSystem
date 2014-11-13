@@ -98,14 +98,12 @@ public class InventoryBean {
         return (Supplier) query.getSingleResult();
     }
     
-    public List<PoItem> getPoItem(Facility fac, Supplier sup, Date currDate) {
+    public List<PoItem> getPoItem(Facility fac, Supplier sup) {
         System.err.println("function: getPoItem()");
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
         WeekHelper wh = new WeekHelper();
-        Query query = em.createQuery("SELECT DISTINCT pm FROM " + PoItem.class.getName() + " pm, " + PoRecord.class.getName() + " pr "
-                + "WHERE pr = pm.po AND pr.fac = :fac AND pr.sup = :sup AND pm.deliveryDate = (SELECT MIN(deliveryDate) FROM " + PoRecord.class.getName() + " pr2 WHERE pr2.status = 'sent') "
-                + "AND (pm.status = 'Ordered' " + " OR pm.status = 'Late')");
+        Query query = em.createQuery("SELECT DISTINCT pm FROM " + PoItem.class.getName() + " pm WHERE (pm.status = 'Ordered' OR pm.status = 'Rejected') AND pm.po IN (SELECT po FROM " + PoRecord.class.getName() + " po WHERE po.status = 'Sent' AND po.fac = :fac AND po.sup = :sup)");
         query.setParameter("fac", fac);
         query.setParameter("sup", sup);
         return query.getResultList();
@@ -175,7 +173,7 @@ public class InventoryBean {
      public InventoryProduct getInventoryProd(Item mat, Facility fac, InvenLoc location) {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("SELECT im FROM " + InventoryProduct.class.getName() + " im WHERE im.mat = :mat AND im.fac = :fac AND im.location = :location");
+        Query query = em.createQuery("SELECT im FROM " + InventoryProduct.class.getName() + " im WHERE im.prod = :mat AND im.fac = :fac AND im.location = :location");
         query.setParameter("fac", fac);
         query.setParameter("mat", mat);
         query.setParameter("location", location);
@@ -280,7 +278,7 @@ public class InventoryBean {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT s FROM " + ShelfSlot.class.getName() + " s, " + InventoryMaterial.class.getName() + " im WHERE "
-                + "im.mat.id = :id AND s.shelf.fac = :fac AND s.shelf.zone = im.shelf.zone AND s.shelf.location = :location AND s.occupied = '0'");
+                + "im.id = :id AND s.shelf.fac = :fac AND s.shelf.zone = im.zone AND s.shelf.location = :location AND s.occupied = '0'");
         query.setParameter("fac", fac);
         query.setParameter("id", id);
         query.setParameter("location", location);
@@ -315,6 +313,7 @@ public class InventoryBean {
         //System.err.println("persisting inventorymaterial..");
         try {
             em.persist(im);
+            em.flush();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -340,31 +339,6 @@ public class InventoryBean {
             return true;
         }
     }
-    
-      public List<Shelf> getZoneFromFac(InvenLoc loc){
-       EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
-       EntityManager em = emf.createEntityManager();
-        
-       System.out.println("zoneshelffromfac");
-        String loggedInEmail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("email");
-        Query q = em.createNamedQuery("Staff.findByEmail");
-        q.setParameter("email", loggedInEmail);
-        
-         System.out.println("email: "+ loggedInEmail);
-         Staff temp =(Staff) q.getSingleResult();
-          fac = temp.getFac();
-         
-        System.out.println("FACID: "+fac.getId());
-        
-        Query query = em.createQuery("SELECT DISTINCT s FROM " + InventoryMaterial.class.getName() + " s WHERE s.fac = :fac AND s.location = :loc GROUP BY s.location");
-        query.setParameter("fac",fac);
-        query.setParameter("loc",loc);
-        
-        System.out.println("SIZE of getZoneShelfEntitiesFromFac: "+ query.getResultList().size());
-     
-        return query.getResultList();
-    }
-    
     
      public List<Shelf> getZoneShelfEntitiesFromFac(){
        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
@@ -1300,5 +1274,29 @@ private Boolean ShelfAlreadyExist(String entity, Integer shelfNum, Long id) {
         query.setParameter("fac", fac);
         query.setParameter("mat", mat);
         return (Facility) query.getSingleResult();
+    }
+	
+	public List<Shelf> getZoneFromFac(InvenLoc loc){
+       EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
+       EntityManager em = emf.createEntityManager();
+        
+       System.out.println("zoneshelffromfac");
+        String loggedInEmail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("email");
+        Query q = em.createNamedQuery("Staff.findByEmail");
+        q.setParameter("email", loggedInEmail);
+        
+         System.out.println("email: "+ loggedInEmail);
+         Staff temp =(Staff) q.getSingleResult();
+          fac = temp.getFac();
+         
+        System.out.println("FACID: "+fac.getId());
+        
+        Query query = em.createQuery("SELECT DISTINCT s FROM " + InventoryMaterial.class.getName() + " s WHERE s.fac = :fac AND s.location = :loc GROUP BY s.location");
+        query.setParameter("fac",fac);
+        query.setParameter("loc",loc);
+        
+        System.out.println("SIZE of getZoneShelfEntitiesFromFac: "+ query.getResultList().size());
+     
+        return query.getResultList();
     }
 }

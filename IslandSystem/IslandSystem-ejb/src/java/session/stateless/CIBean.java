@@ -90,8 +90,7 @@ public class CIBean implements CIBeanLocal {
     }
 
     @Override
-    public List<Staff> getAllAcounts() {
-        Facility fac = (Facility) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("facility");
+    public List<Staff> getAllAcounts(Facility fac) {
         Query q = em.createQuery("SELECT s from " + Staff.class.getName() + " s WHERE s.fac = :fac");
         q.setParameter("fac", fac);
         List<Staff> staffList = new ArrayList();

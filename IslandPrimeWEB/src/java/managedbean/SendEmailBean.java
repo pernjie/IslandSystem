@@ -6,6 +6,7 @@
 
 package managedbean;
 
+import entity.Facility;
 import entity.Staff;
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +16,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.Session;
@@ -101,8 +103,8 @@ public class SendEmailBean implements Serializable {
     public void emailMyAnnouncements(String text) {
         
         try {
-            
-            List<Staff> staffAcc = cib.getAllAcounts();
+            Facility fac = (Facility) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("facility");
+            List<Staff> staffAcc = cib.getAllAcounts(fac);
             
             for(int i=0; i< staffAcc.size(); ++i ){
                 

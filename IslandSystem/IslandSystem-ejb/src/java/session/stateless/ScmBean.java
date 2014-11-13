@@ -602,8 +602,9 @@ public class ScmBean { //implements ScmBeanRemote {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT s FROM " + ShelfSlot.class.getName() + " s WHERE "
-                + "s.shelf.fac = :fac AND s.occupied = '0' AND s.shelf.location = '0'");
+                + "s.shelf.fac = :fac AND s.occupied = '0' AND s.shelf.location = :location");
         query.setParameter("fac", fac);
+        query.setParameter("location", InvenLoc.MF);
         if (query.getResultList().isEmpty()) {
             return null;
         } else {
@@ -615,7 +616,7 @@ public class ScmBean { //implements ScmBeanRemote {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT s FROM " + ShelfSlot.class.getName() + " s, " + InventoryMaterial.class.getName() + " im WHERE "
-                + "im.mat.id = :id AND s.shelf.fac = :fac AND s.shelf.zone = im.zone AND s.shelf.location = im.location AND s.occupied = '0'");
+                + "im.id = :id AND s.shelf.fac = :fac AND s.shelf.zone = im.zone AND s.shelf.location = im.location AND s.occupied = '0'");
         query.setParameter("fac", fac);
         query.setParameter("id", id);
         if (query.getResultList().isEmpty()) {
@@ -676,22 +677,35 @@ public class ScmBean { //implements ScmBeanRemote {
     public int getItemType(Item item) {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
         EntityManager em = emf.createEntityManager();
-        Query query1 = em.createNamedQuery("Material.findById");
+        Query query1 = em.createNamedQuery("Item.findById");
         query1.setParameter("id", item.getId());
-        if (query1.getSingleResult() != null) {
-            return 1;
+        try {
+            Item result = (Item) query1.getSingleResult();
+            switch (result.getItemType()) {
+                case "Material": return 1;
+                case "Product": return 2;
+                case "Ingredient": return 3;
+                default: return 0;
+            }
         }
-        Query query2 = em.createNamedQuery("Product.findById");
-        query2.setParameter("id", item.getId());
-        if (query2.getSingleResult() != null) {
-            return 2;
+        catch (Exception e) {
+            return 0;
         }
-        Query query3 = em.createNamedQuery("Ingredient.findById");
-        query3.setParameter("id", item.getId());
-        if (query3.getSingleResult() != null) {
-            return 3;
-        }
-        return 0;
+//        Query query1 = em.createNamedQuery("Material.findById");
+//        query1.setParameter("id", item.getId());
+//        if (query1.getSingleResult() != null) {
+//            return 1;
+//        }
+//        Query query2 = em.createNamedQuery("Product.findById");
+//        query2.setParameter("id", item.getId());
+//        if (query2.getSingleResult() != null) {
+//            return 2;
+//        }
+//        Query query3 = em.createNamedQuery("Ingredient.findById");
+//        query3.setParameter("id", item.getId());
+//        if (query3.getSingleResult() != null) {
+//            return 3;
+//        }
     }
     
     public List<MrpRecord> getMrpRecord(Facility fac, Integer week, Integer year) {

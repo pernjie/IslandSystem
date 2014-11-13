@@ -29,7 +29,7 @@ public interface CIBeanLocal {
 
     public boolean staffExists(String email);
 
-    public List<Staff> getAllAcounts();
+    public List<Staff> getAllAcounts(Facility fac);
 
     public String generateRandomPassword();
 
