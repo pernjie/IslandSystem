@@ -24,6 +24,22 @@
                 </p:ajaxStatus>
                 <p:messages />
                <p:panelGrid>
+                    <p:row>
+                       <p:column>
+                           <p:outputLabel for="invenLoc" style="font-weight: bold" value="Location: " />
+                       </p:column>
+                       <p:column>
+                           <p:selectOneMenu label="invenLoc" requiredMessage="Location is required." required="true" id="invenLoc" 
+                                            value="#{kitchenInventoryMB.loc}" style="width:100%" >  
+                               <f:selectItem itemLabel="Select Location" itemValue="" noSelectionOption="true" />             
+                               <f:selectItems value="#{kitchenInventoryMB.pdtLocValues}" />
+                           </p:selectOneMenu>     
+                       </p:column>
+                       <p:column>
+                           <p:message for="invenLoc" />
+                       </p:column>
+                   </p:row>    
+                   
                 <p:row>
                     <p:column>
                         <p:outputLabel style="font-weight: bold" value="Ingredient: " />
@@ -150,22 +166,6 @@
                        </p:column>
                        <p:column>
                            <p:message for="matHeightRes" />
-                       </p:column>
-                   </p:row>    
-                   
-                   <p:row>
-                       <p:column>
-                           <p:outputLabel for="invenLoc" style="font-weight: bold" value="Location: " />
-                       </p:column>
-                       <p:column>
-                           <p:selectOneMenu label="invenLoc" requiredMessage="Location is required." required="true" id="invenLoc" 
-                                            value="#{kitchenInventoryMB.loc}" style="width:100%" >  
-                               <f:selectItem itemLabel="Select Location" itemValue="" noSelectionOption="true" />             
-                               <f:selectItems value="#{kitchenInventoryMB.pdtLocValues}" />
-                           </p:selectOneMenu>     
-                       </p:column>
-                       <p:column>
-                           <p:message for="invenLoc" />
                        </p:column>
                    </p:row>          
 

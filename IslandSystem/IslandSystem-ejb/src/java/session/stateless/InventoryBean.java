@@ -341,6 +341,31 @@ public class InventoryBean {
         }
     }
     
+      public List<Shelf> getZoneFromFac(InvenLoc loc){
+       EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
+       EntityManager em = emf.createEntityManager();
+        
+       System.out.println("zoneshelffromfac");
+        String loggedInEmail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("email");
+        Query q = em.createNamedQuery("Staff.findByEmail");
+        q.setParameter("email", loggedInEmail);
+        
+         System.out.println("email: "+ loggedInEmail);
+         Staff temp =(Staff) q.getSingleResult();
+          fac = temp.getFac();
+         
+        System.out.println("FACID: "+fac.getId());
+        
+        Query query = em.createQuery("SELECT DISTINCT s FROM " + InventoryMaterial.class.getName() + " s WHERE s.fac = :fac AND s.location = :loc GROUP BY s.location");
+        query.setParameter("fac",fac);
+        query.setParameter("loc",loc);
+        
+        System.out.println("SIZE of getZoneShelfEntitiesFromFac: "+ query.getResultList().size());
+     
+        return query.getResultList();
+    }
+    
+    
      public List<Shelf> getZoneShelfEntitiesFromFac(){
        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("IslandSystem-ejbPU");
        EntityManager em = emf.createEntityManager();

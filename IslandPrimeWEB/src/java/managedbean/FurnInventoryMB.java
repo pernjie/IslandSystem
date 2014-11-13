@@ -66,6 +66,7 @@ public class FurnInventoryMB implements Serializable{
     private List<ShelfSlot> shelfSlots;
     private ShelfSlot shelfSlot;
     
+    private List<Shelf> zones;
     private ShelfType shelfTypeSelected;
     
     private String zon;
@@ -94,7 +95,7 @@ public class FurnInventoryMB implements Serializable{
     
     @PostConstruct
     public void init() {
-        zoneShelfEntities= inventoryBean.getZoneShelfEntitiesFromFac();
+        zoneShelfEntities= new ArrayList<Shelf>();
         shelfEntities = new ArrayList<Shelf>();
         shelfSlots = new ArrayList<ShelfSlot>();
         invenFurns = inventoryBean.getAllInvenFurns();
@@ -120,6 +121,18 @@ public class FurnInventoryMB implements Serializable{
 
         return filteredResults;
     }
+ 
+    public void onLocChange() {
+        System.out.println("Location: "+loc);
+        if(loc !=null && !loc.equals("")){
+            zoneShelfEntities = inventoryBean.getZoneFromFac(loc);
+           System.out.println("SUCCESS");
+        }
+        else
+            zoneShelfEntities = new ArrayList<Shelf>();
+    }
+    
+    
     
  public void onZoneChange() {
         System.out.println("ZONE: "+zon);

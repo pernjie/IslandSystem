@@ -38,6 +38,23 @@
                     </p:column>
                 </p:row>
 
+                      <p:row>
+                       <p:column>
+                           <p:outputLabel for="invenLoc" style="font-weight: bold" value="Location: " />
+                       </p:column>
+                       <p:column>
+                           <p:selectOneMenu label="invenLoc" requiredMessage="Location is required." required="true" id="invenLoc" 
+                                            value="#{furnInventoryMB.loc}" style="width:100%" >  
+                               <f:selectItem itemLabel="Select Location" itemValue="" noSelectionOption="true" />             
+                               <f:selectItems value="#{furnInventoryMB.furnLocValues}" />
+                               <p:ajax listener="#{furnInventoryMB.onLocChange}" update="zoneShelfEntity" process="invenLoc" event="change"/> 
+                           </p:selectOneMenu>     
+                       </p:column>
+                       <p:column>
+                           <p:message for="invenLoc" />
+                       </p:column>
+                   </p:row>       
+                   
                     <p:row>
                         <p:column>
                             <p:outputLabel for="zoneShelfEntity" style="font-weight: bold" value="Zone: " />
@@ -151,21 +168,7 @@
                        </p:column>
                    </p:row>    
                    
-                   <p:row>
-                       <p:column>
-                           <p:outputLabel for="invenLoc" style="font-weight: bold" value="Location: " />
-                       </p:column>
-                       <p:column>
-                           <p:selectOneMenu label="invenLoc" requiredMessage="Location is required." required="true" id="invenLoc" 
-                                            value="#{furnInventoryMB.loc}" style="width:100%" >  
-                               <f:selectItem itemLabel="Select Location" itemValue="" noSelectionOption="true" />             
-                               <f:selectItems value="#{furnInventoryMB.furnLocValues}" />
-                           </p:selectOneMenu>     
-                       </p:column>
-                       <p:column>
-                           <p:message for="invenLoc" />
-                       </p:column>
-                   </p:row>          
+                   
 
                 </p:panelGrid>
                 <p:commandButton id="btn" value="Save New Furniture Inventory Record" update="@form" actionListener="#{furnInventoryMB.saveNewInventory}" ajax="true" />
