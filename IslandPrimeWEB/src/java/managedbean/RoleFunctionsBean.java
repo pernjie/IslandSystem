@@ -150,12 +150,54 @@ public class RoleFunctionsBean implements Serializable {
         
         if (getRole1().equals("Regional HQ")) {
             rolesSet.add("Regional HQ");
+            
+            rolesSet.add("OpCRM");
+            rolesSet.add("Campaigns");
+            rolesSet.add("ViewCampaigns");
+            rolesSet.add("AddCampaigns");
+            
+            rolesSet.add("RegionTransacRec");
+            rolesSet.add("ViewRegionTransacRec");
+            
+            rolesSet.add("Customers");
+            rolesSet.add("ViewCustomers");
+            rolesSet.add("SendMktEmail");
+            
+            rolesSet.add("Anal");
         }
-        if (getRole2() != null && getRole2().equals("Regional HQ")) {
+        if (getRole2() != null && getRole2().equals("Regional HQ")) {            
             rolesSet.add("Regional HQ");
+            
+            rolesSet.add("OpCRM");
+            rolesSet.add("Campaigns");
+            rolesSet.add("ViewCampaigns");
+            rolesSet.add("AddCampaigns");
+            
+            rolesSet.add("RegionTransacRec");
+            rolesSet.add("ViewRegionTransacRec");
+            
+            rolesSet.add("Customers");
+            rolesSet.add("ViewCustomers");
+            rolesSet.add("SendMktEmail");
+            
+            rolesSet.add("Anal");
         }
         if (getRole3() != null && getRole3().equals("Regional HQ")) {
             rolesSet.add("Regional HQ");
+            
+            rolesSet.add("OpCRM");
+            rolesSet.add("Campaigns");
+            rolesSet.add("ViewCampaigns");
+            rolesSet.add("AddCampaigns");
+            
+            rolesSet.add("RegionTransacRec");
+            rolesSet.add("ViewRegionTransacRec");
+            
+            rolesSet.add("Customers");
+            rolesSet.add("ViewCustomers");
+            rolesSet.add("SendMktEmail");
+            
+            rolesSet.add("Anal");
         }
         
         if (getRole1().equals("MRP Controller")) {
@@ -994,6 +1036,10 @@ public class RoleFunctionsBean implements Serializable {
         }
         
         if (getRole1().equals("Store Super User")) {
+            rolesSet.add("System Admin");
+            
+            rolesSet.add("Global HQ");
+            
             rolesSet.add("SCM");
             rolesSet.add("ViewDistributnF");
             rolesSet.add("ViewDistributnP");
@@ -1035,6 +1081,9 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
             rolesSet.add("AddPdtnOrders");
+            
+            rolesSet.add("RegionTransacRec");
+            rolesSet.add("ViewRegionTransacRec");
             
             rolesSet.add("Campaigns");
             rolesSet.add("ViewCampaigns");
@@ -1049,6 +1098,10 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("Kitchen");
         }
         if (getRole2() != null && getRole2().equals("Store Super User")) {
+            rolesSet.add("System Admin");
+            
+            rolesSet.add("Global HQ");
+            
             rolesSet.add("SCM");
             rolesSet.add("ViewDistributnF");
             rolesSet.add("ViewDistributnP");
@@ -1090,6 +1143,9 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
             rolesSet.add("AddPdtnOrders");
+            
+            rolesSet.add("RegionTransacRec");
+            rolesSet.add("ViewRegionTransacRec");
             
             rolesSet.add("Campaigns");
             rolesSet.add("ViewCampaigns");
@@ -1104,6 +1160,10 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("Kitchen");
         }
         if (getRole3() != null && getRole3().equals("Store Super User")) {
+            rolesSet.add("System Admin");
+            
+            rolesSet.add("Global HQ");
+            
             rolesSet.add("SCM");
             rolesSet.add("ViewDistributnF");
             rolesSet.add("ViewDistributnP");
@@ -1145,6 +1205,9 @@ public class RoleFunctionsBean implements Serializable {
             rolesSet.add("PdtnOrders");
             rolesSet.add("ViewPdtnOrders");
             rolesSet.add("AddPdtnOrders");
+            
+            rolesSet.add("RegionTransacRec");
+            rolesSet.add("ViewRegionTransacRec");
             
             rolesSet.add("Campaigns");
             rolesSet.add("ViewCampaigns");
