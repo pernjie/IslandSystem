@@ -64,9 +64,6 @@ public class SuppliesIngrToFacManagerBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ingredients", ingredients);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("suppliers", suppliers);
     }
-    
-    public void doGenerate(){
-    }
     public void saveNewSuppliesIngrToFac(ActionEvent event) {
 
         try {

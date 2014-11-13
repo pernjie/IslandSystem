@@ -283,7 +283,7 @@ public class MrpkitBean implements Serializable {
             try {
                 Staff staff = (Staff) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("staff");
                 cib.addLog(staff, "Done Material Planning (Kitchen) for period " + wh.getPeriod(5));
-                FacesContext.getCurrentInstance().getExternalContext().redirect("../kitchen/kitchen_Home.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("../kitchen/Kitchen_Home.xhtml");
             } catch (IOException e) {
                 e.printStackTrace();
             }

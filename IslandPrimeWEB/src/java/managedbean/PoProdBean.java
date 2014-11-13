@@ -211,6 +211,69 @@ public class PoProdBean implements Serializable {
         //sendPo();
         //}
     }
+    
+    public void generatePOInven() throws IOException {
+        System.err.println("function: generatePO()");
+        poRecord = new PoRecord();
+        poRecord.setFac(fac);
+        poRecord.setSup(sup);
+        poRecord.setOrderDate(currDate);
+        Double totalPrice = 0.0;
+
+        piList = new ArrayList<PoItem>();
+        for (ProductPoDetailsClass po : productPoDetailsClass) {
+            System.err.println("function: poDetails()");
+            pi = new PoItem();
+            //pi.setPo(poRecord);
+            Item item = new Item() {
+            };
+            try {
+                item = sb.getItem(po.getItem().getId());
+                //item = po.getItem();
+            } catch (Exception ex) {
+                System.err.println("Item not found!");
+                String statusMessage = "Item Not Found.";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Generate Purchase Order Result: "
+                        + statusMessage, ""));
+                ex.printStackTrace();
+            }
+            pi.setItem(item);
+            System.err.println("material: " + item);
+            pi.setDeliveryDate(po.getDeliveryDate());
+            pi.setQuantity(po.getMatQty());
+            pi.setStatus("Ordered");
+            pi.setRemarks("");
+            pi.setTotalPrice(po.getMatQty() * po.getUnitPrice());
+            System.err.println("item price: " + pi.getTotalPrice());
+            totalPrice += pi.getTotalPrice();
+            /*
+             boolean valid = true;
+             if (pi.getQuantity() < 0) {
+             String msg = "The quantity of item " + pi.getProduct().getName() + " cannot be of a negative value.";
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + msg, ""));
+             valid = false;
+             }
+             Integer lot_size = sb.getLotSize(fac, sup, pi.getProduct());
+             if ((pi.getQuantity() % lot_size) != 0) {
+
+             String msg = "The quantity of item " + pi.getProduct().getName() + " does not fit its lot size of " + lot_size + ".";
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + msg, ""));
+             valid = false;
+             }
+             if (valid == true) {
+             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+             */
+            piList.add(pi);
+        }
+        poRecord.setTotalPrice(totalPrice);
+        poRecord.setStatus("Sent");
+        sb.persistPo(poRecord);
+        sb.persistPoDetails(piList, poRecord);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("poRecord", poRecord);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../inventory/inventory_view_prod_po.xhtml");
+        //sendPo();
+        //}
+    }
 
     public void sendPo() {
         String toEmailAddress = sup.getContactEmail();

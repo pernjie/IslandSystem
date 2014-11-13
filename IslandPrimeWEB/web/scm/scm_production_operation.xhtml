@@ -14,13 +14,11 @@
                 <f:facet name="heading"><h1>Production Operation</h1></f:facet>
 
                 <p:commandButton value="Start Production" actionListener="#{productionOperationBean.startProduction}" 
-                                 disabled="#{productionOperationBean.disable}"> 
-                    <f:setPropertyActionListener value="false" target="#{productionOperationBean.disable}"/>   
+                                 rendered="#{productionOperationBean.startPdtn}" update="form"> 
                 </p:commandButton> 
                 <br></br>
                 <p:commandButton value="End Production" actionListener="#{productionOperationBean.endProduction}" 
-                                 disabled="#{!(productionOperationBean.disable)}">
-                    <f:setPropertyActionListener value="true" target="#{productionOperationBean.disable}"/>    
+                                 rendered="#{productionOperationBean.stopPdtn}" update="form">   
                 </p:commandButton> 
 
             </b:panel>

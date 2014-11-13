@@ -58,6 +58,9 @@ public class ProductionOperationBean implements Serializable {
     private Integer resUpperThres;
     private Integer resLowerThres;
     private boolean disable;
+    
+    private boolean startPdtn;
+    private boolean stopPdtn;
 
     String emailServerName = "mailauth.comp.nus.edu.sg";
 // Replace with your real name and unix email address
@@ -82,6 +85,8 @@ public class ProductionOperationBean implements Serializable {
         year = wh.getYear();
         System.err.println("week: " + week);
         System.err.println("year: " + year);
+        this.startPdtn = true;
+        this.stopPdtn = false;
         this.disable = false;
         System.err.println("disable: " + disable);
     }
@@ -132,7 +137,9 @@ public class ProductionOperationBean implements Serializable {
         else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "There is no more production for today", ""));
         }
-        RequestContext.getCurrentInstance().update(":form:disablepanel");
+        //RequestContext.getCurrentInstance().update(":form:disablepanel");
+        setStartPdtn(false);
+        setStopPdtn(true);
     }
 
     public void endProduction() {
@@ -235,6 +242,7 @@ public class ProductionOperationBean implements Serializable {
             System.out.println("No production record");
         }
         RequestContext.getCurrentInstance().update(":form:disablepanel");
+        setStopPdtn(false);
     }
 
     public void sendAdHocPurchaseOrder(Facility fac, Item mat) {
@@ -303,4 +311,22 @@ public class ProductionOperationBean implements Serializable {
     public void setDisable(boolean disable) {
         this.disable = disable;
     }
+
+    public boolean isStartPdtn() {
+        return startPdtn;
+    }
+
+    public void setStartPdtn(boolean startPdtn) {
+        this.startPdtn = startPdtn;
+    }
+
+    public boolean isStopPdtn() {
+        return stopPdtn;
+    }
+
+    public void setStopPdtn(boolean stopPdtn) {
+        this.stopPdtn = stopPdtn;
+    }
+    
+    
 }

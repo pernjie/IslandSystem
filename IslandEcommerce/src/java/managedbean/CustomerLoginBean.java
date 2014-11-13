@@ -18,9 +18,9 @@ import session.stateless.EComBean;
  *
  * @author user
  */
-@ManagedBean(name = "loginBean")
+@ManagedBean(name = "customerLoginBean")
 @SessionScoped
-public class LoginBean implements Serializable {
+public class CustomerLoginBean implements Serializable {
 
     @EJB
     private EComBean ecb;
@@ -66,7 +66,7 @@ public class LoginBean implements Serializable {
     /**
      * Creates a new instance of LoginBean
      */
-    public LoginBean() {
+    public CustomerLoginBean() {
     }
 
     public void renderForgotPassword() {

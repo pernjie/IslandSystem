@@ -62,7 +62,7 @@ public class BillManagementBean {
         if (suppliers.isEmpty()) {
             System.err.println("no suppliers found!");
         }
-        currDate = wh.getCurrDate();
+        //currDate = wh.getCurrDate();
         try {
             unpaidBills = sb.getUnpaidBills();
         } catch (Exception e) {

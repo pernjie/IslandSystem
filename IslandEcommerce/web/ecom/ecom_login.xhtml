@@ -31,7 +31,7 @@
                         </p:column>
                         <p:column>
                             <p:inputText label="Email" id="email"  required="true" requiredMessage="Please input email"
-                                         validatorMessage="Invalid email format" value="#{loginBean.email}"> 
+                                         validatorMessage="Invalid email format" value="#{customerLoginBean.email}"> 
                                 <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 
@@ -48,7 +48,7 @@
                         </p:column>
                         <p:column>
                             <p:password label="Password" id="password"  required="true" requiredMessage="Please input password"
-                                        value="#{loginBean.password}"> 
+                                        value="#{customerLoginBean.password}"> 
                             </p:password>
                         </p:column>
                         <p:column>
@@ -65,7 +65,7 @@
                         background-color: #9DD7F5;
                     }    
                 </style>
-                <p:commandButton id="btn1" styleClass="blueButton" value="Log In" update="panel" action="#{loginBean.doLogin}" ajax="true"/>
+                <p:commandButton id="btn1" styleClass="blueButton" value="Log In" update="panel" action="#{customerLoginBean.doLogin}" ajax="true"/>
                 <p:commandButton id="btn2" styleClass="blueButton" value="Forgot Password?" update="panel" action="ecom_forgot_password.xhtml" ajax="true"/>
             </p:panel>
             
